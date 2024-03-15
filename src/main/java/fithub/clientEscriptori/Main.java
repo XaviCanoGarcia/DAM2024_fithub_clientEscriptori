@@ -1,11 +1,10 @@
 package fithub.clientEscriptori;
 
-
-import javax.swing.*;
+import fithub.clientEscriptori.app.ControladorAplicacio;
 
 public class Main {
     public static void main(String[] args) {
-        MainClient mc = new MainClient();
+        ControladorAplicacio controladorAplicacio = new ControladorAplicacio();
 
     }
 }
