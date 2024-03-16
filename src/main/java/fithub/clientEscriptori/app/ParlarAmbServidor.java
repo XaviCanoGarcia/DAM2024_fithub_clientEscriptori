@@ -13,11 +13,13 @@ public class ParlarAmbServidor {
     static int port = 8080;
     static String ip = "127.0.0.1";
 
-    public ParlarAmbServidor() {
-
+    public String getResposta() {
+        return resposta;
     }
 
-    public String enviarPeticio(String missatge){
+    String resposta = "";
+
+    public void enviarPeticio(String missatge){
         Socket clientSocket = null;
         Scanner in = null;
         PrintWriter out = null;
@@ -41,7 +43,7 @@ public class ParlarAmbServidor {
 
             // Llegeix resposta del servidor
             while (in.hasNextLine()) {
-                resultat = in.nextLine();
+                this.resposta = in.nextLine();
                 System.out.println(resultat);
             }
 
@@ -59,6 +61,5 @@ public class ParlarAmbServidor {
                 e.printStackTrace();
             }
         }
-        return resultat;
     }
 }

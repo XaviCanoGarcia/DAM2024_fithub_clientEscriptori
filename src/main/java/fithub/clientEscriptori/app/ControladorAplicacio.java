@@ -5,12 +5,11 @@ import fithub.clientEscriptori.gui.ControladorGui;
 
 public class ControladorAplicacio {
 
+    ControladorAccions controladorAccions;
+
     public ControladorAplicacio() {
 
-        ControladorGui controladorGui = new ControladorGui();
-
-
-
+        controladorAccions = new ControladorAccions();
 
     }
 }
