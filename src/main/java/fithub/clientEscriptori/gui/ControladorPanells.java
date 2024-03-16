@@ -1,10 +1,16 @@
 package fithub.clientEscriptori.gui;
 
-class ControladorPanells {
-    public ControladorPanells() {
+import fithub.clientEscriptori.gui.panells.LoginForm;
 
+public class ControladorPanells {
+    LoginForm loginForm;
 
+    public LoginForm getLoginForm() {
+        return loginForm;
+    }
 
+    ControladorPanells() {
 
+        loginForm = new LoginForm();
     }
 }
