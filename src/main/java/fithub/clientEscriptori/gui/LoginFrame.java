@@ -1,9 +1,16 @@
 package fithub.clientEscriptori.gui;
 
 import javax.swing.*;
-
+/**
+ * Clase que defineix la finestra de login.
+ *
+ * @author Xavi Cano Garcia
+ * @version 1.0
+ */
 public class LoginFrame extends JFrame {
-
+    /**
+     * Constructor objecte Login frame.
+     */
     public LoginFrame() {
 
         this.setTitle("FITHUB - login");

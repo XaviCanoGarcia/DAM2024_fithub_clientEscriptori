@@ -1,12 +1,17 @@
 package fithub.clientEscriptori.gui.panells;
 
-import fithub.clientEscriptori.app.ControladorAccions;
+import fithub.clientEscriptori.app.ControladorAplicacio;
 import fithub.clientEscriptori.events.NotificadorMissatge;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+/**
+ * Clase que defineix formulari main usuari.
+ *
+ * @author Xavi Cano Garcia
+ * @version 1.0
+ */
 public class MainUser {
     NotificadorMissatge notificador;
     private JPanel panel1;
@@ -24,8 +29,8 @@ public class MainUser {
         });
     }
 
-    public void setListener(ControladorAccions controladorAccions) {
-        notificador.agregarListener(controladorAccions);
+    public void setListener(ControladorAplicacio controladorAplicacio) {
+        notificador.afegeixListener(controladorAplicacio);
     }
 
     public JPanel getPanel1() {
