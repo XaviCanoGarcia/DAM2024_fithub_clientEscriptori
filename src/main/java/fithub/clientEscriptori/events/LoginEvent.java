@@ -2,11 +2,12 @@ package fithub.clientEscriptori.events;
 
 import java.util.EventObject;
 
-public class MissatgeEvent extends EventObject {
+public class LoginEvent extends EventObject {
+
 
     private final String missatge;
 
-    public MissatgeEvent(Object source, String msg) {
+    public LoginEvent(Object source, String msg) {
         super(source);
         this.missatge = msg;
     }
@@ -14,4 +15,5 @@ public class MissatgeEvent extends EventObject {
     public String getMissatge() {
         return missatge;
     }
+
 }

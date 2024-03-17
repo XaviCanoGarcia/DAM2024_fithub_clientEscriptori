@@ -20,6 +20,7 @@ public class MainServer {
     static String ip = "127.0.0.1";
 
     String resposta;
+
     public static void main(String[] args) {
         try {
             InetAddress direccionIP = InetAddress.getByName(ip); // Cambia a la IP que deseas usar
@@ -68,10 +69,10 @@ class ThreadClient extends Thread {
         // Llegeix missatge enviat pel client
 
         String[] msgPassA = {
-                "login,admin,pass","1,admin,Xavi Cano"
+                "login,admin,pass", "1,admin,Xavi Cano"
         };
         String[] msgPassU = {
-                "login,user,pass","1,user,Xavi Cano"
+                "login,user,pass", "1,user,Xavi Cano"
         };
 
         String msgFail = "-1";
@@ -81,18 +82,14 @@ class ThreadClient extends Thread {
             msg = in.nextLine();
             if (msg.equals(msgPassA[0])) {
                 rsp = msgPassA[1];
-            }else{
-                rsp = msgFail;
-            }
-            if (msg.equals(msgPassU[0])) {
+            } else if (msg.equals(msgPassU[0])) {
                 rsp = msgPassU[1];
-            }else{
+            } else {
                 rsp = msgFail;
             }
             // Retorna resposta
             out.println(rsp);
         }
-
 
 
         // Tanca la conexio
@@ -105,7 +102,7 @@ class ThreadClient extends Thread {
 
     }
 
-    String respon(String rsp){
+    String respon(String rsp) {
         return rsp;
     }
 }

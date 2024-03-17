@@ -12,19 +12,15 @@ public class ParlarAmbServidor {
 
     static int port = 8080;
     static String ip = "127.0.0.1";
-
-    public String getResposta() {
-        return resposta;
-    }
-
     String resposta = "";
 
-    public void enviarPeticio(String missatge){
+
+    public void enviarPeticio(String missatge) {
         Socket clientSocket = null;
         Scanner in = null;
         PrintWriter out = null;
         Scanner sc = new Scanner(System.in);
-        String resultat = "";
+        String resultat;
 
         try {
             // Conectar al servidor

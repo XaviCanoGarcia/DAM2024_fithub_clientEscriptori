@@ -1,5 +1,7 @@
 package fithub.clientEscriptori.events;
 
 public interface MissatgeListener {
-    void mensajeRecibido(MissatgeEvent event);
+    void missatgeRebut(MissatgeEvent event);
+
+    void loginMsgRebut(LoginEvent event);
 }

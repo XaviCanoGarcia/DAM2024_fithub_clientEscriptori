@@ -4,7 +4,7 @@ import javax.swing.*;
 
 public class LoginFrame extends JFrame {
 
-    public LoginFrame (){
+    public LoginFrame() {
 
         this.setTitle("FITHUB - login");
         this.setSize(400, 400);

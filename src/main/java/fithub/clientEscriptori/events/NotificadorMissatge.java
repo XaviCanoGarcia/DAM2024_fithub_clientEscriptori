@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NotificadorMissatge {
-    private List<MissatgeListener> listeners = new ArrayList<>();
+    private final List<MissatgeListener> listeners = new ArrayList<>();
 
     public void agregarListener(MissatgeListener listener) {
         listeners.add(listener);
@@ -14,10 +14,17 @@ public class NotificadorMissatge {
         listeners.remove(listener);
     }
 
-    public void notificar(String msg) {
+    public void notificarMsg(String msg) {
         MissatgeEvent event = new MissatgeEvent(this, msg);
         for (MissatgeListener listener : listeners) {
-            listener.mensajeRecibido(event);
+            listener.missatgeRebut(event);
+        }
+    }
+
+    public void notificarLogin(String msg) {
+        LoginEvent event = new LoginEvent(this, msg);
+        for (MissatgeListener listener : listeners) {
+            listener.loginMsgRebut(event);
         }
     }
 }
