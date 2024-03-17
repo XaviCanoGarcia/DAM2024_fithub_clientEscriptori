@@ -7,14 +7,23 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
+/**
+ * Clase encarregada de enviar y rebre dades amb el servidor.
+ *
+ * @author Xavi Cano Garcia
+ * @version 1.0
+ */
 public class ParlarAmbServidor {
 
     static int port = 8080;
     static String ip = "127.0.0.1";
     String resposta = "";
 
-
+    /**
+     * Obre una connxio amb el servidor, executa la comanda y retorna la resposta.
+     *
+     * @param missatge Peticio que es vol realitzar al sevidor.
+     */
     public void enviarPeticio(String missatge) {
         Socket clientSocket = null;
         Scanner in = null;
