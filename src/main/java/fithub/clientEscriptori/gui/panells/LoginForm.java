@@ -18,11 +18,24 @@ public class LoginForm {
     private JPanel panel1;
     private JButton botoAceptar;
     private JTextField textFieldPass;
+
+    public void setTextFieldPass(JTextField textFieldPass) {
+        this.textFieldPass = textFieldPass;
+    }
+
+    public void setTextFieldNom(JTextField textFieldNom) {
+        this.textFieldNom = textFieldNom;
+    }
+
     private JTextField textFieldNom;
     private JLabel titol;
     private JLabel titolLogin;
     private JLabel titolNom;
     private JLabel titolPass;
+
+    public JButton getBotoAceptar() {
+        return botoAceptar;
+    }
 
     public LoginForm() {
         notificador = new NotificadorMissatge();

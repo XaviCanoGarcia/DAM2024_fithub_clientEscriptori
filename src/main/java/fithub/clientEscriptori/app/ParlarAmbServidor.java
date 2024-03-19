@@ -15,33 +15,38 @@ import java.util.logging.Logger;
  */
 public class ParlarAmbServidor {
 
-    static int port = 8080;
+    //192.168.0.47  Isard server
+    //127.0.0.1     Local
     static String ip = "127.0.0.1";
+    static int port = 8080;
+
     String resposta = "";
 
     /**
      * Obre una connxio amb el servidor, executa la comanda y retorna la resposta.
      *
      * @param missatge Peticio que es vol realitzar al sevidor.
+     *
+     * @return Retorna la resposta del servidor.
      */
-    public void enviarPeticio(String missatge) {
+    public String enviarPeticio(String missatge) {
         Socket clientSocket = null;
         Scanner in = null;
         PrintWriter out = null;
         Scanner sc = new Scanner(System.in);
-        String resultat;
+
 
         try {
             // Conectar al servidor
             clientSocket = new Socket(ip, port);
-            System.out.println("Client connectant al servidor...");
+            System.out.println("***COM***           Client connectant al servidor...");
 
             in = new Scanner(clientSocket.getInputStream());
             out = new PrintWriter(clientSocket.getOutputStream(), true);
 
             // Llegir missatge de conexio
-            resultat = in.nextLine();
-            System.out.println(resultat);
+            resposta = in.nextLine();
+            System.out.println("***COM***           "+resposta);
 
             // Envia missatge al servidor
             out.println(missatge);
@@ -49,7 +54,7 @@ public class ParlarAmbServidor {
             // Llegeix resposta del servidor
             while (in.hasNextLine()) {
                 this.resposta = in.nextLine();
-                System.out.println(resultat);
+                //System.out.println(resultat);
             }
 
         } catch (IOException ex) {
@@ -66,5 +71,6 @@ public class ParlarAmbServidor {
                 e.printStackTrace();
             }
         }
+        return resposta;
     }
 }

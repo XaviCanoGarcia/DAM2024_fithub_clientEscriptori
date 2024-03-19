@@ -10,7 +10,7 @@ import java.util.EventObject;
 public class LoginEvent extends EventObject {
 
 
-    private final String missatge;
+    private String missatge;
     /**
      * Constructor objecte event de login.
      * @param source Objecte que notificara el missatge
@@ -23,6 +23,10 @@ public class LoginEvent extends EventObject {
 
     public String getMissatge() {
         return missatge;
+    }
+
+    public void setMissatge(String missatge) {
+        this.missatge = missatge;
     }
 
 }

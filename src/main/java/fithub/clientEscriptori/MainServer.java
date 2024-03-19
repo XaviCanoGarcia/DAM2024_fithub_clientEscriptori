@@ -35,7 +35,7 @@ public class MainServer {
                 System.out.println("Esperant client...");
                 //Accepta conexio del client
                 Socket socket = server.accept();
-                System.out.println("Client connectat " + i);
+                //System.out.println("***server-event***       Client connectat " + i);
                 i++;
                 new ThreadClient(socket).start();  // Inicia un fil per a la conexio del client
             }
@@ -72,7 +72,7 @@ class ThreadClient extends Thread {
                 "login,admin,pass", "1,admin,Xavi Cano"
         };
         String[] msgPassU = {
-                "login,user,pass", "1,user,Xavi Cano"
+                "login,user,pass", "1,client,Xavi Cano"
         };
 
         String msgFail = "-1";
