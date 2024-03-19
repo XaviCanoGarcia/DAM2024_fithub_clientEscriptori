@@ -23,6 +23,8 @@ public class ControladorGui {
         loginFrame.add(controladorPanells.loginForm.getPanel1());
 
     }
+
+
     /**
      * Metode que executa un canvi de pantalla.
      *
@@ -33,8 +35,8 @@ public class ControladorGui {
         if (frame.equals("main")) {
             loginFrame.setVisible(false);
             mainFrame.setVisible(true);
-            if (userType.equals("user")) {
-                mainFrame.setTitle("FITHUB - User");
+            if (userType.equals("client")) {
+                mainFrame.setTitle("FITHUB - Client");
                 mainFrame.canviPanell(controladorPanells.mainUser.getPanel1());
             }
             if (userType.equals("admin")) {
@@ -46,6 +48,7 @@ public class ControladorGui {
             mainFrame.setVisible(false);
         }
     }
+
 
     public ControladorPanells getControladorPanells() {
         return controladorPanells;

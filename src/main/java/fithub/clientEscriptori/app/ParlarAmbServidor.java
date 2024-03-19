@@ -15,8 +15,11 @@ import java.util.logging.Logger;
  */
 public class ParlarAmbServidor {
 
-    static int port = 8080;
+    //192.168.0.47  Isard server
+    //127.0.0.1     Local
     static String ip = "127.0.0.1";
+    static int port = 8080;
+
     String resposta = "";
 
     /**
@@ -34,14 +37,14 @@ public class ParlarAmbServidor {
         try {
             // Conectar al servidor
             clientSocket = new Socket(ip, port);
-            System.out.println("Client connectant al servidor...");
+            System.out.println("***COM***           Client connectant al servidor...");
 
             in = new Scanner(clientSocket.getInputStream());
             out = new PrintWriter(clientSocket.getOutputStream(), true);
 
             // Llegir missatge de conexio
             resultat = in.nextLine();
-            System.out.println(resultat);
+            System.out.println("***COM***           "+resultat);
 
             // Envia missatge al servidor
             out.println(missatge);
@@ -49,7 +52,7 @@ public class ParlarAmbServidor {
             // Llegeix resposta del servidor
             while (in.hasNextLine()) {
                 this.resposta = in.nextLine();
-                System.out.println(resultat);
+                //System.out.println(resultat);
             }
 
         } catch (IOException ex) {

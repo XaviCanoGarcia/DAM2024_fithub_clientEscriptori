@@ -25,6 +25,7 @@ public class ControladorPanells {
         mainUser = new MainUser();
     }
 
+
     public LoginForm getLoginForm() {
         return loginForm;
     }
