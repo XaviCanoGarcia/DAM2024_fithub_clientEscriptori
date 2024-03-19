@@ -50,15 +50,14 @@ public class ControladorAplicacio implements MissatgeListener {
     public String accioLogin(String nom, String pass) {
         nomUsuari = nom;
         System.out.println("***login-event***   Login que s'envia al servidor------User: " + nom + "  Pass: " + pass + "   ***");
-        servidor.enviarPeticio("login," + nomUsuari + "," + pass);
-        return servidor.resposta;
+        return servidor.enviarPeticio("login," + nomUsuari + "," + pass);
     }
 
 
     /**
      * Executa l'acció al produir-se un event de tipus generic.
      *
-     * @param event Event de tipus login escoltat.
+     * @param event Event de tipus genèric escoltat.
      */
     @Override
     public void missatgeRebut(MissatgeEvent event) {

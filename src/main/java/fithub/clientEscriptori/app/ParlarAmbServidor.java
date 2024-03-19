@@ -26,13 +26,15 @@ public class ParlarAmbServidor {
      * Obre una connxio amb el servidor, executa la comanda y retorna la resposta.
      *
      * @param missatge Peticio que es vol realitzar al sevidor.
+     *
+     * @return Retorna la resposta del servidor.
      */
-    public void enviarPeticio(String missatge) {
+    public String enviarPeticio(String missatge) {
         Socket clientSocket = null;
         Scanner in = null;
         PrintWriter out = null;
         Scanner sc = new Scanner(System.in);
-        String resultat;
+
 
         try {
             // Conectar al servidor
@@ -43,8 +45,8 @@ public class ParlarAmbServidor {
             out = new PrintWriter(clientSocket.getOutputStream(), true);
 
             // Llegir missatge de conexio
-            resultat = in.nextLine();
-            System.out.println("***COM***           "+resultat);
+            resposta = in.nextLine();
+            System.out.println("***COM***           "+resposta);
 
             // Envia missatge al servidor
             out.println(missatge);
@@ -69,5 +71,6 @@ public class ParlarAmbServidor {
                 e.printStackTrace();
             }
         }
+        return resposta;
     }
 }
