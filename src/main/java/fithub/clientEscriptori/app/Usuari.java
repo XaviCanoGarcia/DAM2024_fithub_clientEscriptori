@@ -8,8 +8,8 @@ import java.io.Serializable;
  * Conté informació com el nom, cognoms, data de naixement, adreça, correu electrònic,
  * telèfon, contrasenya i data d'inscripció de l'usuari.
  *
- * @author Antonio Guerrero
- * @version 1.0
+ * @author Antonio Guerrero, Xavi Cano
+ * @version 1.1
  */
 public class Usuari implements Serializable {
     //Dades Obligatories

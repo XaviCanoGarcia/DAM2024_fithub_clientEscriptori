@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  * Clase encarregada de enviar y rebre dades amb el servidor.
  *
  * @author Xavi Cano Garcia
- * @version 1.0
+ * @version 1.1
  */
 public class ParlarAmbServidor {
 
@@ -23,7 +23,6 @@ public class ParlarAmbServidor {
     static int port = 8080;
 
     String respostaHS = "";
-
     Object[] resposta;
 
     /**
@@ -34,12 +33,11 @@ public class ParlarAmbServidor {
      */
     public Object[] enviarPeticio(Object[] peticio) {
         Socket clientSocket = null;
-        //Hand shake
+        //Handshake
         Scanner inHS = null;
         //Missatge
         ObjectInputStream in = null;
         ObjectOutputStream out = null;
-
 
         try {
             // Conectar al servidor
@@ -60,7 +58,6 @@ public class ParlarAmbServidor {
 
             // Llegeix resposta del servidor
             resposta = (Object[]) in.readObject();
-            int i = 0;
 
 
         } catch (IOException ex) {
