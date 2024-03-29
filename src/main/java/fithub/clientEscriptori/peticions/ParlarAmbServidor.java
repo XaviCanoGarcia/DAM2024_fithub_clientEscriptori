@@ -1,6 +1,8 @@
-package fithub.clientEscriptori.app;
+package fithub.clientEscriptori.peticions;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
@@ -20,20 +22,23 @@ public class ParlarAmbServidor {
     static String ip = "127.0.0.1";
     static int port = 8080;
 
-    String resposta = "";
+    String respostaHS = "";
+
+    Object[] resposta;
 
     /**
      * Obre una connxio amb el servidor, executa la comanda y retorna la resposta.
      *
-     * @param missatge Peticio que es vol realitzar al sevidor.
-     *
+     * @param peticio Peticio que es vol realitzar al sevidor.
      * @return Retorna la resposta del servidor.
      */
-    public String enviarPeticio(String missatge) {
+    public Object[] enviarPeticio(Object[] peticio) {
         Socket clientSocket = null;
-        Scanner in = null;
-        PrintWriter out = null;
-        Scanner sc = new Scanner(System.in);
+        //Hand shake
+        Scanner inHS = null;
+        //Missatge
+        ObjectInputStream in = null;
+        ObjectOutputStream out = null;
 
 
         try {
@@ -41,30 +46,31 @@ public class ParlarAmbServidor {
             clientSocket = new Socket(ip, port);
             System.out.println("***COM***           Client connectant al servidor...");
 
-            in = new Scanner(clientSocket.getInputStream());
-            out = new PrintWriter(clientSocket.getOutputStream(), true);
+            inHS = new Scanner(clientSocket.getInputStream());
+            out = new ObjectOutputStream(clientSocket.getOutputStream());
+            in = new ObjectInputStream(clientSocket.getInputStream());
+
 
             // Llegir missatge de conexio
-            resposta = in.nextLine();
-            System.out.println("***COM***           "+resposta);
+            respostaHS = inHS.nextLine();
+            System.out.println("***COM***           " + respostaHS);
 
             // Envia missatge al servidor
-            out.println(missatge);
+            out.writeObject(peticio);
 
             // Llegeix resposta del servidor
-            while (in.hasNextLine()) {
-                this.resposta = in.nextLine();
-                //System.out.println(resultat);
-            }
+            resposta = (Object[]) in.readObject();
+            int i = 0;
+
 
         } catch (IOException ex) {
             Logger.getLogger(ParlarAmbServidor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         } finally {
-
             try {
-                // Cerrar recursos y el socket
-                if (sc != null) sc.close();
                 if (in != null) in.close();
+                if (inHS != null) inHS.close();
                 if (out != null) out.close();
                 if (clientSocket != null) clientSocket.close();
             } catch (IOException e) {

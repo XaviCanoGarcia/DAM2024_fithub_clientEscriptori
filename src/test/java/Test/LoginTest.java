@@ -1,6 +1,8 @@
 package Test;
 
 import fithub.clientEscriptori.app.ControladorAplicacio;
+import fithub.clientEscriptori.app.Usuari;
+import fithub.clientEscriptori.peticions.PeticioLogin;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,8 +22,8 @@ public class LoginTest {
         String nom = "admin";
         String pass = "pass";
         String out = "1,admin,Xavi Cano";
-        ControladorAplicacio controladorAplicacio = new ControladorAplicacio();
-        String res = controladorAplicacio.accioLogin(nom, pass);
+        PeticioLogin peticioLogin = new PeticioLogin();
+        Object[] res = peticioLogin.accioLogin(nom, pass);
         assertEquals(out, res);
     }
 
@@ -33,8 +35,8 @@ public class LoginTest {
         String nom = "user";
         String pass = "pass";
         String out = "1,client,Xavi Cano";
-        ControladorAplicacio controladorAplicacio = new ControladorAplicacio();
-        String res = controladorAplicacio.accioLogin(nom, pass);
+        PeticioLogin peticioLogin = new PeticioLogin();
+        Object[] res = peticioLogin.accioLogin(nom, pass);
         assertEquals(out, res);
     }
 
@@ -46,8 +48,8 @@ public class LoginTest {
         String nom = "josep";
         String pass = "pasaas";
         String out = "-1";
-        ControladorAplicacio controladorAplicacio = new ControladorAplicacio();
-        String res = controladorAplicacio.accioLogin(nom, pass);
+        PeticioLogin peticioLogin = new PeticioLogin();
+        Object[] res = peticioLogin.accioLogin(nom, pass);
         assertEquals(out, res);
     }
 
@@ -59,8 +61,8 @@ public class LoginTest {
         String nom = "";
         String pass = "";
         String out = "-1";
-        ControladorAplicacio controladorAplicacio = new ControladorAplicacio();
-        String res = controladorAplicacio.accioLogin(nom, pass);
+        PeticioLogin peticioLogin = new PeticioLogin();
+        Object[] res = peticioLogin.accioLogin(nom, pass);
         assertEquals(out, res);
     }
 }

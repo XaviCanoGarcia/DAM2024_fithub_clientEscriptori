@@ -6,8 +6,9 @@
 package fithub.clientEscriptori;
 
 
-import java.io.IOException;
-import java.io.PrintWriter;
+import fithub.clientEscriptori.app.Usuari;
+
+import java.io.*;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
@@ -18,8 +19,6 @@ public class MainServer {
 
     static int puerto = 8080;
     static String ip = "127.0.0.1";
-
-    String resposta;
 
     public static void main(String[] args) {
         try {
@@ -35,7 +34,7 @@ public class MainServer {
                 System.out.println("Esperant client...");
                 //Accepta conexio del client
                 Socket socket = server.accept();
-                //System.out.println("***server-event***       Client connectat " + i);
+                System.out.println("***server-event***       Client connectat " + i);
                 i++;
                 new ThreadClient(socket).start();  // Inicia un fil per a la conexio del client
             }
@@ -47,62 +46,69 @@ public class MainServer {
 }
 
 class ThreadClient extends Thread {
-    private final Socket client;
-    private final Scanner in;
-    private final PrintWriter out;
+    private final Socket clientSocket;
+    //Handshake
+    private final Scanner inHS;
+    private final PrintWriter outHS;
+    //Missatge
+    private final ObjectInputStream in;
+    private final ObjectOutputStream out;
 
     public ThreadClient(Socket client) throws IOException {
-        this.client = client;
-        this.in = new Scanner(client.getInputStream());
-        this.out = new PrintWriter(client.getOutputStream(), true);
+        this.clientSocket = client;
+        this.inHS = new Scanner(client.getInputStream());
+        this.outHS = new PrintWriter(client.getOutputStream(), true);
+        this.out = new ObjectOutputStream(client.getOutputStream());
+        this.in = new ObjectInputStream(client.getInputStream());
+
     }
 
     @Override
     public void run() {
         //Missatge d'intercanvi amb el client
-        String msg;
-        String rsp = "BAD";
+        Object[] msg = new Object[3];
+        Object[] rsp = new Object[2];
+        Usuari usuari = new Usuari("admin@fithub.com", "pass");
+        usuari.setSessioID(1);
+
 
         // Envia missatge de conectat al client
-        out.println("Client connectat");
-
-        // Llegeix missatge enviat pel client
-
-        String[] msgPassA = {
-                "login,admin,pass", "1,admin,Xavi Cano"
-        };
-        String[] msgPassU = {
-                "login,user,pass", "1,client,Xavi Cano"
-        };
-
-        String msgFail = "-1";
+        outHS.println("Client connectat");
 
 
-        if (in.hasNextLine()) {
-            msg = in.nextLine();
-            if (msg.equals(msgPassA[0])) {
-                rsp = msgPassA[1];
-            } else if (msg.equals(msgPassU[0])) {
-                rsp = msgPassU[1];
-            } else {
-                rsp = msgFail;
-            }
-            // Retorna resposta
-            out.println(rsp);
-        }
-
-
-        // Tanca la conexio
+        //Llegeix missatge i envia resposta
         try {
-            client.close();
+            msg = (Object[]) in.readObject();   //Llegeix missatge
+
+
+            if (msg[0].equals("login") && msg[1].equals("admin") && msg[2].equals("pass")) {
+                rsp[0] = true;
+                usuari.setTipus("admin");
+                rsp[1] = usuari;
+            } else if (msg[0].equals("login") && msg[1].equals("client") && msg[2].equals("pass")) {
+                rsp[0] = true;
+                usuari.setTipus("client");
+                rsp[1] = usuari;
+            } else {
+                rsp[0] = false;
+                rsp[1] = null;
+            }
+            out.writeObject((Object[]) rsp);    //Envia resposta
+
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                if (in != null) in.close();
+                if (out != null) out.close();
+                if (inHS != null) inHS.close();
+                if (outHS != null) outHS.close();
+                if (clientSocket != null) clientSocket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-
-
-    }
-
-    String respon(String rsp) {
-        return rsp;
     }
 }
