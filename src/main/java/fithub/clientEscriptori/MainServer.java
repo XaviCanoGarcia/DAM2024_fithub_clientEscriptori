@@ -24,7 +24,6 @@ public class MainServer {
         try {
             InetAddress direccionIP = InetAddress.getByName(ip); // Cambia a la IP que deseas usar
             InetSocketAddress direccion = new InetSocketAddress(direccionIP, puerto);
-            // Crea el socket del servidor vinculándolo a la dirección y puerto especificados
             ServerSocket server = new ServerSocket();
             server.bind(direccion);
             int i = 0;
@@ -71,7 +70,6 @@ class ThreadClient extends Thread {
         Usuari usuari = new Usuari("admin@fithub.com", "pass");
         usuari.setSessioID(1);
 
-
         // Envia missatge de conectat al client
         outHS.println("Client connectat");
 
@@ -79,8 +77,6 @@ class ThreadClient extends Thread {
         //Llegeix missatge i envia resposta
         try {
             msg = (Object[]) in.readObject();   //Llegeix missatge
-
-
             if (msg[0].equals("login") && msg[1].equals("admin") && msg[2].equals("pass")) {
                 rsp[0] = true;
                 usuari.setTipus("admin");
