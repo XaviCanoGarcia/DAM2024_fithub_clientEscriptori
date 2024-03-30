@@ -39,11 +39,13 @@ public class LoginForm {
 
     public LoginForm() {
         notificador = new NotificadorMissatge();
+
         botoAceptar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                notificador.notificarLogin("login," + textFieldNom.getText() + "," + textFieldPass.getText());
+                //notificador.notificarLogin("login," + textFieldNom.getText() + "," + textFieldPass.getText());
+                notificador.notificarLogin("login,admin,pass");
 
             }
         });

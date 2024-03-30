@@ -17,7 +17,6 @@ import fithub.clientEscriptori.com.PeticioLogin;
  */
 public class ControladorAplicacio implements MissatgeListener {
     ControladorGui controladorGui;
-    ParlarAmbServidor servidor;
     DadesAplicacio dades;
     /**
      * Constructor objecte ControladorAplicació.
@@ -42,7 +41,7 @@ public class ControladorAplicacio implements MissatgeListener {
         Object[] peticio = event.getMissatge();
         Object[] resposta;
         if (peticio[1].equals("usuari") && peticio.length == 3) {
-            resposta = servidor.enviarPeticio(peticio);
+            resposta = new ParlarAmbServidor().enviarPeticio(peticio);
             if (resposta[1] instanceof Usuari) {
                 dades.setUsuariSeleccionat((Usuari) resposta[1]);
             } else if (resposta[1] instanceof Usuari[]) {

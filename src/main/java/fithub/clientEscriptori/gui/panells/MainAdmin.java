@@ -15,8 +15,51 @@ import java.awt.event.ActionListener;
 public class MainAdmin {
     NotificadorMissatge notificador;
     private JPanel panel1;
-    private JLabel titol;
+    private JSplitPane JSplitHorizontal;
+    private JSplitPane JSplitVertical;
+    private JPanel capcalera;
+    private JPanel titolPantalla;
+    private JPanel pestanyes;
+    private JPanel contingut;
+    private JButton pestanyaUsuaris;
+    private JButton pestanyaActivitats;
+    private JButton pestanyaServeis;
+    private JButton pestanyaOpcions;
     private JButton buttonLogout;
+    private JButton nouUsuariButton;
+    private JLabel titolPantallaLabel;
+    private JTable table1;
+    private JPanel titolUsuariSeleccionat;
+    private JPanel infoUsuariSeleccionat;
+    private JTextField textSessioID;
+    private JTextField textTipusUsuari;
+    private JLabel titolUsuariSeleccionatLabel;
+    private JLabel titolSessioIDLabel;
+    private JLabel titolTipusUsuariLabel;
+    private JPanel infoUsuariActual;
+    private JPanel titolpanell;
+    private JTextField textorreu;
+    private JTextField textContrasenya;
+    private JTextField textCognom;
+    private JTextField textTelefon;
+    private JTextField textDataInscripcio;
+    private JTextField textDataNeixement;
+    private JTextField textAdreca;
+    private JTextField textNom;
+    private JButton esborraUsuariButton;
+    private JButton guardaUsuariButton;
+    private JLabel titolCorreu;
+    private JLabel titolContrasenya;
+    private JLabel titolNom;
+    private JLabel titolCognom;
+    private JLabel titolAdreca;
+    private JLabel titolTelefon;
+    private JLabel titolDAtaNeixement;
+    private JLabel titolDataInscripcio;
+    private JLabel correuUsuariActual;
+    private JLabel nomUsuariActual;
+    private JLabel sessioInfo;
+    private JButton actualitzaTaulaButton;
 
     public MainAdmin() {
 
@@ -28,6 +71,18 @@ public class MainAdmin {
                 notificador.notificarLogin("logout");
             }
         });
+        actualitzaTaulaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String param1 = "selectAll";
+                String param2 = "usuari";
+                Object[] msg = new Object[3];
+                msg[0] = param1;
+                msg[1] = param2;
+                msg[2] = null;
+                notificador.notificarMsg(msg);
+            }
+        });
     }
 
     public void setListener(ControladorAplicacio controladorAplicacio) {
@@ -37,4 +92,26 @@ public class MainAdmin {
     public JPanel getPanel1() {
         return panel1;
     }
+
+    public JLabel getCorreuUsuariActual() {
+        return correuUsuariActual;
+    }
+
+    public JLabel getNomUsuariActual() {
+        return nomUsuariActual;
+    }
+
+    public JLabel getSessioInfo() {
+        return sessioInfo;
+    }
+
+    public JTable getTable1() {
+        return table1;
+    }
+
+    public void setTable1(JTable table1) {
+        this.table1 = table1;
+    }
+
+
 }

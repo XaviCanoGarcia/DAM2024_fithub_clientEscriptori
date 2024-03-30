@@ -62,6 +62,59 @@ class ThreadClient extends Thread {
 
     }
 
+    private static Object[] simulacioServer(Object[] msg) {
+        Object[] rsp = new Object[2];
+        Usuari usuariAdmin = new Usuari("Xavi", "Cano Garcia", "03/04/1997", "C/Llorach 18", "978056784", "xcano@gmail.com", "pass", "05/09/2020");
+        usuariAdmin.setSessioID(1);
+        usuariAdmin.setTipus("admin");
+        Usuari usuari = new Usuari("", "");
+        Usuari usuari1 = new Usuari("Josep", "Lopez", "03/04/1997", "C/Terssol 18", "978056784", "josepLopez@gmail.com", "pass", "05/09/2020");
+        Usuari usuari2 = new Usuari("Maria", "Bonet", "13/12/2000", "C/Major 12", "97800987", "MariaBonet@gmail.com", "pass", "15/07/2020");
+        Usuari usuari3 = new Usuari("Albert", "Guspi", "18/02/1993", "C/Vell 1", "979807654", "AlbertGuspi@gmail.com", "pass", "14/02/2019");
+        Usuari[] llistaUsuari = new Usuari[10];
+        llistaUsuari[0] = usuari1;
+        llistaUsuari[1] = usuari2;
+        llistaUsuari[2] = usuari3;
+
+        if (msg[1].equals("usuari")) {
+            switch ((String) msg[0]) {
+                case "insert":
+                    llistaUsuari[3] = (Usuari) msg[2];
+                    rsp[0] = true;
+                    rsp[1] = null;
+                    break;
+                case "delete":
+                    break;
+                case "modifica":
+                    rsp[0] = true;
+                    rsp[1] = usuari2;
+                    break;
+                case "select":
+                    rsp[0] = true;
+                    rsp[1] = usuari1;
+                    break;
+                case "selectAll":
+                    rsp[0] = true;
+                    rsp[1] = llistaUsuari;
+                    break;
+            }
+        }
+
+        //Login
+        if (msg[0].equals("login") && msg[1].equals("admin") && msg[2].equals("pass")) {
+            rsp[0] = true;
+            usuari.setTipus("admin");
+            rsp[1] = usuariAdmin;
+        } else if (msg[0].equals("login") && msg[1].equals("client") && msg[2].equals("pass")) {
+            rsp[0] = true;
+            usuari.setTipus("client");
+            rsp[1] = usuari1;
+        }
+
+
+        return rsp;
+    }
+
     @Override
     public void run() {
         //Missatge d'intercanvi amb el client
@@ -77,18 +130,7 @@ class ThreadClient extends Thread {
         //Llegeix missatge i envia resposta
         try {
             msg = (Object[]) in.readObject();   //Llegeix missatge
-            if (msg[0].equals("login") && msg[1].equals("admin") && msg[2].equals("pass")) {
-                rsp[0] = true;
-                usuari.setTipus("admin");
-                rsp[1] = usuari;
-            } else if (msg[0].equals("login") && msg[1].equals("client") && msg[2].equals("pass")) {
-                rsp[0] = true;
-                usuari.setTipus("client");
-                rsp[1] = usuari;
-            } else {
-                rsp[0] = false;
-                rsp[1] = null;
-            }
+            rsp = simulacioServer(msg);
             out.writeObject((Object[]) rsp);    //Envia resposta
 
         } catch (IOException e) {

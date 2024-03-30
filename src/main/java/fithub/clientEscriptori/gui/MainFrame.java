@@ -23,6 +23,7 @@ public class MainFrame extends JFrame {
         currentPanel = new JPanel();
         add(currentPanel);
 
+
     }
     /**
      * Metode que canvia el panell del Main framme.
