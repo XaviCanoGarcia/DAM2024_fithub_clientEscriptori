@@ -1,4 +1,4 @@
-package fithub.clientEscriptori.peticions;
+package fithub.clientEscriptori.com;
 
 import fithub.clientEscriptori.app.Usuari;
 import fithub.clientEscriptori.events.LoginEvent;
@@ -20,7 +20,6 @@ public class PeticioLogin {
                 System.out.println("***login-event***   Resposta-server----" + status + resposta + "");
                 if (status && resposta.length == 2) {
                     usuari = (Usuari) resposta[1];
-
                 }
             }
 

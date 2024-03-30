@@ -1,12 +1,12 @@
 package fithub.clientEscriptori.app;
 
+import fithub.clientEscriptori.events.GuiEvent;
 import fithub.clientEscriptori.events.LoginEvent;
 import fithub.clientEscriptori.events.MissatgeEvent;
 import fithub.clientEscriptori.events.MissatgeListener;
 import fithub.clientEscriptori.gui.ControladorGui;
-import fithub.clientEscriptori.gui.ControladorPanells;
-import fithub.clientEscriptori.peticions.ParlarAmbServidor;
-import fithub.clientEscriptori.peticions.PeticioLogin;
+import fithub.clientEscriptori.com.ParlarAmbServidor;
+import fithub.clientEscriptori.com.PeticioLogin;
 
 /**
  * Clase arrel de l'aplicacio conté tots els elements.
@@ -17,56 +17,67 @@ import fithub.clientEscriptori.peticions.PeticioLogin;
  */
 public class ControladorAplicacio implements MissatgeListener {
     ControladorGui controladorGui;
-
-    ControladorPanells panells;
-
     ParlarAmbServidor servidor;
-
-    //Dades Usuari i sessio
-
-    Usuari usuari;
-
-
+    DadesAplicacio dades;
     /**
      * Constructor objecte ControladorAplicació.
      */
     public ControladorAplicacio() {
         controladorGui = new ControladorGui();
-        servidor = new ParlarAmbServidor();
-        panells = controladorGui.getControladorPanells();
-        panells.getLoginForm().setListener(this);
-        panells.getMainAdmin().setListener(this);
-        panells.getMainUser().setListener(this);
+        controladorGui.getControladorPanells().getLoginForm().setListener(this);
+        controladorGui.getControladorPanells().getMainAdmin().setListener(this);
+        controladorGui.getControladorPanells().getMainUser().setListener(this);
+        dades = new DadesAplicacio();
+        dades.addObserver(controladorGui.getControladorPanells());
     }
 
     /**
-     * Executa l'acció al produir-se un event de tipus generic.
+     * Executa l'acció al produir-se un event de tipus dades.
      *
-     * @param event Event de tipus genèric escoltat.
+     * @param event Event de dades escoltat.
      */
     @Override
-    public void missatgeRebut(MissatgeEvent event) {
-        System.out.println("***Msg-event***    ----" + event.getMissatge() + "");
+    public void dadesEventRebut(MissatgeEvent event) {
+        System.out.println("***Data-event***   ----" + event.getMissatge() + "");
+        Object[] peticio = event.getMissatge();
+        Object[] resposta;
+        if (peticio[1].equals("usuari") && peticio.length == 3) {
+            resposta = servidor.enviarPeticio(peticio);
+            if (resposta[1] instanceof Usuari) {
+                dades.setUsuariSeleccionat((Usuari) resposta[1]);
+            } else if (resposta[1] instanceof Usuari[]) {
+                dades.setLlistaUsuaris((Usuari[]) resposta[1]);
+            }
+
+        }
     }
 
+    /**
+     * Executa l'acció al produir-se un event de tipus interficie gràfica.
+     *
+     * @param event Event de de inteficie gràfica escoltat.
+     */
+    @Override
+    public void guiEventRebut(GuiEvent event) {
+        System.out.println("***Gui-event***    ----" + event.getMissatge() + "");
+    }
 
     /**
      * Executa l'acció login/logout al produir-se un event de tipus login.
      *
      * @param event Event de tipus login escoltat.
      */
-    @Override
-    public void loginMsgRebut(LoginEvent event) {
+    public void loginEventRebut(LoginEvent event) {
         System.out.println("***login-event***   Generat per l'usuari----" + event.getMissatge() + "");
         String[] msgList = event.getMissatge().split(",");
 
         if (msgList[0].equals("login") && msgList.length == 3) {
-            usuari = new PeticioLogin().login(event);
-            controladorGui.canviaPantalla("main", usuari.getTipus());
+            dades.setUsuariActiu(new PeticioLogin().login(event));
+            controladorGui.canviaPantalla("main", dades.getUsuariActiu().getTipus());
         }
         if (msgList[0].equals("logout") && msgList.length == 1) {
-            usuari = new PeticioLogin().logout();
-            controladorGui.canviaPantalla("login", usuari.getTipus());
+            dades.setUsuariActiu(new PeticioLogin().logout());
+            controladorGui.canviaPantalla("login", dades.getUsuariActiu().getTipus());
         }
     }
 }

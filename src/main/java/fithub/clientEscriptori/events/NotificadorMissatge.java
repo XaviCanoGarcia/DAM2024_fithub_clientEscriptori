@@ -26,17 +26,19 @@ public class NotificadorMissatge {
     public void removerListener(MissatgeEvent listener) {
         listeners.remove(listener);
     }
+
     /**
      * Notifica un event de tipu generic.
      *
      * @param msg Missatge del event que es notifica.
      */
-    public void notificarMsg(String msg) {
+    public void notificarMsg(Object[] msg) {
         MissatgeEvent event = new MissatgeEvent(this, msg);
         for (MissatgeListener listener : listeners) {
-            listener.missatgeRebut(event);
+            listener.dadesEventRebut(event);
         }
     }
+
     /**
      * Notifica un event de tipu login.
      *
@@ -45,7 +47,7 @@ public class NotificadorMissatge {
     public void notificarLogin(String msg) {
         LoginEvent event = new LoginEvent(this, msg);
         for (MissatgeListener listener : listeners) {
-            listener.loginMsgRebut(event);
+            listener.loginEventRebut(event);
         }
     }
 }

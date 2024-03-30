@@ -1,8 +1,6 @@
 package Test;
 
-import fithub.clientEscriptori.app.ControladorAplicacio;
-import fithub.clientEscriptori.app.Usuari;
-import fithub.clientEscriptori.peticions.PeticioLogin;
+import fithub.clientEscriptori.com.PeticioLogin;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

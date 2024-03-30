@@ -7,15 +7,23 @@ package fithub.clientEscriptori.events;
  */
 public interface MissatgeListener {
     /**
-     * Metode listener event generic.
+     * Metode listener event dades.
      *
      * @param event Event que s'escolta.
      */
-    void missatgeRebut(MissatgeEvent event);
+    void dadesEventRebut(MissatgeEvent event);
+
+    /**
+     * Metode listener event interficie gràfica.
+     *
+     * @param event Event que s'escolta.
+     */
+    void guiEventRebut(GuiEvent event);
+
     /**
      * Metode listener event login.
      *
      * @param event Event que s'escolta.
      */
-    void loginMsgRebut(LoginEvent event);
+    void loginEventRebut(LoginEvent event);
 }

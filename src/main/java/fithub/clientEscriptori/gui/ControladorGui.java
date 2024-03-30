@@ -10,7 +10,6 @@ package fithub.clientEscriptori.gui;
 public class ControladorGui {
     LoginFrame loginFrame;
     MainFrame mainFrame;
-
     ControladorPanells controladorPanells;
     /**
      * Constructor objecte ControladorGui.

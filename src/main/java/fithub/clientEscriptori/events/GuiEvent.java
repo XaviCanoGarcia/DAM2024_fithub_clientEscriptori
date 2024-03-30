@@ -1,13 +1,14 @@
 package fithub.clientEscriptori.events;
 
 import java.util.EventObject;
+
 /**
  * Clase que defineix un event de tipus generic.
  *
  * @author Xavi Cano Garcia
  * @version 1.0
  */
-public class MissatgeEvent extends EventObject {
+public class GuiEvent extends EventObject {
 
     private final Object[] missatge;
 
@@ -17,7 +18,7 @@ public class MissatgeEvent extends EventObject {
      * @param source Objecte que notificara el missatge
      * @param msg    Missatge que es notificarà
      */
-    public MissatgeEvent(Object source, Object[] msg) {
+    public GuiEvent(Object source, Object[] msg) {
         super(source);
         this.missatge = msg;
     }
