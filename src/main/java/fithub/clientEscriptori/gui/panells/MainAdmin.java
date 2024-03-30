@@ -1,6 +1,7 @@
 package fithub.clientEscriptori.gui.panells;
 
 import fithub.clientEscriptori.app.ControladorAplicacio;
+import fithub.clientEscriptori.app.Usuari;
 import fithub.clientEscriptori.events.NotificadorMissatge;
 
 import javax.swing.*;
@@ -38,7 +39,7 @@ public class MainAdmin {
     private JLabel titolTipusUsuariLabel;
     private JPanel infoUsuariActual;
     private JPanel titolpanell;
-    private JTextField textorreu;
+    private JTextField textCorreu;
     private JTextField textContrasenya;
     private JTextField textCognom;
     private JTextField textTelefon;
@@ -64,6 +65,7 @@ public class MainAdmin {
     public MainAdmin() {
 
         notificador = new NotificadorMissatge();
+        //LOGOUT
         buttonLogout.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -71,6 +73,7 @@ public class MainAdmin {
                 notificador.notificarLogin("logout");
             }
         });
+        //ACTUALIZA TAULA
         actualitzaTaulaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -80,6 +83,19 @@ public class MainAdmin {
                 msg[0] = param1;
                 msg[1] = param2;
                 msg[2] = null;
+                notificador.notificarMsg(msg);
+            }
+        });
+        //NOU USUARI
+        nouUsuariButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String param1 = "insert";
+                String param2 = "usuari";
+                Object[] msg = new Object[3];
+                msg[0] = param1;
+                msg[1] = param2;
+                msg[2] = getUsuariText();
                 notificador.notificarMsg(msg);
             }
         });
@@ -111,6 +127,20 @@ public class MainAdmin {
 
     public void setTable1(JTable table1) {
         this.table1 = table1;
+    }
+
+    public Usuari getUsuariText() {
+        Usuari usuari = new Usuari(
+                textNom.getText(),
+                textCognom.getText(),
+                textDataNeixement.getText(),
+                textAdreca.getText(),
+                textTelefon.getText(),
+                textCorreu.getText(),
+                textContrasenya.getText(),
+                textDataInscripcio.getText());
+        return usuari;
+
     }
 
 

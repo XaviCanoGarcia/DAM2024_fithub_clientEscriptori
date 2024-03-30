@@ -81,7 +81,7 @@ class ThreadClient extends Thread {
                 case "insert":
                     llistaUsuari[3] = (Usuari) msg[2];
                     rsp[0] = true;
-                    rsp[1] = null;
+                    rsp[1] = llistaUsuari;
                     break;
                 case "delete":
                     break;

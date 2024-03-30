@@ -38,7 +38,7 @@ public class Usuari implements Serializable {
         this.contrasenya = contrasenya;
         this.sessioID = -1;
 
-        this.tipus = DEFAULT_VALUE;
+        this.tipus = "client";
         this.nom = DEFAULT_VALUE;
         this.cognoms = DEFAULT_VALUE;
         this.dataNaixement = DEFAULT_VALUE;
