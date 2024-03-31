@@ -47,8 +47,14 @@ public class ControladorAplicacio implements MissatgeListener {
             } else if (resposta[1] instanceof Usuari[]) {
                 dades.setLlistaUsuaris((Usuari[]) resposta[1]);
             }
+        }
+        if (peticio[0].equals("mouse") && peticio[1].equals("usuariSeleccionat")) {
+            if (dades.getLlistaUsuaris()[(int) peticio[2]] != null) {
+                dades.setUsuariSeleccionat((Usuari) dades.getLlistaUsuaris()[(int) peticio[2]]);
+            }
 
         }
+
     }
 
     /**

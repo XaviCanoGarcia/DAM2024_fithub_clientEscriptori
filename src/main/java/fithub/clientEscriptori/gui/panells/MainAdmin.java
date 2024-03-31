@@ -5,8 +5,12 @@ import fithub.clientEscriptori.app.Usuari;
 import fithub.clientEscriptori.events.NotificadorMissatge;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 /**
  * Clase que defineix formulari main administrador.
  *
@@ -99,6 +103,40 @@ public class MainAdmin {
                 notificador.notificarMsg(msg);
             }
         });
+        //MODIFICA USUARI
+        guardaUsuariButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String param1 = "update";
+                String param2 = "usuari";
+                Object[] msg = new Object[3];
+                msg[0] = param1;
+                msg[1] = param2;
+                msg[2] = getUsuariText();
+                notificador.notificarMsg(msg);
+            }
+        });
+        //SELECCIONA USUARI DE LA TAULA
+        table1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if (e.getClickCount() == 1) {
+                    Point point = e.getPoint();
+                    int row = table1.rowAtPoint(point);
+                    //int column = table1.columnAtPoint(point);
+                    if (row != -1) {
+                        String param1 = "mouse";
+                        String param2 = "usuariSeleccionat";
+                        Object[] msg = new Object[3];
+                        msg[0] = param1;
+                        msg[1] = param2;
+                        msg[2] = row;
+                        notificador.notificarMsg(msg);
+                    }
+                }
+            }
+        });
     }
 
     public void setListener(ControladorAplicacio controladorAplicacio) {
@@ -141,6 +179,17 @@ public class MainAdmin {
                 textDataInscripcio.getText());
         return usuari;
 
+    }
+
+    public void setUsuariText(Usuari usuari) {
+        textNom.setText(usuari.getNom());
+        textCognom.setText(usuari.getCognoms());
+        textDataNeixement.setText(usuari.getDataNaixement());
+        textAdreca.setText(usuari.getAdreca());
+        textTelefon.setText(usuari.getTelefon());
+        textCorreu.setText(usuari.getCorreu());
+        textContrasenya.setText(usuari.getContrasenya());
+        textDataInscripcio.setText(usuari.getDataInscripcio());
     }
 
 

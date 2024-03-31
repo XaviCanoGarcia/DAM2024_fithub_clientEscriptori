@@ -58,21 +58,35 @@ public class ControladorPanells implements Observer {
     public void update(Observable o, Object arg) {
         Object[] msj = (Object[]) arg;
         System.out.println("updateGui: " + msj[0].toString());
+
+        //Actualitza elements grafics d'usuariActiu
         if (msj[0].equals("usuariActiu")) {
             Usuari usuari = (Usuari) msj[1];
             mainAdmin.getCorreuUsuariActual().setText("Tipus usuari " + usuari.getTipus() + " " + usuari.getCorreu());
             mainAdmin.getNomUsuariActual().setText(usuari.getNom() + " " + usuari.getCognoms());
             mainAdmin.getSessioInfo().setText("Sessio id: " + usuari.getSessioID());
         }
+        //Actualitza elements grafics llistaUsuaris
         if (msj[0].equals("llistaUsuaris")) {
             String[] columnNames = {"Nom", "Cognom", "Data Neixament", "Adreça", "Telèfon", "Correu", "Contrasenya", "Data Inscripció"};
             Object[][] dadesTaula = llistaUsuarisTaula((Usuari[]) msj[1]);
             DefaultTableModel model = new DefaultTableModel(dadesTaula, columnNames);
             mainAdmin.getTable1().setModel(model);
         }
+        //Actualitza elements grafics usuariSeleccionat
+        if (msj[0].equals("usuariSeleccionat")) {
+            mainAdmin.setUsuariText((Usuari) msj[1]);
+
+        }
 
     }
 
+    /**
+     * Mètode que tansforma una llista de usuaris en un Object[][] per poder omplir la taula
+     *
+     * @param llista Llista d'usuaris
+     * @return taula Array objecte dos dimensions
+     */
     private Object[][] llistaUsuarisTaula(Usuari[] llista) {
         Object[][] taula = new Object[50][8];
         int i = 0;
