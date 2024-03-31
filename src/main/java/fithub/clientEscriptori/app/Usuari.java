@@ -28,7 +28,7 @@ public class Usuari implements Serializable {
     private String dataInscripcio;
 
     /**
-     * Constructor de la classe Usuari reduit.
+     * Constructor de la classe Usuari reduït.
      *
      * @param correu      El correu electrònic de l'usuari.
      * @param contrasenya La contrasenya de l'usuari.

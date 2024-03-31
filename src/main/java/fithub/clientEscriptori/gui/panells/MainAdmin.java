@@ -69,7 +69,9 @@ public class MainAdmin {
     public MainAdmin() {
 
         notificador = new NotificadorMissatge();
-        //LOGOUT
+        /**
+         * Mètode listener acció logout, genera un event de tipus login amb la comanda logout
+         */
         buttonLogout.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -77,7 +79,9 @@ public class MainAdmin {
                 notificador.notificarLogin("logout");
             }
         });
-        //ACTUALIZA TAULA
+        /**
+         * Mètode listener acció actualitza taula, genera un event de tipus dades amb la comanda "selectAll usuari"
+         */
         actualitzaTaulaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -90,7 +94,9 @@ public class MainAdmin {
                 notificador.notificarMsg(msg);
             }
         });
-        //NOU USUARI
+        /**
+         * Mètode listener acció nou usuari, genera un event de tipus dades amb la comanda "insert usuari"
+         */
         nouUsuariButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -103,7 +109,9 @@ public class MainAdmin {
                 notificador.notificarMsg(msg);
             }
         });
-        //MODIFICA USUARI
+        /**
+         * Mètode listener acció modifica usuari, genera un event de tipus dades amb la comanda "delete usuari nomUsuari"
+         */
         guardaUsuariButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -116,7 +124,10 @@ public class MainAdmin {
                 notificador.notificarMsg(msg);
             }
         });
-        //SELECCIONA USUARI DE LA TAULA
+        /**
+         * Mètode listener acció selecciona usuari de la taula, genera un event de tipus dades amb la comanda "mouse usuariSeleccionat".
+         * Aquesta acció la genera l'usuari clicant sobre la taula, l'usuari seleccionat s'actualitza amb la informació de la fila clicada de la taula.
+         */
         table1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -135,6 +146,21 @@ public class MainAdmin {
                         notificador.notificarMsg(msg);
                     }
                 }
+            }
+        });
+        /**
+         * Mètode listener acció esborrar usuari, genera un event de tipus dades amb la comanda "delete usuari"
+         */
+        esborraUsuariButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String param1 = "delete";
+                String param2 = "usuari";
+                Object[] msg = new Object[3];
+                msg[0] = param1;
+                msg[1] = param2;
+                msg[2] = getUsuariText().getCorreu();
+                notificador.notificarMsg(msg);
             }
         });
     }
@@ -163,10 +189,11 @@ public class MainAdmin {
         return table1;
     }
 
-    public void setTable1(JTable table1) {
-        this.table1 = table1;
-    }
-
+    /**
+     * Mètode que crea un objecte usuari amb les dades de les caixes de text de usuari seleccionat
+     *
+     * @return usuari Objecte Usuari generat.
+     */
     public Usuari getUsuariText() {
         Usuari usuari = new Usuari(
                 textNom.getText(),
@@ -181,6 +208,11 @@ public class MainAdmin {
 
     }
 
+    /**
+     * Metode que omple les caixes de text amb les dades d'un objecte Usuari
+     *
+     * @param usuari Objecte usuari amb el que es vol omplir les caixes de text.
+     */
     public void setUsuariText(Usuari usuari) {
         textNom.setText(usuari.getNom());
         textCognom.setText(usuari.getCognoms());

@@ -57,7 +57,7 @@ public class ControladorPanells implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         Object[] msj = (Object[]) arg;
-        System.out.println("updateGui: " + msj[0].toString());
+        System.out.println("***GUI***    ----Actualiza: " + msj[0].toString());
 
         //Actualitza elements grafics d'usuariActiu
         if (msj[0].equals("usuariActiu")) {

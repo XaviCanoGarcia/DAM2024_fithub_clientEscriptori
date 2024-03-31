@@ -32,14 +32,16 @@ public class ControladorAplicacio implements MissatgeListener {
 
     /**
      * Executa l'acció al produir-se un event de tipus dades.
+     * Fa peticions al servidor i actualitza les dades amb la resposta
      *
      * @param event Event de dades escoltat.
      */
     @Override
     public void dadesEventRebut(MissatgeEvent event) {
-        System.out.println("***Data-event***   ----" + event.getMissatge() + "");
         Object[] peticio = event.getMissatge();
         Object[] resposta;
+        System.out.println("***DATA**    ----Petició: " + peticio[0] + " " + peticio[1] + " " + peticio[2]);
+        //DADES USUARI
         if (peticio[1].equals("usuari") && peticio.length == 3) {
             resposta = new ParlarAmbServidor().enviarPeticio(peticio);
             if (resposta[1] instanceof Usuari) {
@@ -47,10 +49,12 @@ public class ControladorAplicacio implements MissatgeListener {
             } else if (resposta[1] instanceof Usuari[]) {
                 dades.setLlistaUsuaris((Usuari[]) resposta[1]);
             }
-        }
+        }//Seleccio amb el mouse de la taula
         if (peticio[0].equals("mouse") && peticio[1].equals("usuariSeleccionat")) {
-            if (dades.getLlistaUsuaris()[(int) peticio[2]] != null) {
-                dades.setUsuariSeleccionat((Usuari) dades.getLlistaUsuaris()[(int) peticio[2]]);
+            if ((int) peticio[2] < dades.getLlistaUsuaris().length) {
+                if (dades.getLlistaUsuaris()[(int) peticio[2]] != null) {
+                    dades.setUsuariSeleccionat((Usuari) dades.getLlistaUsuaris()[(int) peticio[2]]);
+                }
             }
 
         }
@@ -73,9 +77,7 @@ public class ControladorAplicacio implements MissatgeListener {
      * @param event Event de tipus login escoltat.
      */
     public void loginEventRebut(LoginEvent event) {
-        System.out.println("***login-event***   Generat per l'usuari----" + event.getMissatge() + "");
         String[] msgList = event.getMissatge().split(",");
-
         if (msgList[0].equals("login") && msgList.length == 3) {
             dades.setUsuariActiu(new PeticioLogin().login(event));
             controladorGui.canviaPantalla("main", dades.getUsuariActiu().getTipus());
