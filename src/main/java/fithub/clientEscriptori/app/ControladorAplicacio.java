@@ -23,9 +23,9 @@ public class ControladorAplicacio implements MissatgeListener {
      */
     public ControladorAplicacio() {
         controladorGui = new ControladorGui();
-        controladorGui.getControladorPanells().getLoginForm().setListener(this);
-        controladorGui.getControladorPanells().getMainAdmin().setListener(this);
-        controladorGui.getControladorPanells().getMainUser().setListener(this);
+        controladorGui.getControladorPanells().getLoginForm().setListenerMsg(this);
+        controladorGui.getControladorPanells().getMainAdmin().setListenerMsg(this);
+        //controladorGui.getControladorPanells().getMainUser().setListener(this);
         dades = new DadesAplicacio();
         dades.addObserver(controladorGui.getControladorPanells());
     }
@@ -43,13 +43,21 @@ public class ControladorAplicacio implements MissatgeListener {
         System.out.println("***DATA**    ----Petició: " + peticio[0] + " " + peticio[1] + " " + peticio[2]);
         //DADES USUARI
         if (peticio[1].equals("usuari") && peticio.length == 3) {
-            resposta = new ParlarAmbServidor().enviarPeticio(peticio);
-            if (resposta[1] instanceof Usuari) {
-                dades.setUsuariSeleccionat((Usuari) resposta[1]);
-            } else if (resposta[1] instanceof Usuari[]) {
-                dades.setLlistaUsuaris((Usuari[]) resposta[1]);
+            resposta = new ParlarAmbServidor().enviarPeticio(peticio);  //Petició al servidor
+            if (!(resposta[0] == null)) {
+                if ((boolean) resposta[0] == true) {
+                    if (resposta[1] instanceof Usuari) {
+                        dades.setUsuariSeleccionat((Usuari) resposta[1]);
+                    } else if (resposta[1] instanceof Usuari[]) {
+                        dades.setLlistaUsuaris((Usuari[]) resposta[1]);
+                    }
+                } else {
+                    System.out.println("***DATA**    ----Petició incorecta");
+                }
+            } else {
+                System.out.println("***DATA**    ----Petició sense resposta");
             }
-        }//Seleccio amb el mouse de la taula
+        }//Seleccio amb el mouse un usuari de la taula
         if (peticio[0].equals("mouse") && peticio[1].equals("usuariSeleccionat")) {
             if ((int) peticio[2] < dades.getLlistaUsuaris().length) {
                 if (dades.getLlistaUsuaris()[(int) peticio[2]] != null) {
@@ -59,16 +67,6 @@ public class ControladorAplicacio implements MissatgeListener {
 
         }
 
-    }
-
-    /**
-     * Executa l'acció al produir-se un event de tipus interficie gràfica.
-     *
-     * @param event Event de de inteficie gràfica escoltat.
-     */
-    @Override
-    public void guiEventRebut(GuiEvent event) {
-        System.out.println("***Gui-event***    ----" + event.getMissatge() + "");
     }
 
     /**

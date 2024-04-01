@@ -1,4 +1,8 @@
 package fithub.clientEscriptori.gui;
+
+import fithub.clientEscriptori.events.GUIListener;
+import fithub.clientEscriptori.events.GuiEvent;
+
 /**
  * Clase arrel de l'interficie gràfica.
  * Conté tots els elements grafics
@@ -7,10 +11,11 @@ package fithub.clientEscriptori.gui;
  * @author Xavi Cano Garcia
  * @version 1.0
  */
-public class ControladorGui {
+public class ControladorGui implements GUIListener {
     LoginFrame loginFrame;
     MainFrame mainFrame;
     ControladorPanells controladorPanells;
+
     /**
      * Constructor objecte ControladorGui.
      */
@@ -20,14 +25,26 @@ public class ControladorGui {
         mainFrame = new MainFrame();
         loginFrame = new LoginFrame();
         loginFrame.add(controladorPanells.loginForm.getPanel1());
+        controladorPanells.getLoginForm().setListenerGui(this);
+        controladorPanells.getMainAdmin().setListenerGui(this);
+        //controladorPanells.getMainUser().setListener(this);
 
     }
 
+    /**
+     * Executa l'acció al produir-se un event de tipus interficie gràfica.
+     *
+     * @param event Event de de inteficie gràfica escoltat.
+     */
+    @Override
+    public void guiEventRebut(GuiEvent event) {
+        System.out.println("***Gui-event***    ----" + event.getMissatge() + "");
+    }
 
     /**
      * Metode que executa un canvi de pantalla.
      *
-     * @param frame Frame al que es vol canviar.
+     * @param frame    Frame al que es vol canviar.
      * @param userType Tipus de usuari que es fara servir per triar el panell.
      */
     public void canviaPantalla(String frame, String userType) {
@@ -48,10 +65,10 @@ public class ControladorGui {
         }
     }
 
-
     public ControladorPanells getControladorPanells() {
         return controladorPanells;
     }
+
 
 
 }

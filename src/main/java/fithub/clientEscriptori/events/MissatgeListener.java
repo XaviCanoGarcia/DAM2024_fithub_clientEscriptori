@@ -13,12 +13,6 @@ public interface MissatgeListener {
      */
     void dadesEventRebut(MissatgeEvent event);
 
-    /**
-     * Metode listener event interficie gràfica.
-     *
-     * @param event Event que s'escolta.
-     */
-    void guiEventRebut(GuiEvent event);
 
     /**
      * Metode listener event login.

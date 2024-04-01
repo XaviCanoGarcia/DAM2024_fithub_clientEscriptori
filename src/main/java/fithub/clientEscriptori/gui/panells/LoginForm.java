@@ -1,11 +1,14 @@
 package fithub.clientEscriptori.gui.panells;
 
 import fithub.clientEscriptori.app.ControladorAplicacio;
+import fithub.clientEscriptori.events.NotificadorGUI;
 import fithub.clientEscriptori.events.NotificadorMissatge;
+import fithub.clientEscriptori.gui.ControladorGui;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 /**
  * Clase que defineix formulari login.
  *
@@ -14,7 +17,8 @@ import java.awt.event.ActionListener;
  */
 public class LoginForm {
 
-    NotificadorMissatge notificador;
+    NotificadorMissatge notificadorMsg;
+    NotificadorGUI notificadorGui;
     private JPanel panel1;
     private JButton botoAceptar;
     private JTextField textFieldPass;
@@ -38,21 +42,25 @@ public class LoginForm {
     }
 
     public LoginForm() {
-        notificador = new NotificadorMissatge();
-
+        notificadorMsg = new NotificadorMissatge();
+        notificadorGui = new NotificadorGUI();
         botoAceptar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
                 //notificador.notificarLogin("login," + textFieldNom.getText() + "," + textFieldPass.getText());
-                notificador.notificarLogin("login,admin,pass");
+                notificadorMsg.notificarLogin("login,admin,pass");
 
             }
         });
     }
 
-    public void setListener(ControladorAplicacio controladorAplicacio) {
-        notificador.afegeixListener(controladorAplicacio);
+    public void setListenerMsg(ControladorAplicacio controladorAplicacio) {
+        notificadorMsg.afegeixListener(controladorAplicacio);
+    }
+
+    public void setListenerGui(ControladorGui controladorGui) {
+        notificadorGui.afegeixListener(controladorGui);
     }
 
     public JPanel getPanel1() {

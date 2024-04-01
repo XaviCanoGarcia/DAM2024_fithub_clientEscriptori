@@ -2,7 +2,9 @@ package fithub.clientEscriptori.gui.panells;
 
 import fithub.clientEscriptori.app.ControladorAplicacio;
 import fithub.clientEscriptori.app.Usuari;
+import fithub.clientEscriptori.events.NotificadorGUI;
 import fithub.clientEscriptori.events.NotificadorMissatge;
+import fithub.clientEscriptori.gui.ControladorGui;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +20,8 @@ import java.awt.event.MouseEvent;
  * @version 1.0
  */
 public class MainAdmin {
-    NotificadorMissatge notificador;
+    NotificadorMissatge notificadorMsg;
+    NotificadorGUI notificadorGui;
     private JPanel panel1;
     private JSplitPane JSplitHorizontal;
     private JSplitPane JSplitVertical;
@@ -68,7 +71,10 @@ public class MainAdmin {
 
     public MainAdmin() {
 
-        notificador = new NotificadorMissatge();
+        notificadorMsg = new NotificadorMissatge();
+        notificadorGui = new NotificadorGUI();
+
+        notificadorMsg = new NotificadorMissatge();
         /**
          * Mètode listener acció logout, genera un event de tipus login amb la comanda logout
          */
@@ -76,7 +82,7 @@ public class MainAdmin {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                notificador.notificarLogin("logout");
+                notificadorMsg.notificarLogin("logout");
             }
         });
         /**
@@ -91,7 +97,7 @@ public class MainAdmin {
                 msg[0] = param1;
                 msg[1] = param2;
                 msg[2] = null;
-                notificador.notificarMsg(msg);
+                notificadorMsg.notificarMsg(msg);
             }
         });
         /**
@@ -106,7 +112,7 @@ public class MainAdmin {
                 msg[0] = param1;
                 msg[1] = param2;
                 msg[2] = getUsuariText();
-                notificador.notificarMsg(msg);
+                notificadorMsg.notificarMsg(msg);
             }
         });
         /**
@@ -121,7 +127,7 @@ public class MainAdmin {
                 msg[0] = param1;
                 msg[1] = param2;
                 msg[2] = getUsuariText();
-                notificador.notificarMsg(msg);
+                notificadorMsg.notificarMsg(msg);
             }
         });
         /**
@@ -143,7 +149,7 @@ public class MainAdmin {
                         msg[0] = param1;
                         msg[1] = param2;
                         msg[2] = row;
-                        notificador.notificarMsg(msg);
+                        notificadorMsg.notificarMsg(msg);
                     }
                 }
             }
@@ -160,13 +166,17 @@ public class MainAdmin {
                 msg[0] = param1;
                 msg[1] = param2;
                 msg[2] = getUsuariText().getCorreu();
-                notificador.notificarMsg(msg);
+                notificadorMsg.notificarMsg(msg);
             }
         });
     }
 
-    public void setListener(ControladorAplicacio controladorAplicacio) {
-        notificador.afegeixListener(controladorAplicacio);
+    public void setListenerMsg(ControladorAplicacio controladorAplicacio) {
+        notificadorMsg.afegeixListener(controladorAplicacio);
+    }
+
+    public void setListenerGui(ControladorGui controladorGui) {
+        notificadorGui.afegeixListener(controladorGui);
     }
 
     public JPanel getPanel1() {
