@@ -49,8 +49,7 @@ public class LoginForm {
             public void actionPerformed(ActionEvent e) {
 
                 //notificador.notificarLogin("login," + textFieldNom.getText() + "," + textFieldPass.getText());
-                notificadorMsg.notificarLogin("login,admin,pass");
-
+                notificadorMsg.notificarMsg(new Object[]{("login"), ("admin"), ("pass")});
             }
         });
     }

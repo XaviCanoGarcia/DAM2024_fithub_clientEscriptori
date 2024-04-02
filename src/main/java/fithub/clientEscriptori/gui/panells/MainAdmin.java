@@ -82,7 +82,7 @@ public class MainAdmin {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                notificadorMsg.notificarLogin("logout");
+                notificadorMsg.notificarMsg(new Object[]{("logout"), (""), ("")});
             }
         });
         /**

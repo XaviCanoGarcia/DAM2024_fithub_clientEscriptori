@@ -10,6 +10,7 @@ class DadesAplicacio extends Observable {
     private Usuari usuariActiu;
     private Usuari usuariSeleccionat;
     private Usuari[] llistaUsuaris;
+    private String errorMsg;
 
     /**
      * Constructor Dades aplicació
@@ -30,6 +31,14 @@ class DadesAplicacio extends Observable {
         updatedData[0] = nomDada;
         updatedData[1] = dada;
         notifyObservers(updatedData);
+    }
+
+    void inicialitzaDades() {
+        setPestanyaActiva(0);
+        setUsuariActiu(new Usuari("", ""));
+        setUsuariSeleccionat(new Usuari("", ""));
+        setLlistaUsuaris(null);
+        setErrorMsg("");
     }
 
     public int getPestanyaActiva() {
@@ -77,6 +86,19 @@ class DadesAplicacio extends Observable {
             this.llistaUsuaris = llistaUsuaris;
             setChanged();
             notificaCanviDades("llistaUsuaris", this.llistaUsuaris);
+        }
+    }
+
+    public String getErrorMsg() {
+        return errorMsg;
+    }
+
+    public void setErrorMsg(String errorMsg) {
+        if (this.errorMsg != errorMsg) {
+            this.errorMsg = errorMsg;
+            setChanged();
+            notificaCanviDades("error", this.errorMsg);
+            this.errorMsg = "";
         }
     }
 }

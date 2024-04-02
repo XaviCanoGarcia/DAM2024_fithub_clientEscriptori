@@ -39,15 +39,4 @@ public class NotificadorMissatge {
         }
     }
 
-    /**
-     * Notifica un event de tipu login.
-     *
-     * @param msg Missatge del event que es notifica.
-     */
-    public void notificarLogin(String msg) {
-        LoginEvent event = new LoginEvent(this, msg);
-        for (MissatgeListener listener : listeners) {
-            listener.loginEventRebut(event);
-        }
-    }
 }

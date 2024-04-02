@@ -4,7 +4,9 @@ import fithub.clientEscriptori.app.Usuari;
 import fithub.clientEscriptori.gui.panells.LoginForm;
 import fithub.clientEscriptori.gui.panells.MainAdmin;
 import fithub.clientEscriptori.gui.panells.MainUser;
+import fithub.clientEscriptori.gui.panells.MissatgeError;
 
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.io.ObjectInputStream;
 import java.util.Observable;
@@ -23,6 +25,10 @@ public class ControladorPanells implements Observer {
 
     MainAdmin mainAdmin;
 
+    MissatgeError missatgeError;
+
+    JFrame errorFrame;
+
     /**
      * Constructor objecte Controlador de panells.
      */
@@ -31,6 +37,9 @@ public class ControladorPanells implements Observer {
         loginForm = new LoginForm();
         mainAdmin = new MainAdmin();
         mainUser = new MainUser();
+        missatgeError = new MissatgeError();
+
+
     }
 
 
@@ -78,7 +87,15 @@ public class ControladorPanells implements Observer {
             mainAdmin.setUsuariText((Usuari) msj[1]);
 
         }
-
+        /*if(msj[0].equals("error")&&!(msj[1].equals(""))){
+            errorFrame = new JFrame();
+            errorFrame.setTitle("FITHUB - Error");
+            errorFrame.setLocationRelativeTo(null);
+            errorFrame.setResizable(false);
+            missatgeError.getErrorMessage().setText("(String)msj[1]");
+            errorFrame.setVisible(true);
+            errorFrame.add(missatgeError.getPanel1());
+        }*/
     }
 
     /**
@@ -90,6 +107,7 @@ public class ControladorPanells implements Observer {
     private Object[][] llistaUsuarisTaula(Usuari[] llista) {
         Object[][] taula = new Object[50][8];
         int i = 0;
+        if (llista == null) return taula;
         for (Usuari usuari : llista) {
             if (usuari != null) {
                 taula[i][0] = usuari.getNom();

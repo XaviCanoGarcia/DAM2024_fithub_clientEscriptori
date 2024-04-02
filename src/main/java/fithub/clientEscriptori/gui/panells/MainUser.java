@@ -24,7 +24,7 @@ public class MainUser {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                notificador.notificarLogin("logout");
+                notificador.notificarMsg(new Object[]{("logout"), (""), ("")});
             }
         });
     }

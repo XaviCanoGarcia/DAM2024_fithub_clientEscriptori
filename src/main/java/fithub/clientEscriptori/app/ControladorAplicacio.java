@@ -1,12 +1,10 @@
 package fithub.clientEscriptori.app;
 
-import fithub.clientEscriptori.events.GuiEvent;
-import fithub.clientEscriptori.events.LoginEvent;
 import fithub.clientEscriptori.events.MissatgeEvent;
 import fithub.clientEscriptori.events.MissatgeListener;
 import fithub.clientEscriptori.gui.ControladorGui;
-import fithub.clientEscriptori.com.ParlarAmbServidor;
-import fithub.clientEscriptori.com.PeticioLogin;
+
+import java.net.ConnectException;
 
 /**
  * Clase arrel de l'aplicacio conté tots els elements.
@@ -39,51 +37,66 @@ public class ControladorAplicacio implements MissatgeListener {
     @Override
     public void dadesEventRebut(MissatgeEvent event) {
         Object[] peticio = event.getMissatge();
-        Object[] resposta;
+        Object[] resposta = {(null), (null)};
         System.out.println("***DATA**    ----Petició: " + peticio[0] + " " + peticio[1] + " " + peticio[2]);
-        //DADES USUARI
-        if (peticio[1].equals("usuari") && peticio.length == 3) {
-            resposta = new ParlarAmbServidor().enviarPeticio(peticio);  //Petició al servidor
-            if (!(resposta[0] == null)) {
-                if ((boolean) resposta[0] == true) {
-                    if (resposta[1] instanceof Usuari) {
-                        dades.setUsuariSeleccionat((Usuari) resposta[1]);
-                    } else if (resposta[1] instanceof Usuari[]) {
-                        dades.setLlistaUsuaris((Usuari[]) resposta[1]);
-                    }
-                } else {
-                    System.out.println("***DATA**    ----Petició incorecta");
-                }
-            } else {
-                System.out.println("***DATA**    ----Petició sense resposta");
-            }
-        }//Seleccio amb el mouse un usuari de la taula
+        ferPeticio(peticio);
+        if (peticio[0].equals("login") && dades.getUsuariActiu().getSessioID() != -1) {
+            controladorGui.canviaPantalla("main", dades.getUsuariActiu().getTipus());
+        } else if (peticio[0].equals("logout")) {
+            controladorGui.canviaPantalla("login", "");
+            dades.inicialitzaDades();
+        }
+        //Seleccio amb el mouse un usuari de la taula
         if (peticio[0].equals("mouse") && peticio[1].equals("usuariSeleccionat")) {
             if ((int) peticio[2] < dades.getLlistaUsuaris().length) {
                 if (dades.getLlistaUsuaris()[(int) peticio[2]] != null) {
                     dades.setUsuariSeleccionat((Usuari) dades.getLlistaUsuaris()[(int) peticio[2]]);
                 }
             }
-
         }
-
     }
 
     /**
-     * Executa l'acció login/logout al produir-se un event de tipus login.
+     * Mètode que executa una petioció al servidor i guarda la resposta a les dades aplicació.
      *
-     * @param event Event de tipus login escoltat.
+     * @param peticio Petició que es passa al servidor.
      */
-    public void loginEventRebut(LoginEvent event) {
-        String[] msgList = event.getMissatge().split(",");
-        if (msgList[0].equals("login") && msgList.length == 3) {
-            dades.setUsuariActiu(new PeticioLogin().login(event));
-            controladorGui.canviaPantalla("main", dades.getUsuariActiu().getTipus());
+    private void ferPeticio(Object[] peticio) {
+        Object[] resposta = new Object[2];
+
+        if (peticio.length != 3) {
+            dades.setErrorMsg("Petició llargada incorrecte");
+            return;
         }
-        if (msgList[0].equals("logout") && msgList.length == 1) {
-            dades.setUsuariActiu(new PeticioLogin().logout());
-            controladorGui.canviaPantalla("login", dades.getUsuariActiu().getTipus());
+        //Peticio
+        ParlarAmbServidor srv = new ParlarAmbServidor();
+        try {
+            resposta = srv.enviarPeticio(peticio);  //Petició al servidor
+        } catch (ConnectException cx) {
+            dades.setErrorMsg("No hi ha connexió");
+            return;
         }
+        if ((resposta[0] == null)) {
+            System.out.println("***DATA**    ----Petició sense resposta");
+            dades.setErrorMsg("Petició sense resposta");
+            return;
+        }
+        if ((boolean) resposta[0] == false) {
+            System.out.println("***DATA**    ----Petició incorecta");
+            dades.setErrorMsg("Petició incorrecta");
+            return;
+        }
+        //Resposta
+        if (resposta[1] instanceof Usuari) {
+            if (peticio[0].equals("login")) {
+                dades.setUsuariActiu((Usuari) resposta[1]);
+            } else {
+                dades.setUsuariSeleccionat((Usuari) resposta[1]);
+            }
+        } else if (resposta[1] instanceof Usuari[]) {
+            dades.setLlistaUsuaris((Usuari[]) resposta[1]);
+        }
+
     }
 }
 

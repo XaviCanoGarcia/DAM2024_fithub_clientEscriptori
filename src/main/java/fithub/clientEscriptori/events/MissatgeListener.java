@@ -13,11 +13,4 @@ public interface MissatgeListener {
      */
     void dadesEventRebut(MissatgeEvent event);
 
-
-    /**
-     * Metode listener event login.
-     *
-     * @param event Event que s'escolta.
-     */
-    void loginEventRebut(LoginEvent event);
 }
