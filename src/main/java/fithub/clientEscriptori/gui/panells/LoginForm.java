@@ -27,11 +27,20 @@ public class LoginForm {
         this.textFieldPass = textFieldPass;
     }
 
-    public void setTextFieldNom(JTextField textFieldNom) {
-        this.textFieldNom = textFieldNom;
-    }
+    private JTextField textFieldCorreu;
 
-    private JTextField textFieldNom;
+    public LoginForm() {
+        notificadorMsg = new NotificadorMissatge();
+        notificadorGui = new NotificadorGUI();
+        botoAceptar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                notificadorMsg.notificarMsg(new Object[]{("login,"), (textFieldCorreu.getText()), (textFieldPass.getText())});
+                //notificadorMsg.notificarMsg(new Object[]{("login"), ("admin"), ("pass")});
+            }
+        });
+    }
     private JLabel titol;
     private JLabel titolLogin;
     private JLabel titolNom;
@@ -41,17 +50,8 @@ public class LoginForm {
         return botoAceptar;
     }
 
-    public LoginForm() {
-        notificadorMsg = new NotificadorMissatge();
-        notificadorGui = new NotificadorGUI();
-        botoAceptar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                //notificador.notificarLogin("login," + textFieldNom.getText() + "," + textFieldPass.getText());
-                notificadorMsg.notificarMsg(new Object[]{("login"), ("admin"), ("pass")});
-            }
-        });
+    public JTextField getTextFieldNom() {
+        return textFieldCorreu;
     }
 
     public void setListenerMsg(ControladorAplicacio controladorAplicacio) {
@@ -74,11 +74,11 @@ public class LoginForm {
         this.textFieldPass.setText(text);
     }
 
-    public JTextField getTextFieldNom() {
-        return textFieldNom;
+    public void setTextFieldNom(JTextField textFieldNom) {
+        this.textFieldCorreu = textFieldNom;
     }
 
     public void setTextFieldNom(String text) {
-        this.textFieldNom.setText(text);
+        this.textFieldCorreu.setText(text);
     }
 }

@@ -5,6 +5,9 @@ import fithub.clientEscriptori.events.MissatgeListener;
 import fithub.clientEscriptori.gui.ControladorGui;
 
 import java.net.ConnectException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Clase arrel de l'aplicacio conté tots els elements.
@@ -26,6 +29,7 @@ public class ControladorAplicacio implements MissatgeListener {
         //controladorGui.getControladorPanells().getMainUser().setListener(this);
         dades = new DadesAplicacio();
         dades.addObserver(controladorGui.getControladorPanells());
+        dades.inicialitzaDades();
     }
 
     /**
@@ -37,9 +41,20 @@ public class ControladorAplicacio implements MissatgeListener {
     @Override
     public void dadesEventRebut(MissatgeEvent event) {
         Object[] peticio = event.getMissatge();
-        Object[] resposta = {(null), (null)};
+        String peticioStatus;
+
+        //Acció fer la petició al servidor
         System.out.println("***DATA**    ----Petició: " + peticio[0] + " " + peticio[1] + " " + peticio[2]);
-        ferPeticio(peticio);
+        peticioStatus = comprobarPeticio(peticio);
+        if (peticioStatus.equals("")) {
+            ferPeticio(peticio);
+        } else {
+            dades.setErrorMsg(peticioStatus);
+            return;
+        }
+
+
+        //Acció login/logout
         if (peticio[0].equals("login") && dades.getUsuariActiu().getSessioID() != -1) {
             controladorGui.canviaPantalla("main", dades.getUsuariActiu().getTipus());
         } else if (peticio[0].equals("logout")) {
@@ -56,6 +71,34 @@ public class ControladorAplicacio implements MissatgeListener {
         }
     }
 
+    private String comprobarPeticio(Object[] peticio) {
+        SimpleDateFormat formatData = new SimpleDateFormat("dd/MM/yyyy");
+
+        if (peticio.length != 3) {
+            dades.setErrorMsg("Objecte petició llargada incorrecte");
+            return "";
+        }
+        if (peticio[0].equals("login")) {
+            Usuari usr = (Usuari) peticio[2];
+            String correu = usr.getCorreu();
+            String pass = usr.getContrasenya();
+            String telefon = usr.getTelefon();
+            String dataNeixament = usr.getDataNaixement();
+
+            if (!correu.matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")) return "Format correu incorrecte";
+            if (!(telefon.length() == 9)) return "Format telefon incorrecte";
+            if (pass.length() < 8 || !pass.matches(".*\\d.*") || !pass.matches(".*[a-zA-Z].*"))
+                return "Format contrasenya incorrecte";
+            try {
+                Date data = formatData.parse(dataNeixament);
+                return "";
+            } catch (ParseException e) {
+                return "Format data neixament incorrecte";
+            }
+        }
+        return "";
+    }
+
     /**
      * Mètode que executa una petioció al servidor i guarda la resposta a les dades aplicació.
      *
@@ -64,10 +107,7 @@ public class ControladorAplicacio implements MissatgeListener {
     private void ferPeticio(Object[] peticio) {
         Object[] resposta = new Object[2];
 
-        if (peticio.length != 3) {
-            dades.setErrorMsg("Petició llargada incorrecte");
-            return;
-        }
+
         //Peticio
         ParlarAmbServidor srv = new ParlarAmbServidor();
         try {
@@ -86,7 +126,7 @@ public class ControladorAplicacio implements MissatgeListener {
             dades.setErrorMsg("Petició incorrecta");
             return;
         }
-        //Resposta
+        //S'interpreta la resposta
         if (resposta[1] instanceof Usuari) {
             if (peticio[0].equals("login")) {
                 dades.setUsuariActiu((Usuari) resposta[1]);

@@ -76,7 +76,7 @@ public class MainAdmin {
 
         notificadorMsg = new NotificadorMissatge();
         /**
-         * Mètode listener acció logout, genera un event de tipus login amb la comanda logout
+         * LOGOUT, genera un event de tipus login amb la comanda logout
          */
         buttonLogout.addActionListener(new ActionListener() {
             @Override
@@ -86,7 +86,7 @@ public class MainAdmin {
             }
         });
         /**
-         * Mètode listener acció actualitza taula, genera un event de tipus dades amb la comanda "selectAll usuari"
+         * ACTUALITZA TAULA, genera un event de tipus dades amb la comanda "selectAll usuari"
          */
         actualitzaTaulaButton.addActionListener(new ActionListener() {
             @Override
@@ -101,7 +101,7 @@ public class MainAdmin {
             }
         });
         /**
-         * Mètode listener acció nou usuari, genera un event de tipus dades amb la comanda "insert usuari"
+         * NOU USUARI, genera un event de tipus dades amb la comanda "insert usuari"
          */
         nouUsuariButton.addActionListener(new ActionListener() {
             @Override
@@ -116,7 +116,7 @@ public class MainAdmin {
             }
         });
         /**
-         * Mètode listener acció modifica usuari, genera un event de tipus dades amb la comanda "delete usuari nomUsuari"
+         * MODIFICA USUARI, genera un event de tipus dades amb la comanda "delete usuari nomUsuari"
          */
         guardaUsuariButton.addActionListener(new ActionListener() {
             @Override
@@ -131,7 +131,7 @@ public class MainAdmin {
             }
         });
         /**
-         * Mètode listener acció selecciona usuari de la taula, genera un event de tipus dades amb la comanda "mouse usuariSeleccionat".
+         * SELECCIONA USUARI DE LA TAULA, genera un event de tipus dades amb la comanda "mouse usuariSeleccionat".
          * Aquesta acció la genera l'usuari clicant sobre la taula, l'usuari seleccionat s'actualitza amb la informació de la fila clicada de la taula.
          */
         table1.addMouseListener(new MouseAdapter() {
@@ -155,7 +155,7 @@ public class MainAdmin {
             }
         });
         /**
-         * Mètode listener acció esborrar usuari, genera un event de tipus dades amb la comanda "delete usuari"
+         * ESBORRA USUARI, genera un event de tipus dades amb la comanda "delete usuari"
          */
         esborraUsuariButton.addActionListener(new ActionListener() {
             @Override
