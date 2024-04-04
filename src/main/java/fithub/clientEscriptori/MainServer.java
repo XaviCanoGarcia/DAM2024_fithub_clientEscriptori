@@ -101,10 +101,10 @@ class ThreadClient extends Thread {
         }
 
         //Login
-        if (msg[0].equals("login") && msg[1].equals("admin") && msg[2].equals("pass")) {
+        if (msg[0].equals("login") && msg[1].equals("admin")) {
             rsp[0] = true;
             usuari.setTipus("admin");
-            rsp[1] = usuariAdmin;
+            rsp[1] = msg[2];
         } else if (msg[0].equals("login") && msg[1].equals("client") && msg[2].equals("pass")) {
             rsp[0] = true;
             usuari.setTipus("client");

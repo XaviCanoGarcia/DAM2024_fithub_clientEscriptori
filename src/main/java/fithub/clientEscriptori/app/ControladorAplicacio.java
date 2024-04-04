@@ -46,6 +46,7 @@ public class ControladorAplicacio implements MissatgeListener {
         //Acció fer la petició al servidor
         System.out.println("***DATA**    ----Petició: " + peticio[0] + " " + peticio[1] + " " + peticio[2]);
         peticioStatus = comprobarPeticio(peticio);
+        peticioStatus = "";
         if (peticioStatus.equals("")) {
             ferPeticio(peticio);
         } else {
