@@ -1,4 +1,4 @@
-package fithub.clientEscriptori.app;
+package fithub.clientEscriptori.dades;
 
 import java.io.Serializable;
 

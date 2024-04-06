@@ -1,7 +1,9 @@
 package fithub.clientEscriptori.gui;
 
-import fithub.clientEscriptori.events.GUIListener;
-import fithub.clientEscriptori.events.GuiEvent;
+import fithub.clientEscriptori.dades.Usuari;
+
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Clase arrel de l'interficie gràfica.
@@ -11,7 +13,7 @@ import fithub.clientEscriptori.events.GuiEvent;
  * @author Xavi Cano Garcia
  * @version 1.0
  */
-public class ControladorGui implements GUIListener {
+public class ControladorGui implements Observer {
     LoginFrame loginFrame;
     MainFrame mainFrame;
     ControladorPanells controladorPanells;
@@ -25,20 +27,32 @@ public class ControladorGui implements GUIListener {
         mainFrame = new MainFrame();
         loginFrame = new LoginFrame();
         loginFrame.add(controladorPanells.loginForm.getPanel1());
-        controladorPanells.getLoginForm().setListenerGui(this);
-        controladorPanells.getMainAdmin().setListenerGui(this);
         //controladorPanells.getMainUser().setListener(this);
 
     }
 
-    /**
-     * Executa l'acció al produir-se un event de tipus interficie gràfica.
-     *
-     * @param event Event de de inteficie gràfica escoltat.
-     */
     @Override
-    public void guiEventRebut(GuiEvent event) {
-        System.out.println("***Gui-event***    ----" + event.getMissatge() + "");
+    public void update(Observable o, Object arg) {
+        Object[] data = (Object[]) arg;
+        String nomDada = (String) data[0];
+        Object dada = data[1];
+        if (nomDada.equals("usuariActiu")) {
+            Usuari usrActiu = (Usuari) dada;
+            String usrTipus = usrActiu.getTipus();
+            int sessioID = Integer.valueOf(usrActiu.getSessioID());
+            if (sessioID != -1) {
+                if (usrTipus.equals("admin")) {
+                    canviaPantalla("main", "admin");
+                } else if (usrTipus.equals("client")) {
+                    canviaPantalla("main", "client");
+                }
+            } else {
+                canviaPantalla("login", "admin");
+            }
+
+        }
+
+        controladorPanells.update(arg);
     }
 
     /**
@@ -68,7 +82,6 @@ public class ControladorGui implements GUIListener {
     public ControladorPanells getControladorPanells() {
         return controladorPanells;
     }
-
 
 
 }

@@ -5,7 +5,6 @@ import fithub.clientEscriptori.app.ControladorAplicacio;
 /**
  * Classe Main punt d'entrada de l'aplicació
  *
- *
  * @author Xavi Cano Garcia
  * @version 1.0
  */

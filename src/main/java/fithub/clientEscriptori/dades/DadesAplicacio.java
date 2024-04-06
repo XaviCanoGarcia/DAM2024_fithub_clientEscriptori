@@ -1,10 +1,14 @@
-package fithub.clientEscriptori.app;
+package fithub.clientEscriptori.dades;
+
 import java.util.Observable;
 
 /**
  * Classe que conté les dades de l'aplicació.
+ *
+ * @author Xavi Cano
+ * @version 1.0
  */
-class DadesAplicacio extends Observable {
+public class DadesAplicacio extends Observable {
 
     private int pestanyaActiva = 0;
     private Usuari usuariActiu;
@@ -12,11 +16,14 @@ class DadesAplicacio extends Observable {
     private Usuari[] llistaUsuaris;
     private String errorMsg;
 
+    private String eventMsg;
+
     /**
      * Constructor Dades aplicació
      */
-    DadesAplicacio() {
+    public DadesAplicacio() {
         usuariActiu = new Usuari("", "");
+        usuariActiu.setTipus("admin");
         usuariSeleccionat = new Usuari("", "");
     }
 
@@ -37,8 +44,9 @@ class DadesAplicacio extends Observable {
         setPestanyaActiva(0);
         setUsuariActiu(new Usuari("", ""));
         setUsuariSeleccionat(new Usuari("", ""));
-        setLlistaUsuaris(null);
-        setErrorMsg("");
+        setLlistaUsuaris(new Usuari[]{(new Usuari("", "")), (new Usuari("", ""))});
+        errorMsg = "";
+        eventMsg = "";
     }
 
     public int getPestanyaActiva() {
@@ -59,6 +67,7 @@ class DadesAplicacio extends Observable {
 
     public void setUsuariActiu(Usuari usuariActiu) {
         if (this.usuariActiu != usuariActiu) {
+            if (usuariActiu == null) ;
             this.usuariActiu = usuariActiu;
             setChanged();
             notificaCanviDades("usuariActiu", this.usuariActiu);
@@ -98,7 +107,18 @@ class DadesAplicacio extends Observable {
             this.errorMsg = errorMsg;
             setChanged();
             notificaCanviDades("error", this.errorMsg);
+            System.out.println("**ERROR**    ---- " + errorMsg);
             this.errorMsg = "";
+        }
+    }
+
+    public void setEventMsg(String eventMsg) {
+        if (this.eventMsg != eventMsg) {
+            this.eventMsg = eventMsg;
+            setChanged();
+            notificaCanviDades("event", this.eventMsg);
+            System.out.println("**EVENT**    ---- " + eventMsg);
+            this.eventMsg = "";
         }
     }
 }

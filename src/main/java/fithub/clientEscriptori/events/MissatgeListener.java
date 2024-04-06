@@ -1,4 +1,5 @@
 package fithub.clientEscriptori.events;
+
 /**
  * Interficie que defineix els metodes listener.
  *

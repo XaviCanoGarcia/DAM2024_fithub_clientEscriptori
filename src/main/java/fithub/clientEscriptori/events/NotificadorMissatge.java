@@ -2,6 +2,7 @@ package fithub.clientEscriptori.events;
 
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * Clase encarregada de generar notificacions.
  *
@@ -10,6 +11,7 @@ import java.util.List;
  */
 public class NotificadorMissatge {
     private final List<MissatgeListener> listeners = new ArrayList<>();
+
     /**
      * Afegeig el listener MissatgeListener al notificador.
      *
@@ -18,6 +20,7 @@ public class NotificadorMissatge {
     public void afegeixListener(MissatgeListener listener) {
         listeners.add(listener);
     }
+
     /**
      * Elimina el listener del notificador.
      *

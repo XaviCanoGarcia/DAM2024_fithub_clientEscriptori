@@ -1,6 +1,7 @@
 package fithub.clientEscriptori.gui;
 
 import javax.swing.*;
+
 /**
  * Clase que defineix la finestra principal.
  *
@@ -10,6 +11,7 @@ import javax.swing.*;
 public class MainFrame extends JFrame {
 
     JPanel currentPanel;
+
     /**
      * Constructor objecte Main frame.
      */
@@ -25,6 +27,7 @@ public class MainFrame extends JFrame {
 
 
     }
+
     /**
      * Metode que canvia el panell del Main framme.
      *

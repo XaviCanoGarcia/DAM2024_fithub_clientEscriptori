@@ -1,6 +1,7 @@
 package fithub.clientEscriptori.gui;
 
 import javax.swing.*;
+
 /**
  * Clase que defineix la finestra de login.
  *

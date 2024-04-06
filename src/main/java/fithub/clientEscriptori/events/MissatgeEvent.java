@@ -1,6 +1,7 @@
 package fithub.clientEscriptori.events;
 
 import java.util.EventObject;
+
 /**
  * Clase que defineix un event de tipus generic.
  *

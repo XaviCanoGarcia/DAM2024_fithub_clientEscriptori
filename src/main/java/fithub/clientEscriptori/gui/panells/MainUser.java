@@ -6,6 +6,7 @@ import fithub.clientEscriptori.events.NotificadorMissatge;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 /**
  * Clase que defineix formulari main usuari.
  *

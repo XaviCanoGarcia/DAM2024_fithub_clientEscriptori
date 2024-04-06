@@ -1,6 +1,6 @@
 package fithub.clientEscriptori.gui;
 
-import fithub.clientEscriptori.app.Usuari;
+import fithub.clientEscriptori.dades.Usuari;
 import fithub.clientEscriptori.gui.panells.LoginForm;
 import fithub.clientEscriptori.gui.panells.MainAdmin;
 import fithub.clientEscriptori.gui.panells.MainUser;
@@ -8,85 +8,66 @@ import fithub.clientEscriptori.gui.panells.MissatgeError;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.io.ObjectInputStream;
-import java.util.Observable;
-import java.util.Observer;
 
 /**
- * Clase que conte y selecciona tots els panells.(inprogress)
+ * Clase que conté y selecciona tots els panells.
  *
  * @author Xavi Cano Garcia
  * @version 1.0
  */
-public class ControladorPanells implements Observer {
+public class ControladorPanells {
     LoginForm loginForm;
-
     MainUser mainUser;
-
     MainAdmin mainAdmin;
-
     MissatgeError missatgeError;
-
     JFrame errorFrame;
 
     /**
      * Constructor objecte Controlador de panells.
      */
     public ControladorPanells() {
-
         loginForm = new LoginForm();
         mainAdmin = new MainAdmin();
         mainUser = new MainUser();
         missatgeError = new MissatgeError();
-
-
     }
-
-
-    public LoginForm getLoginForm() {
-        return loginForm;
-    }
-
-    public MainUser getMainUser() {
-        return mainUser;
-    }
-
-    public MainAdmin getMainAdmin() {
-        return mainAdmin;
-    }
-
 
     /**
      * Mètode per actualitzar les dades dels elements de la interficie gràfica
      * S'executa quan hi ha un canvi en dadesAplicació
      *
-     * @param o   objecte on s'observa un canvi de dades.
-     * @param arg dades passades per l'event.
+     * @param data dades passades per l'event.
      */
-    @Override
-    public void update(Observable o, Object arg) {
-        Object[] msj = (Object[]) arg;
-        System.out.println("***GUI***    ----Actualiza: " + msj[0].toString());
+    public void update(Object data) {
+        Object[] msj = (Object[]) data;
+        String nomDada = (String) msj[0];
+        Object dada = msj[1];
 
-        //Actualitza elements grafics d'usuariActiu
-        if (msj[0].equals("usuariActiu")) {
-            Usuari usuari = (Usuari) msj[1];
-            mainAdmin.getCorreuUsuariActual().setText("Tipus usuari " + usuari.getTipus() + " " + usuari.getCorreu());
-            mainAdmin.getNomUsuariActual().setText(usuari.getNom() + " " + usuari.getCognoms());
-            mainAdmin.getSessioInfo().setText("Sessio id: " + usuari.getSessioID());
-        }
-        //Actualitza elements grafics llistaUsuaris
-        if (msj[0].equals("llistaUsuaris")) {
-            String[] columnNames = {"Nom", "Cognom", "Data Neixament", "Adreça", "Telèfon", "Correu", "Contrasenya", "Data Inscripció"};
-            Object[][] dadesTaula = llistaUsuarisTaula((Usuari[]) msj[1]);
-            DefaultTableModel model = new DefaultTableModel(dadesTaula, columnNames);
-            mainAdmin.getTable1().setModel(model);
-        }
-        //Actualitza elements grafics usuariSeleccionat
-        if (msj[0].equals("usuariSeleccionat")) {
-            mainAdmin.setUsuariText((Usuari) msj[1]);
+        //System.out.println("***GUI***    ---- Actualiza: " + msj[0].toString());
+        if (dada != null) {
+            //Actualitza elements grafics d'usuariActiu
+            if (nomDada.equals("usuariActiu")) {
+                Usuari usuari = (Usuari) dada;
+                mainAdmin.getCorreuUsuariActual().setText("Tipus usuari " + usuari.getTipus() + " " + usuari.getCorreu());
+                mainAdmin.getNomUsuariActual().setText(usuari.getNom() + " " + usuari.getCognoms());
+                mainAdmin.getSessioInfo().setText("Sessio id: " + usuari.getSessioID());
+                loginForm.getTextFieldNom().setText("");
+                loginForm.getTextFieldPass().setText("");
+            }
+            //Actualitza elements grafics llistaUsuaris
+            if (nomDada.equals("llistaUsuaris")) {
+                String[] columnNames = {"Nom", "Cognom", "Data Neixament", "Adreça", "Telèfon", "Correu", "Contrasenya", "Data Inscripció"};
+                Object[][] dadesTaula = llistaUsuarisTaula((Usuari[]) dada);
+                DefaultTableModel model = new DefaultTableModel(dadesTaula, columnNames);
+                mainAdmin.getTable1().setModel(model);
+            }
+            //Actualitza elements grafics usuariSeleccionat
+            if (nomDada.equals("usuariSeleccionat")) {
+                mainAdmin.setUsuariText((Usuari) dada);
 
+            }
         }
+
         /*if(msj[0].equals("error")&&!(msj[1].equals(""))){
             errorFrame = new JFrame();
             errorFrame.setTitle("FITHUB - Error");
@@ -122,5 +103,17 @@ public class ControladorPanells implements Observer {
             }
         }
         return taula;
+    }
+
+    public LoginForm getLoginForm() {
+        return loginForm;
+    }
+
+    public MainUser getMainUser() {
+        return mainUser;
+    }
+
+    public MainAdmin getMainAdmin() {
+        return mainAdmin;
     }
 }

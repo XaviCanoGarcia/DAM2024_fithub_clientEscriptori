@@ -1,10 +1,8 @@
 package fithub.clientEscriptori.gui.panells;
 
 import fithub.clientEscriptori.app.ControladorAplicacio;
-import fithub.clientEscriptori.app.Usuari;
-import fithub.clientEscriptori.events.NotificadorGUI;
+import fithub.clientEscriptori.dades.Usuari;
 import fithub.clientEscriptori.events.NotificadorMissatge;
-import fithub.clientEscriptori.gui.ControladorGui;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +19,6 @@ import java.awt.event.MouseEvent;
  */
 public class MainAdmin {
     NotificadorMissatge notificadorMsg;
-    NotificadorGUI notificadorGui;
     private JPanel panel1;
     private JSplitPane JSplitHorizontal;
     private JSplitPane JSplitVertical;
@@ -72,7 +69,6 @@ public class MainAdmin {
     public MainAdmin() {
 
         notificadorMsg = new NotificadorMissatge();
-        notificadorGui = new NotificadorGUI();
 
         notificadorMsg = new NotificadorMissatge();
         /**
@@ -173,10 +169,6 @@ public class MainAdmin {
 
     public void setListenerMsg(ControladorAplicacio controladorAplicacio) {
         notificadorMsg.afegeixListener(controladorAplicacio);
-    }
-
-    public void setListenerGui(ControladorGui controladorGui) {
-        notificadorGui.afegeixListener(controladorGui);
     }
 
     public JPanel getPanel1() {
