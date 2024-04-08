@@ -69,7 +69,7 @@ class ThreadClient extends Thread {
         Object[] rsp = new Object[2];
         Usuari usuariAdmin = new Usuari("Xavi", "Cano Garcia", "03/04/1997", "C/Llorach 18", "978056784", "xcano@gmail.com", "pass", "05/09/2020");
         usuariAdmin.setSessioID(1);
-        usuariAdmin.setTipus("admin");
+        usuariAdmin.setTipus(1);
         Usuari usr = new Usuari("", "");
         Usuari usuari1 = new Usuari("Josep", "Lopez", "03/04/1997", "C/Terssol 18", "978056784", "josepLopez@gmail.com", "pass", "05/09/2020");
         usuari1.setSessioID(2);
@@ -140,7 +140,7 @@ class ThreadClient extends Thread {
             rsp[1] = usr.usuari_to_map(usuariAdmin);
         } else if (msg[0].equals("login") && msg[1].equals("client") && msg[2].equals("pass")) {
             rsp[0] = "usuariActiu";
-            usr.setTipus("client");
+            usr.setTipus(1);
             rsp[1] = usr.usuari_to_map(usuari1);
         }
         return rsp;

@@ -30,7 +30,7 @@ public class DadesAplicacio extends Observable {
      */
     public DadesAplicacio() {
         usuariActiu = new Usuari("", "");
-        usuariActiu.setTipus(USUARI_ADMIN);
+        usuariActiu.setTipus(1);
         usuariSeleccionat = new Usuari("", "");
         activitatSeleccionada = new Activitat("", "", 0);
     }

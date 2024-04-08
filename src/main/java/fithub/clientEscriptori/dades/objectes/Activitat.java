@@ -15,6 +15,8 @@ public class Activitat {
     private String descripcio;
     private int aforament;
 
+    private int tipusActivitat;
+
     /**
      * Constructor de la classe Activitat.
      *
@@ -27,6 +29,7 @@ public class Activitat {
         this.nom = nom;
         this.descripcio = descripcio;
         this.aforament = aforament;
+        this.tipusActivitat = -1;
     }
 
 
@@ -39,9 +42,9 @@ public class Activitat {
     public HashMap<String, String> activitat_to_map(Activitat activitat) {
         HashMap<String, String> activitatMap = new HashMap<>();
         activitatMap.put("id", String.valueOf(activitat.getId()));
-        activitatMap.put("nom", activitat.getNom());
-        activitatMap.put("descripcio", activitat.getDescripcio());
-        activitatMap.put("aforament", String.valueOf(activitat.getAforament()));
+        activitatMap.put("nomActivitat", activitat.getNom());
+        activitatMap.put("descripcioActivita", activitat.getDescripcio());
+        activitatMap.put("aforamentActivita", String.valueOf(activitat.getAforament()));
 
         return activitatMap;
     }
@@ -159,6 +162,15 @@ public class Activitat {
     public void setId(int id) {
         this.id = id;
     }
+
+    public int getTipusActivitat() {
+        return tipusActivitat;
+    }
+
+    public void setTipusActivitat(int tipusActivitat) {
+        this.tipusActivitat = tipusActivitat;
+    }
+
 
 }
 

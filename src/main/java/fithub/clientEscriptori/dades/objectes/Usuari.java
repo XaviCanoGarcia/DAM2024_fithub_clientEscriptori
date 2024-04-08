@@ -18,7 +18,7 @@ public class Usuari implements Serializable {
     private int sessioID;
     private String correu;
     private String contrasenya;
-    private String tipus;
+    private int tipus;
 
     //Dades opcionals
     private String nom;
@@ -39,7 +39,7 @@ public class Usuari implements Serializable {
         this.contrasenya = contrasenya;
         this.sessioID = -1;
 
-        this.tipus = "client";
+        this.tipus = 2;
         this.nom = DEFAULT_VALUE;
         this.cognoms = DEFAULT_VALUE;
         this.dataNaixement = DEFAULT_VALUE;
@@ -62,7 +62,7 @@ public class Usuari implements Serializable {
      */
     public Usuari(String nom, String cognoms, String dataNaixement, String adreca, String telefon, String correu, String contrasenya, String dataInscripcio) {
         this.sessioID = -1;
-        this.tipus = DEFAULT_VALUE;
+        this.tipus = 2;
         this.correu = correu;
         this.contrasenya = contrasenya;
         this.nom = nom;
@@ -82,16 +82,16 @@ public class Usuari implements Serializable {
     public HashMap<String, String> usuari_to_map(Usuari usuari) {
         HashMap<String, String> usuariMap = new HashMap<>();
         usuariMap.put("objectType", "usuari");
-        usuariMap.put("sessioID", String.valueOf(usuari.getSessioID()));
-        usuariMap.put("correu", usuari.getCorreu());
-        usuariMap.put("nom", usuari.getNom());
-        usuariMap.put("cognoms", usuari.getCognoms());
+        usuariMap.put("usuariID", String.valueOf(usuari.getSessioID()));
+        usuariMap.put("correuUsuari", usuari.getCorreu());
+        usuariMap.put("nomUsuari", usuari.getNom());
+        usuariMap.put("cognomsUsuari", usuari.getCognoms());
         usuariMap.put("adreca", usuari.getAdreca());
-        usuariMap.put("contrasenya", usuari.getContrasenya());
-        usuariMap.put("dataNeixament", usuari.getDataNaixement());
+        usuariMap.put("passUsuari", usuari.getContrasenya());
+        usuariMap.put("dataNaixement", usuari.getDataNaixement());
         usuariMap.put("dataInscripcio", usuari.getDataInscripcio());
         usuariMap.put("telefon", usuari.getTelefon());
-        usuariMap.put("tipusUsuari", usuari.getTipus());
+        usuariMap.put("tipusUsuari", String.valueOf(usuari.getTipus()));
 
         return usuariMap;
     }
@@ -104,16 +104,16 @@ public class Usuari implements Serializable {
      */
     public Usuari map_to_usuari(HashMap<String, String> map) {
         Usuari usuari = new Usuari("", "");
-        usuari.setSessioID(Integer.parseInt(map.get("sessioID")));
-        usuari.setCorreu(map.get("correu"));
-        usuari.setNom(map.get("nom"));
-        usuari.setCognoms(map.get("cognoms"));
+        usuari.setSessioID(Integer.parseInt(map.get("usuariID")));
+        usuari.setCorreu(map.get("correuUsuari"));
+        usuari.setNom(map.get("nomUsuari"));
+        usuari.setCognoms(map.get("cognomsUsuari"));
         usuari.setAdreca(map.get("adreca"));
-        usuari.setContrasenya(map.get("contrasenya"));
-        usuari.setDataNaixement(map.get("dataNeixament"));
+        usuari.setContrasenya(map.get("passUsuari"));
+        usuari.setDataNaixement(map.get("dataNaixement"));
         usuari.setDataInscripcio(map.get("dataInscripcio"));
         usuari.setTelefon(map.get("telefon"));
-        usuari.setTipus(map.get("tipusUsuari"));
+        usuari.setTipus(Integer.parseInt(map.get("tipusUsuari")));
 
         return usuari;
     }
@@ -304,11 +304,11 @@ public class Usuari implements Serializable {
         this.sessioID = sessioID;
     }
 
-    public String getTipus() {
+    public int getTipus() {
         return tipus;
     }
 
-    public void setTipus(String tipus) {
+    public void setTipus(int tipus) {
         this.tipus = tipus;
     }
 }

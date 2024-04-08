@@ -42,12 +42,12 @@ public class ControladorGui implements Observer {
         Object dada = data[1];
         if (nomDada.equals(USUARI_ACTIU)) {
             Usuari usrActiu = (Usuari) dada;
-            String usrTipus = usrActiu.getTipus();
+            int usrTipus = usrActiu.getTipus();
             int sessioID = Integer.valueOf(usrActiu.getSessioID());
             if (sessioID != -1) {
-                if (usrTipus.equals(USUARI_ADMIN)) {
+                if (usrTipus==1) {
                     canviaPantalla(MAIN_FRAME, MAIN_ADMIN_FORM);
-                } else if (usrTipus.equals(USUARI_CLIENT)) {
+                } else if (usrTipus==2) {
                     canviaPantalla(MAIN_FRAME, USUARI_CLIENT);
                 }
             } else {

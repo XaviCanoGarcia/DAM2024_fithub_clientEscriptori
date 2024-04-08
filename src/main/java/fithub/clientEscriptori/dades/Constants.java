@@ -9,7 +9,7 @@ public class Constants {
     public static final String LOGIN_FORM = "loginForm";
     public static final String MAIN_ADMIN_FORM = "mainAdminForm";
     //Tipus usuari
-    public static final String USUARI_ADMIN = "admin";
+    public static final String USUARI_ADMIN = "1";
     public static final String USUARI_CLIENT = "client";
     //Nom tipus Objecte dades
     public static final String USUARI = "usuari";
@@ -19,8 +19,8 @@ public class Constants {
     public static final String USUARI_ACTIU = "usuariActiu";
     public static final String USUARI_SELECT = "usuariSeleccionat";
     public static final String ACTIVITAT_SELECT = "activitatSeleccionada";
-    public static final String USUARI_LLISTA = "usuariList";
-    public static final String ACTIVITAT_LLISTA = "activitatList";
+    public static final String USUARI_LLISTA = "usuariLlista";
+    public static final String ACTIVITAT_LLISTA = "activitatLlista";
     public static final String PESTANYA = "pestanya";
     //Pestanyes
     public static final int PESTANYA_USUARI = 0;
