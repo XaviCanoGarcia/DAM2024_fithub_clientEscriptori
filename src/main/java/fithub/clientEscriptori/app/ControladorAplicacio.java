@@ -23,7 +23,7 @@ public class ControladorAplicacio implements MissatgeListener {
     public ControladorAplicacio() {
         controladorGui = new ControladorGui();
         controladorGui.getControladorPanells().getLoginForm().setListenerMsg(this);
-        controladorGui.getControladorPanells().getMainAdmin().setListenerMsg(this);
+        controladorGui.getControladorPanells().getMainAdminForm().setListenerMsg(this);
         //controladorGui.getControladorPanells().getMainUser().setListener(this);
 
         controladorDades = new ControladorDades(controladorGui);
@@ -40,9 +40,19 @@ public class ControladorAplicacio implements MissatgeListener {
     public void dadesEventRebut(MissatgeEvent event) {
         Object[] peticio = event.getMissatge();
         String cmd = (String) peticio[0];
+        String param = (String) peticio[1];
+        Object dada = peticio[2];
+        controladorDades.getDades().setEventMsg("Generat per l'usuari: " + peticio[0] + " " + peticio[1]);
+
         //Accio Logout
         if (cmd.equals("logout")) {
             controladorDades.accioLogout();
+            return;
+        }
+        //Seleccio pestanya
+        if (cmd.equals("mouse") && param.equals("pestanya")) {
+            int pestanya = (int) dada;
+            controladorDades.getDades().setPestanyaActiva(pestanya);
             return;
         }
         //Seleccio amb el mouse un usuari de la taula

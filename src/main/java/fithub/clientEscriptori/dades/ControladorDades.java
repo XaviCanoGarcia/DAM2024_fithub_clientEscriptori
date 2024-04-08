@@ -1,11 +1,15 @@
 package fithub.clientEscriptori.dades;
 
 import fithub.clientEscriptori.app.ParlarAmbServidor;
+import fithub.clientEscriptori.dades.objectes.Activitat;
+import fithub.clientEscriptori.dades.objectes.Usuari;
 import fithub.clientEscriptori.gui.ControladorGui;
 
 import java.net.ConnectException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+
+import static fithub.clientEscriptori.dades.Constants.*;
 
 /**
  * Aquesta és la classe l'arrel de tota l'estructura de dades de l'aplicació.
@@ -18,10 +22,7 @@ public class ControladorDades {
 
     DadesAplicacio dades;
 
-    ConversorDades conversorDades;
-
     public ControladorDades(ControladorGui controladorGui) {
-        conversorDades = new ConversorDades();
         dades = new DadesAplicacio();
         dades.addObserver(controladorGui);
         dades.inicialitzaDades();
@@ -38,7 +39,9 @@ public class ControladorDades {
         Object[] resposta;
 
         peticio = tractarPeticio(peticioUsr);
+        dades.setEventMsg("Petició que s'envia: " + peticio[0] + ", " + peticio[1] + ", " + peticio[2]);
         respostaRaw = ferPeticio(peticio);
+        dades.setEventMsg("Resposta obtinguda: " + respostaRaw[0] + ", " + respostaRaw[1]);
         resposta = tractarResposta(respostaRaw);
         actualitzaDades(resposta);
 
@@ -68,14 +71,26 @@ public class ControladorDades {
      * @return peticio retorna la petició amb les dades adaptades.
      */
     private Object[] tractarPeticio(Object[] peticio) {
+        String cmd = (String) peticio[0];
+        String param = (String) peticio[1];
+        Object dada = peticio[2];
 
-        SimpleDateFormat formatData = new SimpleDateFormat("dd/MM/yyyy");
         if (peticio.length != 3) {
             dades.setErrorMsg("Objecte petició llargada incorrecte");
             return null;
         }
+        if (dada instanceof Usuari) {
+            Usuari usr = (Usuari) dada;
+            dada = usr.usuari_to_map(usr);
+        }
+        if (dada instanceof Activitat) {
+            Activitat act = (Activitat) dada;
+            dada = act.activitat_to_map(act);
+        }
+        peticio[2] = dada;
+        return peticio;
         /*
-        if (peticio[0].equals("login")) {
+        if (peticio[0].equals(CMD_LOGIN)) {
             Usuari usr = (Usuari) peticio[2];
             String correu = usr.getCorreu();
             String pass = usr.getContrasenya();
@@ -106,11 +121,6 @@ public class ControladorDades {
         }
 
          */
-        if (peticio[2] instanceof Usuari) {
-            peticio[2] = conversorDades.usuari_to_map((Usuari) peticio[2]);
-        }
-
-        return peticio;
     }
 
     /**
@@ -136,13 +146,22 @@ public class ControladorDades {
             String nomDada = (String) respostaRaw[0];
             Object dada = respostaRaw[1];
             resposta[0] = respostaRaw[0];
+            Usuari usr = new Usuari("", "");
+            Activitat act = new Activitat("", "", 0);
             //Crea els objectes de dades a partir dels HashMaps
             switch (nomDada) {
-                case "usuari", "usuariActiu":
-                    resposta[1] = conversorDades.map_to_usuari((HashMap<String, String>) respostaRaw[1]);
+                case USUARI, USUARI_ACTIU:
+                    resposta[1] = usr.map_to_usuari((HashMap<String, String>) respostaRaw[1]);
                     break;
-                case "usuariList":
-                    resposta[1] = conversorDades.crearLlistaUsuaris((HashMap<String, String>[]) respostaRaw[1]);
+                case USUARI_LLISTA:
+                    resposta[1] = usr.crearLlistaUsuaris((HashMap<String, String>[]) respostaRaw[1]);
+                    break;
+                case ACTIVITAT:
+                    resposta[1] = act.map_to_activitat((HashMap<String, String>) respostaRaw[1]);
+                    break;
+                case ACTIVITAT_LLISTA:
+                    resposta[1] = act.crearLlistaActivitats((HashMap<String, String>[]) respostaRaw[1]);
+                    break;
             }
 
         }
@@ -159,14 +178,20 @@ public class ControladorDades {
         String nomDada = (String) resposta[0];
         Object dada = resposta[1];
         switch (nomDada) {
-            case "usuariActiu":
+            case USUARI_ACTIU:
                 dades.setUsuariActiu((Usuari) dada);
                 break;
-            case "usuari":
+            case USUARI:
                 dades.setUsuariSeleccionat((Usuari) dada);
                 break;
-            case "usuariList":
+            case USUARI_LLISTA:
                 dades.setLlistaUsuaris((Usuari[]) dada);
+                break;
+            case ACTIVITAT:
+                dades.setActivitat((Activitat) dada);
+                break;
+            case ACTIVITAT_LLISTA:
+                dades.setLlistaActivitats((Activitat[]) dada);
                 break;
         }
     }

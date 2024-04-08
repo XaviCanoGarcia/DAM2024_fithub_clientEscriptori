@@ -1,4 +1,4 @@
-package fithub.clientEscriptori.gui.panells;
+package fithub.clientEscriptori.gui.panells.login;
 
 import fithub.clientEscriptori.app.ControladorAplicacio;
 import fithub.clientEscriptori.events.NotificadorMissatge;
@@ -6,6 +6,8 @@ import fithub.clientEscriptori.events.NotificadorMissatge;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import static fithub.clientEscriptori.dades.Constants.CMD_LOGIN;
 
 /**
  * Clase que defineix formulari login.
@@ -31,7 +33,7 @@ public class LoginForm {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                notificadorMsg.notificarMsg(new Object[]{("login"), (textFieldCorreu.getText()), (textFieldPass.getText())});
+                notificadorMsg.notificarMsg(new Object[]{(CMD_LOGIN), (textFieldCorreu.getText()), (textFieldPass.getText())});
                 /*Usuari usr = new Usuari("Josep", "Lopez", "03/04/1997", "C/Terssol 18", "978056784", "josepLopez@gmail.com", "pass", "05/09/2020");
                 usr.setSessioID(1);
                 usr.setTipus("admin");

@@ -1,6 +1,11 @@
 package fithub.clientEscriptori.dades;
 
+import fithub.clientEscriptori.dades.objectes.Activitat;
+import fithub.clientEscriptori.dades.objectes.Usuari;
+
 import java.util.Observable;
+
+import static fithub.clientEscriptori.dades.Constants.*;
 
 /**
  * Classe que conté les dades de l'aplicació.
@@ -10,10 +15,12 @@ import java.util.Observable;
  */
 public class DadesAplicacio extends Observable {
 
-    private int pestanyaActiva = 0;
+    private int pestanyaActiva = 1;
     private Usuari usuariActiu;
     private Usuari usuariSeleccionat;
     private Usuari[] llistaUsuaris;
+    private Activitat activitat;
+    private Activitat[] llistaActivitats;
     private String errorMsg;
 
     private String eventMsg;
@@ -23,8 +30,9 @@ public class DadesAplicacio extends Observable {
      */
     public DadesAplicacio() {
         usuariActiu = new Usuari("", "");
-        usuariActiu.setTipus("admin");
+        usuariActiu.setTipus(USUARI_ADMIN);
         usuariSeleccionat = new Usuari("", "");
+        activitat = new Activitat("", "", 0);
     }
 
     /**
@@ -38,13 +46,15 @@ public class DadesAplicacio extends Observable {
         updatedData[0] = nomDada;
         updatedData[1] = dada;
         notifyObservers(updatedData);
+        if (!nomDada.equals("event")) System.out.println("**DATA**    ---- Dada modificada:" + nomDada);
     }
 
     void inicialitzaDades() {
         setPestanyaActiva(0);
-        setUsuariActiu(new Usuari("", ""));
+        setUsuariActiu(new Usuari("a", "a"));
         setUsuariSeleccionat(new Usuari("", ""));
         setLlistaUsuaris(new Usuari[]{(new Usuari("", "")), (new Usuari("", ""))});
+
         errorMsg = "";
         eventMsg = "";
     }
@@ -57,7 +67,7 @@ public class DadesAplicacio extends Observable {
         if (this.pestanyaActiva != pestanyaActiva) {
             this.pestanyaActiva = pestanyaActiva;
             setChanged();
-            notificaCanviDades("pestanyaActiva", this.pestanyaActiva);
+            notificaCanviDades(PESTANYA, this.pestanyaActiva);
         }
     }
 
@@ -70,7 +80,7 @@ public class DadesAplicacio extends Observable {
             if (usuariActiu == null) ;
             this.usuariActiu = usuariActiu;
             setChanged();
-            notificaCanviDades("usuariActiu", this.usuariActiu);
+            notificaCanviDades(USUARI_ACTIU, this.usuariActiu);
         }
     }
 
@@ -82,7 +92,7 @@ public class DadesAplicacio extends Observable {
         if (this.usuariSeleccionat != usuariSeleccionat) {
             this.usuariSeleccionat = usuariSeleccionat;
             setChanged();
-            notificaCanviDades("usuariSeleccionat", this.usuariSeleccionat);
+            notificaCanviDades(USUARI_SELECT, this.usuariSeleccionat);
         }
     }
 
@@ -94,7 +104,32 @@ public class DadesAplicacio extends Observable {
         if (this.llistaUsuaris != llistaUsuaris) {
             this.llistaUsuaris = llistaUsuaris;
             setChanged();
-            notificaCanviDades("llistaUsuaris", this.llistaUsuaris);
+            notificaCanviDades(USUARI_LLISTA, this.llistaUsuaris);
+        }
+    }
+
+    public Activitat getActivitat() {
+        return activitat;
+    }
+
+    public void setActivitat(Activitat activitat) {
+        if (this.activitat != activitat) {
+            if (activitat == null) ;
+            this.activitat = activitat;
+            setChanged();
+            notificaCanviDades(ACTIVITAT, this.activitat);
+        }
+    }
+
+    public Activitat[] getLlistaActivitats() {
+        return llistaActivitats;
+    }
+
+    public void setLlistaActivitats(Activitat[] llistaActivitats) {
+        if (this.llistaActivitats != llistaActivitats) {
+            this.llistaActivitats = llistaActivitats;
+            setChanged();
+            notificaCanviDades(ACTIVITAT_LLISTA, this.llistaActivitats);
         }
     }
 

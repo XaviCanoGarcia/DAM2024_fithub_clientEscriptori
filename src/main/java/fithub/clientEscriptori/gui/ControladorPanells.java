@@ -1,13 +1,18 @@
 package fithub.clientEscriptori.gui;
 
-import fithub.clientEscriptori.dades.Usuari;
-import fithub.clientEscriptori.gui.panells.LoginForm;
-import fithub.clientEscriptori.gui.panells.MainAdmin;
+import fithub.clientEscriptori.dades.objectes.Activitat;
+import fithub.clientEscriptori.dades.objectes.Usuari;
+
+import fithub.clientEscriptori.gui.panells.MainAdminForm;
+import fithub.clientEscriptori.gui.panells.login.LoginForm;
+
 import fithub.clientEscriptori.gui.panells.MainUser;
 import fithub.clientEscriptori.gui.panells.MissatgeError;
 
-import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
+import static fithub.clientEscriptori.dades.Constants.*;
+
 
 /**
  * Clase que conté y selecciona tots els panells.
@@ -18,17 +23,17 @@ import javax.swing.table.DefaultTableModel;
 public class ControladorPanells {
     LoginForm loginForm;
     MainUser mainUser;
-    MainAdmin mainAdmin;
+    MainAdminForm mainAdminForm;
+
     MissatgeError missatgeError;
-    JFrame errorFrame;
 
     /**
      * Constructor objecte Controlador de panells.
      */
     public ControladorPanells() {
         loginForm = new LoginForm();
-        mainAdmin = new MainAdmin();
         mainUser = new MainUser();
+        mainAdminForm = new MainAdminForm();
         missatgeError = new MissatgeError();
     }
 
@@ -42,42 +47,39 @@ public class ControladorPanells {
         Object[] msj = (Object[]) data;
         String nomDada = (String) msj[0];
         Object dada = msj[1];
-
-        //System.out.println("***GUI***    ---- Actualiza: " + msj[0].toString());
-        if (dada != null) {
-            //Actualitza elements grafics d'usuariActiu
-            if (nomDada.equals("usuariActiu")) {
-                Usuari usuari = (Usuari) dada;
-                mainAdmin.getCorreuUsuariActual().setText("Tipus usuari " + usuari.getTipus() + " " + usuari.getCorreu());
-                mainAdmin.getNomUsuariActual().setText(usuari.getNom() + " " + usuari.getCognoms());
-                mainAdmin.getSessioInfo().setText("Sessio id: " + usuari.getSessioID());
-                loginForm.getTextFieldNom().setText("");
-                loginForm.getTextFieldPass().setText("");
-            }
-            //Actualitza elements grafics llistaUsuaris
-            if (nomDada.equals("llistaUsuaris")) {
-                String[] columnNames = {"Nom", "Cognom", "Data Neixament", "Adreça", "Telèfon", "Correu", "Contrasenya", "Data Inscripció"};
-                Object[][] dadesTaula = llistaUsuarisTaula((Usuari[]) dada);
-                DefaultTableModel model = new DefaultTableModel(dadesTaula, columnNames);
-                mainAdmin.getTable1().setModel(model);
-            }
-            //Actualitza elements grafics usuariSeleccionat
-            if (nomDada.equals("usuariSeleccionat")) {
-                mainAdmin.setUsuariText((Usuari) dada);
-
-            }
+        //Actualitza elements grafics d'usuariActiu
+        if (nomDada.equals(USUARI_ACTIU)) {
+            Usuari usuari = (Usuari) dada;
+            mainAdminForm.getUsuariActualCorreu().setText("Id: " + usuari.getSessioID() + ", " + usuari.getTipus() + ", " + usuari.getCorreu());
+            mainAdminForm.getUsuariActualNom().setText(usuari.getNom() + " " + usuari.getCognoms());
+            loginForm.getTextFieldNom().setText("");
+            loginForm.getTextFieldPass().setText("");
+            return;
+        }
+        //Actualitza elements grafics llistaUsuaris
+        if (nomDada.equals(USUARI_LLISTA)) {
+            String[] columnNames = USUARI_COLUMNES;
+            Object[][] dadesTaula = llistaUsuarisTaula((Usuari[]) dada);
+            DefaultTableModel model = new DefaultTableModel(dadesTaula, columnNames);
+            mainAdminForm.getTable_usuaris().setModel(model);
+            return;
+        }
+        //Actualitza elements grafics llistaActivitats
+        if (nomDada.equals(ACTIVITAT_LLISTA)) {
+            String[] columnNames = ACTIVITAT_COLUMNES;
+            Object[][] dadesTaula = llistaActivitatsTaula((Activitat[]) dada);
+            DefaultTableModel model = new DefaultTableModel(dadesTaula, columnNames);
+            mainAdminForm.getTable_activitats().setModel(model);
+            return;
+        }
+        //Actualitza elements grafics usuariSeleccionat
+        if (nomDada.equals(USUARI_SELECT)) {
+            mainAdminForm.setUsuariText((Usuari) dada);
+            return;
         }
 
-        /*if(msj[0].equals("error")&&!(msj[1].equals(""))){
-            errorFrame = new JFrame();
-            errorFrame.setTitle("FITHUB - Error");
-            errorFrame.setLocationRelativeTo(null);
-            errorFrame.setResizable(false);
-            missatgeError.getErrorMessage().setText("(String)msj[1]");
-            errorFrame.setVisible(true);
-            errorFrame.add(missatgeError.getPanel1());
-        }*/
     }
+
 
     /**
      * Mètode que tansforma una llista de usuaris en un Object[][] per poder omplir la taula
@@ -105,6 +107,27 @@ public class ControladorPanells {
         return taula;
     }
 
+    /**
+     * Mètode que tansforma una llista de activitats en un Object[][] per poder omplir la taula
+     *
+     * @param llista Llista d'activitats
+     * @return taula Array objecte dos dimensions
+     */
+    private Object[][] llistaActivitatsTaula(Activitat[] llista) {
+        Object[][] taula = new Object[50][3];
+        int i = 0;
+        if (llista == null) return taula;
+        for (Activitat activitat : llista) {
+            if (activitat != null) {
+                taula[i][0] = activitat.getNom();
+                taula[i][1] = activitat.getDescripcio();
+                taula[i][2] = activitat.getAforament();
+                i++;
+            }
+        }
+        return taula;
+    }
+
     public LoginForm getLoginForm() {
         return loginForm;
     }
@@ -113,7 +136,9 @@ public class ControladorPanells {
         return mainUser;
     }
 
-    public MainAdmin getMainAdmin() {
-        return mainAdmin;
+    public MainAdminForm getMainAdminForm() {
+        return mainAdminForm;
     }
+
+
 }

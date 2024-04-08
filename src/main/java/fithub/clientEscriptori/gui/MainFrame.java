@@ -1,6 +1,7 @@
 package fithub.clientEscriptori.gui;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * Clase que defineix la finestra principal.
@@ -24,22 +25,6 @@ public class MainFrame extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         currentPanel = new JPanel();
         add(currentPanel);
-
-
     }
 
-    /**
-     * Metode que canvia el panell del Main framme.
-     *
-     * @param nouPanell Panell nou que es vol canviar.
-     */
-    public void canviPanell(JPanel nouPanell) {
-
-        remove(currentPanel);
-        currentPanel = nouPanell;
-        add(currentPanel);
-
-        validate();
-        repaint();
-    }
 }
