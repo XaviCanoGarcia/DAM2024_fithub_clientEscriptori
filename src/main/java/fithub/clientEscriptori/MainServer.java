@@ -5,6 +5,7 @@
  */
 package fithub.clientEscriptori;
 
+import fithub.clientEscriptori.dades.objectes.Activitat;
 import fithub.clientEscriptori.dades.objectes.Usuari;
 
 import java.io.IOException;
@@ -78,7 +79,13 @@ class ThreadClient extends Thread {
         llistaUsuari[0] = usuari1;
         llistaUsuari[1] = usuari2;
         llistaUsuari[2] = usuari3;
-
+        Activitat[] llistaActivitat = new Activitat[3];
+        Activitat activitat = new Activitat("tennis", "tennisdesc", 2);
+        Activitat activitat2 = new Activitat("basquet", "bascdesc", 10);
+        Activitat activitat3 = new Activitat("futbol", "futsdesc", 22);
+        llistaActivitat[0] = activitat;
+        llistaActivitat[1] = activitat2;
+        llistaActivitat[2] = activitat3;
         if (msg[1].equals("usuari")) {
             switch ((String) msg[0]) {
                 case "insert":
@@ -99,6 +106,30 @@ class ThreadClient extends Thread {
                 case "selectAll":
                     rsp[0] = "usuariList";
                     rsp[1] = usr.creaLlistaUsuarisMap(llistaUsuari);
+                    break;
+            }
+            return rsp;
+        }
+        if (msg[1].equals("activitat")) {
+            switch ((String) msg[0]) {
+                case "insert":
+                    llistaUsuari[3] = usr.map_to_usuari((HashMap<String, String>) msg[2]);
+                    rsp[0] = "activitatList";
+                    rsp[1] = activitat.creaLlistaactivitatsMap(llistaActivitat);
+                    break;
+                case "delete":
+                    break;
+                case "update":
+                    rsp[0] = "activitat";
+                    rsp[1] = activitat.activitat_to_map(activitat2);
+                    break;
+                case "select":
+                    rsp[0] = "activitat";
+                    rsp[1] = activitat3;
+                    break;
+                case "selectAll":
+                    rsp[0] = "activitatList";
+                    rsp[1] = activitat.creaLlistaactivitatsMap(llistaActivitat);
                     break;
             }
             return rsp;

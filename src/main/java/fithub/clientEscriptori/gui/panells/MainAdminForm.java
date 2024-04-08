@@ -63,6 +63,7 @@ public class MainAdminForm {
                 Object[] msg = new Object[]{(CMD_SELECT_ALL), (USUARI), (null)};
                 Object[] msg2 = new Object[]{(CMD_SELECT_ALL), (ACTIVITAT), (null)};
                 notificadorMsg.notificarMsg(msg);
+                notificadorMsg.notificarMsg(msg2);
             }
         });
         //--------------------------------------------------
@@ -92,10 +93,7 @@ public class MainAdminForm {
                 notificadorMsg.notificarMsg(msg);
             }
         });
-        /**
-         * SELECCIONA USUARI DE LA TAULA, genera un event de tipus dades amb la comanda "mouse usuariSeleccionat".
-         * Aquesta acció la genera l'usuari clicant sobre la taula, l'usuari seleccionat s'actualitza amb la informació de la fila clicada de la taula.
-         */
+        //TAULA SELECCIO USUARI
         table_usuaris.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -112,6 +110,58 @@ public class MainAdminForm {
                         notificadorMsg.notificarMsg(msg);
                     }
                 }
+            }
+        });
+        //--------------------------------------------------
+        //---------------------ACTIVITATS-------------------
+        //--------------------------------------------------
+        //NOVA ACTIVITAT
+        novaActivitatButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Object[] msg = new Object[]{(CMD_NOU), (ACTIVITAT), (getActivitatText())};
+                notificadorMsg.notificarMsg(msg);
+            }
+        });
+        //GUARDAR ACYIVITAT
+        guardaActivitatButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Object[] msg = new Object[]{(CMD_MODIFICA), (ACTIVITAT), (getActivitatText())};
+                notificadorMsg.notificarMsg(msg);
+            }
+        });
+        //ESBORRA ACTIVITAT
+        esborraActivitatButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Object[] msg = new Object[]{(CMD_ELIMINA), (ACTIVITAT), (getActivitatText())};
+                notificadorMsg.notificarMsg(msg);
+            }
+        });
+        //TAULA SELECCIO ACTIVITAT
+        table_activitats.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if (e.getClickCount() == 1) {
+                    Point point = e.getPoint();
+                    int row = table_activitats.rowAtPoint(point);
+                    //int column = table1.columnAtPoint(point);
+                    if (row != -1) {
+                        Object[] msg = new Object[3];
+                        msg[0] = CMD_MOUSE;
+                        msg[1] = ACTIVITAT_SELECT;
+                        msg[2] = row;
+                        notificadorMsg.notificarMsg(msg);
+                    }
+                }
+            }
+        });
+        button4.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
             }
         });
     }

@@ -19,7 +19,7 @@ public class DadesAplicacio extends Observable {
     private Usuari usuariActiu;
     private Usuari usuariSeleccionat;
     private Usuari[] llistaUsuaris;
-    private Activitat activitat;
+    private Activitat activitatSeleccionada;
     private Activitat[] llistaActivitats;
     private String errorMsg;
 
@@ -32,7 +32,7 @@ public class DadesAplicacio extends Observable {
         usuariActiu = new Usuari("", "");
         usuariActiu.setTipus(USUARI_ADMIN);
         usuariSeleccionat = new Usuari("", "");
-        activitat = new Activitat("", "", 0);
+        activitatSeleccionada = new Activitat("", "", 0);
     }
 
     /**
@@ -108,16 +108,16 @@ public class DadesAplicacio extends Observable {
         }
     }
 
-    public Activitat getActivitat() {
-        return activitat;
+    public Activitat getActivitatSeleccionada() {
+        return activitatSeleccionada;
     }
 
-    public void setActivitat(Activitat activitat) {
-        if (this.activitat != activitat) {
-            if (activitat == null) ;
-            this.activitat = activitat;
+    public void setActivitatSeleccionada(Activitat activitatSeleccionada) {
+        if (this.activitatSeleccionada != activitatSeleccionada) {
+            if (activitatSeleccionada == null) ;
+            this.activitatSeleccionada = activitatSeleccionada;
             setChanged();
-            notificaCanviDades(ACTIVITAT, this.activitat);
+            notificaCanviDades(ACTIVITAT_SELECT, this.activitatSeleccionada);
         }
     }
 

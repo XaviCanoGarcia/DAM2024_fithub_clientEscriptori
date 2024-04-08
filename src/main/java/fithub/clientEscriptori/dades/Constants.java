@@ -18,8 +18,9 @@ public class Constants {
     public static final String[] ACTIVITAT_COLUMNES = {"Nom", "Decripció", "Aforament"};
     public static final String USUARI_ACTIU = "usuariActiu";
     public static final String USUARI_SELECT = "usuariSeleccionat";
+    public static final String ACTIVITAT_SELECT = "activitatSeleccionada";
     public static final String USUARI_LLISTA = "usuariList";
-    public static final String ACTIVITAT_LLISTA = "llistaActivitats";
+    public static final String ACTIVITAT_LLISTA = "activitatList";
     public static final String PESTANYA = "pestanya";
     //Pestanyes
     public static final int PESTANYA_USUARI = 0;

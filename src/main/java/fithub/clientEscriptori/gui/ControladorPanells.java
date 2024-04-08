@@ -47,6 +47,9 @@ public class ControladorPanells {
         Object[] msj = (Object[]) data;
         String nomDada = (String) msj[0];
         Object dada = msj[1];
+        //--------------------------------------------------
+        //---------------------USUARIS----------------------
+        //--------------------------------------------------
         //Actualitza elements grafics d'usuariActiu
         if (nomDada.equals(USUARI_ACTIU)) {
             Usuari usuari = (Usuari) dada;
@@ -64,25 +67,34 @@ public class ControladorPanells {
             mainAdminForm.getTable_usuaris().setModel(model);
             return;
         }
-        //Actualitza elements grafics llistaActivitats
-        if (nomDada.equals(ACTIVITAT_LLISTA)) {
-            String[] columnNames = ACTIVITAT_COLUMNES;
-            Object[][] dadesTaula = llistaActivitatsTaula((Activitat[]) dada);
-            DefaultTableModel model = new DefaultTableModel(dadesTaula, columnNames);
-            mainAdminForm.getTable_activitats().setModel(model);
-            return;
-        }
         //Actualitza elements grafics usuariSeleccionat
         if (nomDada.equals(USUARI_SELECT)) {
             mainAdminForm.setUsuariText((Usuari) dada);
             return;
         }
+        //--------------------------------------------------
+        //---------------------ACTIVITATS-------------------
+        //--------------------------------------------------
+        //Actualitza elements grafics llistaActivitats
+        if (nomDada.equals(ACTIVITAT_LLISTA)) {
+            String[] columnNamesActivitats = ACTIVITAT_COLUMNES;
+            Object[][] dadesTaulaActivitats = llistaActivitatsTaula((Activitat[]) dada);
+            DefaultTableModel modelActivitats = new DefaultTableModel(dadesTaulaActivitats, columnNamesActivitats);
+            mainAdminForm.getTable_activitats().setModel(modelActivitats);
+            return;
+        }
+        //Actualitza elements grafics activitatSeleccionada
+        if (nomDada.equals(ACTIVITAT_SELECT)) {
+            mainAdminForm.setActivitatText((Activitat) dada);
+            return;
+        }
+
 
     }
 
 
     /**
-     * Mètode que tansforma una llista de usuaris en un Object[][] per poder omplir la taula
+     * Mètode que tansforma una llista d'usuaris en un Object[][] per poder omplir la taula
      *
      * @param llista Llista d'usuaris
      * @return taula Array objecte dos dimensions

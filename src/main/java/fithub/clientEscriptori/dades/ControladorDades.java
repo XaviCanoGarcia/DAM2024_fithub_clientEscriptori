@@ -6,7 +6,6 @@ import fithub.clientEscriptori.dades.objectes.Usuari;
 import fithub.clientEscriptori.gui.ControladorGui;
 
 import java.net.ConnectException;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
 import static fithub.clientEscriptori.dades.Constants.*;
@@ -188,7 +187,7 @@ public class ControladorDades {
                 dades.setLlistaUsuaris((Usuari[]) dada);
                 break;
             case ACTIVITAT:
-                dades.setActivitat((Activitat) dada);
+                dades.setActivitatSeleccionada((Activitat) dada);
                 break;
             case ACTIVITAT_LLISTA:
                 dades.setLlistaActivitats((Activitat[]) dada);

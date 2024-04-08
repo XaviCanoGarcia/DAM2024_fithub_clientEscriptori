@@ -41,7 +41,7 @@ public class Activitat {
         activitatMap.put("id", String.valueOf(activitat.getId()));
         activitatMap.put("nom", activitat.getNom());
         activitatMap.put("descripcio", activitat.getDescripcio());
-        activitatMap.put("aformanet", String.valueOf(activitat.getAforament()));
+        activitatMap.put("aforament", String.valueOf(activitat.getAforament()));
 
         return activitatMap;
     }
