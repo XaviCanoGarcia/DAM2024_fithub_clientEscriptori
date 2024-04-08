@@ -1,12 +1,10 @@
 package fithub.clientEscriptori.app;
 
-import fithub.clientEscriptori.events.LoginEvent;
+import fithub.clientEscriptori.dades.ControladorDades;
 import fithub.clientEscriptori.events.MissatgeEvent;
 import fithub.clientEscriptori.events.MissatgeListener;
 import fithub.clientEscriptori.gui.ControladorGui;
-import fithub.clientEscriptori.gui.ControladorPanells;
-import fithub.clientEscriptori.peticions.ParlarAmbServidor;
-import fithub.clientEscriptori.peticions.PeticioLogin;
+
 
 /**
  * Clase arrel de l'aplicacio conté tots els elements.
@@ -17,57 +15,59 @@ import fithub.clientEscriptori.peticions.PeticioLogin;
  */
 public class ControladorAplicacio implements MissatgeListener {
     ControladorGui controladorGui;
-
-    ControladorPanells panells;
-
-    ParlarAmbServidor servidor;
-
-    //Dades Usuari i sessio
-
-    Usuari usuari;
-
+    ControladorDades controladorDades;
 
     /**
      * Constructor objecte ControladorAplicació.
      */
     public ControladorAplicacio() {
         controladorGui = new ControladorGui();
-        servidor = new ParlarAmbServidor();
-        panells = controladorGui.getControladorPanells();
-        panells.getLoginForm().setListener(this);
-        panells.getMainAdmin().setListener(this);
-        panells.getMainUser().setListener(this);
+        controladorGui.getControladorPanells().getLoginForm().setListenerMsg(this);
+        controladorGui.getControladorPanells().getMainAdminForm().setListenerMsg(this);
+        //controladorGui.getControladorPanells().getMainUser().setListener(this);
+
+        controladorDades = new ControladorDades(controladorGui);
+
     }
 
     /**
-     * Executa l'acció al produir-se un event de tipus generic.
+     * Executa l'acció al produir-se un event de tipus dades.
+     * Fa peticions al servidor i actualitza les dades amb la resposta
      *
-     * @param event Event de tipus genèric escoltat.
+     * @param event Event de dades escoltat.
      */
     @Override
-    public void missatgeRebut(MissatgeEvent event) {
-        System.out.println("***Msg-event***    ----" + event.getMissatge() + "");
-    }
+    public void dadesEventRebut(MissatgeEvent event) {
+        Object[] peticio = event.getMissatge();
+        String cmd = (String) peticio[0];
+        String param = (String) peticio[1];
+        Object dada = peticio[2];
+        controladorDades.getDades().setEventMsg("Generat per l'usuari: " + peticio[0] + " " + peticio[1]);
 
-
-    /**
-     * Executa l'acció login/logout al produir-se un event de tipus login.
-     *
-     * @param event Event de tipus login escoltat.
-     */
-    @Override
-    public void loginMsgRebut(LoginEvent event) {
-        System.out.println("***login-event***   Generat per l'usuari----" + event.getMissatge() + "");
-        String[] msgList = event.getMissatge().split(",");
-
-        if (msgList[0].equals("login") && msgList.length == 3) {
-            usuari = new PeticioLogin().login(event);
-            controladorGui.canviaPantalla("main", usuari.getTipus());
+        //Accio Logout
+        if (cmd.equals("logout")) {
+            controladorDades.accioLogout();
+            return;
         }
-        if (msgList[0].equals("logout") && msgList.length == 1) {
-            usuari = new PeticioLogin().logout();
-            controladorGui.canviaPantalla("login", usuari.getTipus());
+        //Seleccio pestanya
+        if (cmd.equals("mouse") && param.equals("pestanya")) {
+            int pestanya = (int) dada;
+            controladorDades.getDades().setPestanyaActiva(pestanya);
+            return;
         }
+        //Seleccio amb el mouse un usuari de la taula
+        if (cmd.equals("mouse") && peticio[1].equals("usuariSeleccionat")) {
+            int numUsuariTaulaSeleccionat = (int) peticio[2];
+            if (numUsuariTaulaSeleccionat < controladorDades.getDades().getLlistaUsuaris().length) {
+                if (controladorDades.getDades().getLlistaUsuaris()[numUsuariTaulaSeleccionat] != null) {
+                    controladorDades.getDades().setUsuariSeleccionat(controladorDades.getDades().getLlistaUsuaris()[numUsuariTaulaSeleccionat]);
+
+                }
+            }
+            return;
+        }
+        //Petició al servidor
+        controladorDades.crearPeticio(peticio);
     }
 }
 

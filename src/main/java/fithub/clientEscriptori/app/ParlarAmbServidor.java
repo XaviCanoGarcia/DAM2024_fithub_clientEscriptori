@@ -1,9 +1,10 @@
-package fithub.clientEscriptori.peticions;
+package fithub.clientEscriptori.app;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -31,7 +32,7 @@ public class ParlarAmbServidor {
      * @param peticio Peticio que es vol realitzar al sevidor.
      * @return Retorna la resposta del servidor.
      */
-    public Object[] enviarPeticio(Object[] peticio) {
+    public Object[] enviarPeticio(Object[] peticio) throws ConnectException {
         Socket clientSocket = null;
         //Handshake
         Scanner inHS = null;
@@ -59,6 +60,9 @@ public class ParlarAmbServidor {
             // Llegeix resposta del servidor
             resposta = (Object[]) in.readObject();
 
+        } catch (ConnectException cx) {
+            throw cx;
+        } catch (EOFException eq) {
 
         } catch (IOException ex) {
             Logger.getLogger(ParlarAmbServidor.class.getName()).log(Level.SEVERE, null, ex);

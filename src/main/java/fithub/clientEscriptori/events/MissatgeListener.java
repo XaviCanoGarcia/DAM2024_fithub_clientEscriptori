@@ -1,4 +1,5 @@
 package fithub.clientEscriptori.events;
+
 /**
  * Interficie que defineix els metodes listener.
  *
@@ -7,15 +8,10 @@ package fithub.clientEscriptori.events;
  */
 public interface MissatgeListener {
     /**
-     * Metode listener event generic.
+     * Metode listener event dades.
      *
      * @param event Event que s'escolta.
      */
-    void missatgeRebut(MissatgeEvent event);
-    /**
-     * Metode listener event login.
-     *
-     * @param event Event que s'escolta.
-     */
-    void loginMsgRebut(LoginEvent event);
+    void dadesEventRebut(MissatgeEvent event);
+
 }

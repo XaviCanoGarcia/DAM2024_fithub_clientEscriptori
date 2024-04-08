@@ -5,14 +5,17 @@
  */
 package fithub.clientEscriptori;
 
+import fithub.clientEscriptori.dades.objectes.Usuari;
 
-import fithub.clientEscriptori.app.Usuari;
-
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class MainServer {
@@ -59,7 +62,57 @@ class ThreadClient extends Thread {
         this.outHS = new PrintWriter(client.getOutputStream(), true);
         this.out = new ObjectOutputStream(client.getOutputStream());
         this.in = new ObjectInputStream(client.getInputStream());
+    }
 
+    private static Object[] simulacioServer(Object[] msg) {
+        Object[] rsp = new Object[2];
+        Usuari usuariAdmin = new Usuari("Xavi", "Cano Garcia", "03/04/1997", "C/Llorach 18", "978056784", "xcano@gmail.com", "pass", "05/09/2020");
+        usuariAdmin.setSessioID(1);
+        usuariAdmin.setTipus("admin");
+        Usuari usr = new Usuari("", "");
+        Usuari usuari1 = new Usuari("Josep", "Lopez", "03/04/1997", "C/Terssol 18", "978056784", "josepLopez@gmail.com", "pass", "05/09/2020");
+        usuari1.setSessioID(2);
+        Usuari usuari2 = new Usuari("Maria", "Bonet", "13/12/2000", "C/Major 12", "97800987", "MariaBonet@gmail.com", "pass", "15/07/2020");
+        Usuari usuari3 = new Usuari("Albert", "Guspi", "18/02/1993", "C/Vell 1", "979807654", "AlbertGuspi@gmail.com", "pass", "14/02/2019");
+        Usuari[] llistaUsuari = new Usuari[10];
+        llistaUsuari[0] = usuari1;
+        llistaUsuari[1] = usuari2;
+        llistaUsuari[2] = usuari3;
+
+        if (msg[1].equals("usuari")) {
+            switch ((String) msg[0]) {
+                case "insert":
+                    llistaUsuari[3] = usr.map_to_usuari((HashMap<String, String>) msg[2]);
+                    rsp[0] = "usuariList";
+                    rsp[1] = usr.creaLlistaUsuarisMap(llistaUsuari);
+                    break;
+                case "delete":
+                    break;
+                case "update":
+                    rsp[0] = "usuari";
+                    rsp[1] = usr.usuari_to_map(usuari2);
+                    break;
+                case "select":
+                    rsp[0] = "usuari";
+                    rsp[1] = usuari1;
+                    break;
+                case "selectAll":
+                    rsp[0] = "usuariList";
+                    rsp[1] = usr.creaLlistaUsuarisMap(llistaUsuari);
+                    break;
+            }
+            return rsp;
+        }
+        //Login
+        if (msg[0].equals("login") && msg[1].equals("admin") && msg[2].equals("pass")) {
+            rsp[0] = "usuariActiu";
+            rsp[1] = usr.usuari_to_map(usuariAdmin);
+        } else if (msg[0].equals("login") && msg[1].equals("client") && msg[2].equals("pass")) {
+            rsp[0] = "usuariActiu";
+            usr.setTipus("client");
+            rsp[1] = usr.usuari_to_map(usuari1);
+        }
+        return rsp;
     }
 
     @Override
@@ -72,23 +125,10 @@ class ThreadClient extends Thread {
 
         // Envia missatge de conectat al client
         outHS.println("Client connectat");
-
-
         //Llegeix missatge i envia resposta
         try {
             msg = (Object[]) in.readObject();   //Llegeix missatge
-            if (msg[0].equals("login") && msg[1].equals("admin") && msg[2].equals("pass")) {
-                rsp[0] = true;
-                usuari.setTipus("admin");
-                rsp[1] = usuari;
-            } else if (msg[0].equals("login") && msg[1].equals("client") && msg[2].equals("pass")) {
-                rsp[0] = true;
-                usuari.setTipus("client");
-                rsp[1] = usuari;
-            } else {
-                rsp[0] = false;
-                rsp[1] = null;
-            }
+            rsp = simulacioServer(msg);
             out.writeObject((Object[]) rsp);    //Envia resposta
 
         } catch (IOException e) {
@@ -107,4 +147,6 @@ class ThreadClient extends Thread {
             }
         }
     }
+
+
 }

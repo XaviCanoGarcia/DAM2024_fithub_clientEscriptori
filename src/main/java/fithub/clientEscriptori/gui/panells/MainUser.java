@@ -6,6 +6,7 @@ import fithub.clientEscriptori.events.NotificadorMissatge;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 /**
  * Clase que defineix formulari main usuari.
  *
@@ -24,7 +25,7 @@ public class MainUser {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                notificador.notificarLogin("logout");
+                notificador.notificarMsg(new Object[]{("logout"), (""), ("")});
             }
         });
     }
