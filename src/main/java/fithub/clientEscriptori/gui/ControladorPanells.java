@@ -31,6 +31,8 @@ public class ControladorPanells {
         loginForm = new LoginForm();
         mainUser = new MainUser();
         mainAdminForm = new MainAdminForm();
+        // mainAdminForm.getTextAreaLog().setLineWrap(false);
+        // mainAdminForm.getTextAreaLog().setWrapStyleWord(false);
     }
 
     /**
@@ -43,6 +45,9 @@ public class ControladorPanells {
         Object[] msj = (Object[]) data;
         String nomDada = (String) msj[0];
         Object dada = msj[1];
+        if (nomDada.equals(EVENT)) {
+            //  mainAdminForm.getTextAreaLog().append("**EVENT**    ---- " + (String)dada+"\n");
+        }
         //--------------------------------------------------
         //---------------------USUARIS----------------------
         //--------------------------------------------------

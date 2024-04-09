@@ -45,9 +45,12 @@ public class MainAdminForm {
     private JButton esborraActivitatButton;
     private JButton button4;
 
+    //private JTextArea textAreaLog;
+
 
     public MainAdminForm() {
         notificadorMsg = new NotificadorMissatge();
+        //textAreaLog.setEditable(false);
         //LOGOUT
         logoutbutton.addActionListener(new ActionListener() {
             @Override
@@ -247,4 +250,8 @@ public class MainAdminForm {
     public JTable getTable_usuaris() {
         return table_usuaris;
     }
+
+//    public JTextArea getTextAreaLog() {
+//        return textAreaLog;
+//    }
 }
