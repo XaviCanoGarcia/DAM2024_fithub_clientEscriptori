@@ -113,7 +113,7 @@ public class Usuari implements Serializable {
         usuari.setDataNaixement(map.get(HM_USR_DATAN));
         usuari.setDataInscripcio(map.get(HM_USR_DATAI));
         usuari.setTelefon(map.get(HM_USR_TELEFON));
-        usuari.setTipus(Integer.parseInt(map.get(HM_INS_TIPUS)));
+        usuari.setTipus(Integer.parseInt(map.get(HM_USR_TIPUS)));
 
         return usuari;
     }

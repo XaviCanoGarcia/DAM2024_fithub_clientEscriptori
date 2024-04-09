@@ -92,7 +92,7 @@ public class MainAdminForm {
         esborrausuaributton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Object[] msg = new Object[]{(CMD_ELIMINA), (USUARI), (getUsuariText())};
+                Object[] msg = new Object[]{(CMD_ELIMINA), (USUARI), (getUsuariText().getCorreu())};
                 notificadorMsg.notificarMsg(msg);
             }
         });
