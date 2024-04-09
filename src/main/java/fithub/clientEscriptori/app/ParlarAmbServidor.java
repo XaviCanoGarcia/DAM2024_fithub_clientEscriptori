@@ -62,8 +62,6 @@ public class ParlarAmbServidor {
 
         } catch (ConnectException cx) {
             throw cx;
-        } catch (EOFException eq) {
-
         } catch (IOException ex) {
             Logger.getLogger(ParlarAmbServidor.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException e) {

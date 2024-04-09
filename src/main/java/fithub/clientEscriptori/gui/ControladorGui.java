@@ -40,6 +40,7 @@ public class ControladorGui implements Observer {
         Object[] data = (Object[]) arg;
         String nomDada = (String) data[0];
         Object dada = data[1];
+        //Canvi de frame si hi ha usuariActiu
         if (nomDada.equals(USUARI_ACTIU)) {
             Usuari usrActiu = (Usuari) dada;
             int usrTipus = usrActiu.getTipus();
