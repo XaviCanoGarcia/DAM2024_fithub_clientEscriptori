@@ -46,29 +46,16 @@ public class DadesAplicacio extends Observable {
         updatedData[0] = nomDada;
         updatedData[1] = dada;
         notifyObservers(updatedData);
-        if (!nomDada.equals("event")) System.out.println("**DATA**    ---- Dada modificada:" + nomDada);
+        if (!nomDada.equals("event")) System.out.println("**DATA**     ---- Dada modificada: " + nomDada);
     }
 
     void inicialitzaDades() {
-        setPestanyaActiva(0);
         setUsuariActiu(new Usuari("a", "a"));
         setUsuariSeleccionat(new Usuari("", ""));
         setLlistaUsuaris(new Usuari[]{(new Usuari("", "")), (new Usuari("", ""))});
 
         errorMsg = "";
         eventMsg = "";
-    }
-
-    public int getPestanyaActiva() {
-        return pestanyaActiva;
-    }
-
-    public void setPestanyaActiva(int pestanyaActiva) {
-        if (this.pestanyaActiva != pestanyaActiva) {
-            this.pestanyaActiva = pestanyaActiva;
-            setChanged();
-            notificaCanviDades(PESTANYA, this.pestanyaActiva);
-        }
     }
 
     public Usuari getUsuariActiu() {

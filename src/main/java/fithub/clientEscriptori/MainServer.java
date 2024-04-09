@@ -19,6 +19,8 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import static fithub.clientEscriptori.dades.Constants.*;
+
 public class MainServer {
 
     static int puerto = 8080;
@@ -86,60 +88,60 @@ class ThreadClient extends Thread {
         llistaActivitat[0] = activitat;
         llistaActivitat[1] = activitat2;
         llistaActivitat[2] = activitat3;
-        if (msg[1].equals("usuari")) {
+        if (msg[1].equals(USUARI)) {
             switch ((String) msg[0]) {
-                case "insert":
+                case CMD_NOU:
                     llistaUsuari[3] = usr.map_to_usuari((HashMap<String, String>) msg[2]);
-                    rsp[0] = "usuariList";
+                    rsp[0] = USUARI_LLISTA;
                     rsp[1] = usr.creaLlistaUsuarisMap(llistaUsuari);
                     break;
-                case "delete":
+                case CMD_ELIMINA:
                     break;
-                case "update":
-                    rsp[0] = "usuari";
+                case CMD_MODIFICA:
+                    rsp[0] = USUARI;
                     rsp[1] = usr.usuari_to_map(usuari2);
                     break;
-                case "select":
-                    rsp[0] = "usuari";
+                case CMD_SELECT:
+                    rsp[0] = USUARI;
                     rsp[1] = usuari1;
                     break;
-                case "selectAll":
-                    rsp[0] = "usuariList";
+                case CMD_SELECT_ALL:
+                    rsp[0] = USUARI_LLISTA;
                     rsp[1] = usr.creaLlistaUsuarisMap(llistaUsuari);
                     break;
             }
             return rsp;
         }
-        if (msg[1].equals("activitat")) {
+        if (msg[1].equals(ACTIVITAT)) {
             switch ((String) msg[0]) {
-                case "insert":
+                case CMD_NOU:
                     llistaUsuari[3] = usr.map_to_usuari((HashMap<String, String>) msg[2]);
-                    rsp[0] = "activitatList";
+                    rsp[0] = ACTIVITAT_LLISTA;
                     rsp[1] = activitat.creaLlistaactivitatsMap(llistaActivitat);
                     break;
-                case "delete":
+                case CMD_ELIMINA:
                     break;
-                case "update":
-                    rsp[0] = "activitat";
+                case CMD_MODIFICA:
+                    rsp[0] = ACTIVITAT;
                     rsp[1] = activitat.activitat_to_map(activitat2);
                     break;
-                case "select":
-                    rsp[0] = "activitat";
+                case CMD_SELECT:
+                    rsp[0] = ACTIVITAT;
                     rsp[1] = activitat3;
                     break;
-                case "selectAll":
-                    rsp[0] = "activitatList";
+                case CMD_SELECT_ALL:
+                    rsp[0] = ACTIVITAT_LLISTA;
                     rsp[1] = activitat.creaLlistaactivitatsMap(llistaActivitat);
                     break;
             }
             return rsp;
         }
         //Login
-        if (msg[0].equals("login") && msg[1].equals("admin") && msg[2].equals("pass")) {
-            rsp[0] = "usuariActiu";
+        if (msg[0].equals(CMD_LOGIN) && msg[1].equals("admin@fithub.es") && msg[2].equals("adminpass")) {
+            rsp[0] = USUARI_ACTIU;
             rsp[1] = usr.usuari_to_map(usuariAdmin);
-        } else if (msg[0].equals("login") && msg[1].equals("client") && msg[2].equals("pass")) {
-            rsp[0] = "usuariActiu";
+        } else if (msg[0].equals(CMD_LOGIN) && msg[1].equals("client") && msg[2].equals("pass")) {
+            rsp[0] = USUARI_ACTIU;
             usr.setTipus(1);
             rsp[1] = usr.usuari_to_map(usuari1);
         }

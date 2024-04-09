@@ -1,7 +1,10 @@
 package fithub.clientEscriptori.dades.objectes;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+
+import static fithub.clientEscriptori.dades.Constants.*;
 
 /**
  * Classe Usuari que representa un usuari en l'aplicació FitHub.
@@ -81,17 +84,15 @@ public class Usuari implements Serializable {
      */
     public HashMap<String, String> usuari_to_map(Usuari usuari) {
         HashMap<String, String> usuariMap = new HashMap<>();
-        usuariMap.put("objectType", "usuari");
-        usuariMap.put("usuariID", String.valueOf(usuari.getSessioID()));
-        usuariMap.put("correuUsuari", usuari.getCorreu());
-        usuariMap.put("nomUsuari", usuari.getNom());
-        usuariMap.put("cognomsUsuari", usuari.getCognoms());
-        usuariMap.put("adreca", usuari.getAdreca());
-        usuariMap.put("passUsuari", usuari.getContrasenya());
-        usuariMap.put("dataNaixement", usuari.getDataNaixement());
-        usuariMap.put("dataInscripcio", usuari.getDataInscripcio());
-        usuariMap.put("telefon", usuari.getTelefon());
-        usuariMap.put("tipusUsuari", String.valueOf(usuari.getTipus()));
+        usuariMap.put(HM_USR_ID, String.valueOf(usuari.getSessioID()));
+        usuariMap.put(HM_USR_CORREU, usuari.getCorreu());
+        usuariMap.put(HM_USR_NOM, usuari.getNom());
+        usuariMap.put(HM_USR_COGNOMS, usuari.getCognoms());
+        usuariMap.put(HM_USR_ADRECA, usuari.getAdreca());
+        usuariMap.put(HM_USR_DATAN, usuari.getDataNaixement());
+        usuariMap.put(HM_USR_DATAI, usuari.getDataInscripcio());
+        usuariMap.put(HM_USR_TELEFON, usuari.getTelefon());
+        usuariMap.put(HM_INS_TIPUS, String.valueOf(usuari.getTipus()));
 
         return usuariMap;
     }
@@ -104,16 +105,15 @@ public class Usuari implements Serializable {
      */
     public Usuari map_to_usuari(HashMap<String, String> map) {
         Usuari usuari = new Usuari("", "");
-        usuari.setSessioID(Integer.parseInt(map.get("usuariID")));
-        usuari.setCorreu(map.get("correuUsuari"));
-        usuari.setNom(map.get("nomUsuari"));
-        usuari.setCognoms(map.get("cognomsUsuari"));
-        usuari.setAdreca(map.get("adreca"));
-        usuari.setContrasenya(map.get("passUsuari"));
-        usuari.setDataNaixement(map.get("dataNaixement"));
-        usuari.setDataInscripcio(map.get("dataInscripcio"));
-        usuari.setTelefon(map.get("telefon"));
-        usuari.setTipus(Integer.parseInt(map.get("tipusUsuari")));
+        usuari.setSessioID(Integer.parseInt(map.get(HM_USR_ID)));
+        usuari.setCorreu(map.get(HM_USR_CORREU));
+        usuari.setNom(map.get(HM_USR_NOM));
+        usuari.setCognoms(map.get(HM_USR_COGNOMS));
+        usuari.setAdreca(map.get(HM_USR_ADRECA));
+        usuari.setDataNaixement(map.get(HM_USR_DATAN));
+        usuari.setDataInscripcio(map.get(HM_USR_DATAI));
+        usuari.setTelefon(map.get(HM_USR_TELEFON));
+        usuari.setTipus(Integer.parseInt(map.get(HM_INS_TIPUS)));
 
         return usuari;
     }
@@ -124,12 +124,12 @@ public class Usuari implements Serializable {
      * @param llistaUsuari Llista d'usuaris que es vol convertir
      * @return mapList Llista d'usuaris convertida a mapa
      */
-    public HashMap<String, String>[] creaLlistaUsuarisMap(Usuari[] llistaUsuari) {
-        HashMap<String, String>[] mapList = new HashMap[llistaUsuari.length];
+    public ArrayList<HashMap<String, String>> creaLlistaUsuarisMap(Usuari[] llistaUsuari) {
+        ArrayList<HashMap<String, String>> mapList = new ArrayList<>();
         int index = 0;
         for (Usuari usr : llistaUsuari) {
             if (usr != null) {
-                mapList[index++] = (usuari_to_map(usr));
+                mapList.add(usuari_to_map(usr));
             }
         }
         return mapList;
@@ -138,14 +138,14 @@ public class Usuari implements Serializable {
     /**
      * Aquest metode llegeix un HashMap i el converteix a llista d'usuaris
      *
-     * @param map HashMap que conté la llista d'usuaris
+     * @param mapList ArrayList que conté la llista d'usuaris
      * @return llistaUsuari Llista d'usuaris extreta del HashMap
      */
-    public Usuari[] crearLlistaUsuaris(HashMap<String, String>[] map) {
-        Usuari[] llistraUsuari = new Usuari[map.length];
+    public Usuari[] crearLlistaUsuaris(ArrayList<HashMap<String, String>> mapList) {
+        Usuari[] llistraUsuari = new Usuari[mapList.size()];
         int index = 0;
-        for (int i = 0; i < map.length; i++) {
-            if (map[i] != null) llistraUsuari[i] = map_to_usuari(map[i]);
+        for (int i = 0; i < mapList.size(); i++) {
+            if (mapList.get(i) != null) llistraUsuari[i] = map_to_usuari(mapList.get(i));
         }
 
         return llistraUsuari;

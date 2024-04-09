@@ -6,6 +6,7 @@ import fithub.clientEscriptori.dades.objectes.Usuari;
 import fithub.clientEscriptori.gui.ControladorGui;
 
 import java.net.ConnectException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static fithub.clientEscriptori.dades.Constants.*;
@@ -153,13 +154,13 @@ public class ControladorDades {
                     resposta[1] = usr.map_to_usuari((HashMap<String, String>) respostaRaw[1]);
                     break;
                 case USUARI_LLISTA:
-                    resposta[1] = usr.crearLlistaUsuaris((HashMap<String, String>[]) respostaRaw[1]);
+                    resposta[1] = usr.crearLlistaUsuaris((ArrayList<HashMap<String, String>>) respostaRaw[1]);
                     break;
                 case ACTIVITAT:
                     resposta[1] = act.map_to_activitat((HashMap<String, String>) respostaRaw[1]);
                     break;
                 case ACTIVITAT_LLISTA:
-                    resposta[1] = act.crearLlistaActivitats((HashMap<String, String>[]) respostaRaw[1]);
+                    resposta[1] = act.crearLlistaActivitats((ArrayList<HashMap<String, String>>) respostaRaw[1]);
                     break;
             }
 

@@ -7,7 +7,6 @@ import fithub.clientEscriptori.gui.panells.MainAdminForm;
 import fithub.clientEscriptori.gui.panells.login.LoginForm;
 
 import fithub.clientEscriptori.gui.panells.MainUser;
-import fithub.clientEscriptori.gui.panells.MissatgeError;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -25,8 +24,6 @@ public class ControladorPanells {
     MainUser mainUser;
     MainAdminForm mainAdminForm;
 
-    MissatgeError missatgeError;
-
     /**
      * Constructor objecte Controlador de panells.
      */
@@ -34,7 +31,6 @@ public class ControladorPanells {
         loginForm = new LoginForm();
         mainUser = new MainUser();
         mainAdminForm = new MainAdminForm();
-        missatgeError = new MissatgeError();
     }
 
     /**

@@ -74,10 +74,6 @@ public class ControladorGui implements Observer {
                 loginFrame.setVisible(true);
                 mainFrame.setVisible(false);
                 break;
-            case "default":
-                loginFrame.setVisible(true);
-                mainFrame.setVisible(true);
-                break;
         }
         switch (panel) {
             case LOGIN_FORM:
@@ -85,8 +81,6 @@ public class ControladorGui implements Observer {
                 break;
             case MAIN_ADMIN_FORM:
                 mainFrame.setContentPane(controladorPanells.mainAdminForm.getPanel1());
-                break;
-            case "default":
                 break;
         }
 
