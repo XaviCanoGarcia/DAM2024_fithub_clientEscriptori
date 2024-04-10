@@ -50,11 +50,12 @@ public class DadesAplicacio extends Observable {
     }
 
     void inicialitzaDades() {
-        sessioID = "";
+        setSessioID("");
         setUsuariActiu(new Usuari("a", "a"));
         setUsuariSeleccionat(new Usuari("", ""));
         setLlistaUsuaris(new Usuari[]{(new Usuari("", "")), (new Usuari("", ""))});
-
+        setActivitatSeleccionada(new Activitat("", "", 0));
+        setLlistaActivitats(new Activitat[]{(new Activitat("", "", 0)), new Activitat("", "", 0)});
         errorMsg = "";
         eventMsg = "";
     }
@@ -154,7 +155,6 @@ public class DadesAplicacio extends Observable {
             this.sessioID = sessioID;
             setChanged();
             notificaCanviDades(SESSIO_ID, this.sessioID);
-            System.out.println("**EVENT**    ---- " + sessioID);
             this.sessioID = sessioID;
         }
     }

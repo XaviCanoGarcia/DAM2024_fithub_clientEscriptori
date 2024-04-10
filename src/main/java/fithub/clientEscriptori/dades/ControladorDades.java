@@ -135,7 +135,7 @@ public class ControladorDades {
      * @return resposta Resposta tractada amb les dades adaptades
      */
     private Object[] tractarResposta(Object[] respostaRaw) {
-        Object[] resposta = new Object[]{(""), ("")};
+        Object[] resposta = respostaRaw;
         //Respostes incorrectes
         if (respostaRaw == null || respostaRaw[0] == null) {
             dades.setErrorMsg("Reseposta null del servidor");
@@ -150,7 +150,6 @@ public class ControladorDades {
         if (!respostaRaw[0].equals("") && respostaRaw[1] != null) {
             String nomDada = (String) respostaRaw[0];
             Object dada = respostaRaw[1];
-            resposta[0] = respostaRaw[0];
             Usuari usr = new Usuari("", "");
             Activitat act = new Activitat("", "", 0);
 
@@ -161,8 +160,8 @@ public class ControladorDades {
                 }
             }
 
-
             //Crea els objectes de dades a partir dels HashMaps
+
             switch (nomDada) {
                 case USUARI:
                     resposta[1] = usr.map_to_usuari((HashMap<String, String>) respostaRaw[1]);
@@ -177,7 +176,6 @@ public class ControladorDades {
                     resposta[1] = act.crearLlistaActivitats((ArrayList<HashMap<String, String>>) respostaRaw[1]);
                     break;
             }
-
         }
         return resposta;
     }

@@ -39,7 +39,7 @@ public class ControladorGui implements Observer {
         String nomDada = (String) data[0];
         Object dada = data[1];
         //Canvi de frame si hi sessio activa
-        if (nomDada.equals(SESSIO_ID)) {
+        if (nomDada.equals(SESSIO_ID) || nomDada.equals(CMD_LOGOUT)) {
             String sessioID = (String) dada;
             if (sessioID.contains(",")) {
                 String tipusUsuari = sessioID.split(",")[1];

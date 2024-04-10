@@ -144,6 +144,9 @@ class ThreadClient extends Thread {
             rsp[0] = USUARI_ACTIU;
             usr.setTipus(1);
             rsp[1] = usr.usuari_to_map(usuari1);
+        } else if (msg[0].equals(CMD_LOGOUT)) {
+            rsp[0] = CMD_LOGOUT;
+            rsp[1] = "true";
         }
         return rsp;
     }
