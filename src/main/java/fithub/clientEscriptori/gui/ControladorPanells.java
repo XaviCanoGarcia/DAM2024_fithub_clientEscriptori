@@ -54,7 +54,7 @@ public class ControladorPanells {
         //Actualitza elements grafics d'usuariActiu
         if (nomDada.equals(USUARI_ACTIU)) {
             Usuari usuari = (Usuari) dada;
-            mainAdminForm.getUsuariActualCorreu().setText("Id: " + usuari.getSessioID() + ", " + usuari.getTipus() + ", " + usuari.getCorreu());
+            mainAdminForm.getUsuariActualCorreu().setText("Id: " + usuari.getUsuariID() + ", " + usuari.getTipus() + ", " + usuari.getCorreu());
             mainAdminForm.getUsuariActualNom().setText(usuari.getNom() + " " + usuari.getCognoms());
             loginForm.getTextFieldNom().setText("");
             loginForm.getTextFieldPass().setText("");

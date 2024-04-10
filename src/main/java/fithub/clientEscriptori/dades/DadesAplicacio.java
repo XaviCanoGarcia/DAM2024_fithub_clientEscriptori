@@ -15,7 +15,7 @@ import static fithub.clientEscriptori.dades.Constants.*;
  */
 public class DadesAplicacio extends Observable {
 
-    private int pestanyaActiva = 1;
+    private String sessioID = "";
     private Usuari usuariActiu;
     private Usuari usuariSeleccionat;
     private Usuari[] llistaUsuaris;
@@ -46,10 +46,11 @@ public class DadesAplicacio extends Observable {
         updatedData[0] = nomDada;
         updatedData[1] = dada;
         notifyObservers(updatedData);
-        if (!nomDada.equals("event")) System.out.println("**DATA**     ---- Dada modificada: " + nomDada);
+        if (!nomDada.equals(EVENT)) System.out.println("**DATA**     ---- Dada modificada: " + nomDada);
     }
 
     void inicialitzaDades() {
+        sessioID = "";
         setUsuariActiu(new Usuari("a", "a"));
         setUsuariSeleccionat(new Usuari("", ""));
         setLlistaUsuaris(new Usuari[]{(new Usuari("", "")), (new Usuari("", ""))});
@@ -138,9 +139,23 @@ public class DadesAplicacio extends Observable {
         if (this.eventMsg != eventMsg) {
             this.eventMsg = eventMsg;
             setChanged();
-            notificaCanviDades("event", this.eventMsg);
+            notificaCanviDades(EVENT, this.eventMsg);
             System.out.println("**EVENT**    ---- " + eventMsg);
             this.eventMsg = "";
+        }
+    }
+
+    public String getSessioID() {
+        return sessioID;
+    }
+
+    public void setSessioID(String sessioID) {
+        if (this.sessioID != sessioID) {
+            this.sessioID = sessioID;
+            setChanged();
+            notificaCanviDades(SESSIO_ID, this.sessioID);
+            System.out.println("**EVENT**    ---- " + sessioID);
+            this.sessioID = sessioID;
         }
     }
 }

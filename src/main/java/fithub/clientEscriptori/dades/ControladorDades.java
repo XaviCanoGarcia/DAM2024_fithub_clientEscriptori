@@ -39,7 +39,6 @@ public class ControladorDades {
         Object[] resposta;
 
         peticio = tractarPeticio(peticioUsr);
-        dades.setEventMsg("Petició que s'envia: " + peticio[0] + ", " + peticio[1] + ", " + peticio[2]);
         respostaRaw = ferPeticio(peticio);
         dades.setEventMsg("Resposta obtinguda: " + respostaRaw[0] + ", " + respostaRaw[1]);
         resposta = tractarResposta(respostaRaw);
@@ -88,7 +87,13 @@ public class ControladorDades {
             dada = act.activitat_to_map(act);
         }
         peticio[2] = dada;
-        return peticio;
+        Object[] peticioTractada = new Object[4];
+        peticioTractada[0] = peticio[0];
+        peticioTractada[1] = peticio[1];
+        peticioTractada[2] = dada;
+        peticioTractada[3] = dades.getSessioID();
+        dades.setEventMsg("Petició que s'envia: " + peticioTractada[0] + ", " + peticioTractada[1] + ", " + peticioTractada[2] + ", " + peticioTractada[3]);
+        return peticioTractada;
         /*
         if (peticio[0].equals(CMD_LOGIN)) {
             Usuari usr = (Usuari) peticio[2];
@@ -148,9 +153,18 @@ public class ControladorDades {
             resposta[0] = respostaRaw[0];
             Usuari usr = new Usuari("", "");
             Activitat act = new Activitat("", "", 0);
+
+            //Identifica resposta de login, comprova el tipus d'usuari
+            if (nomDada.contains(",")) {
+                if (nomDada.split(",")[1].equals("1") || nomDada.split(",")[1].equals("2")) {
+                    resposta[1] = usr.map_to_usuari((HashMap<String, String>) respostaRaw[1]);
+                }
+            }
+
+
             //Crea els objectes de dades a partir dels HashMaps
             switch (nomDada) {
-                case USUARI, USUARI_ACTIU:
+                case USUARI:
                     resposta[1] = usr.map_to_usuari((HashMap<String, String>) respostaRaw[1]);
                     break;
                 case USUARI_LLISTA:
@@ -177,10 +191,11 @@ public class ControladorDades {
         if (resposta == null || resposta[0].equals("") || resposta[1] == null) return;
         String nomDada = (String) resposta[0];
         Object dada = resposta[1];
+        if (nomDada.contains(",")) {
+            dades.setSessioID(nomDada);
+            dades.setUsuariActiu((Usuari) dada);
+        }
         switch (nomDada) {
-            case USUARI_ACTIU:
-                dades.setUsuariActiu((Usuari) dada);
-                break;
             case USUARI:
                 dades.setUsuariSeleccionat((Usuari) dada);
                 break;

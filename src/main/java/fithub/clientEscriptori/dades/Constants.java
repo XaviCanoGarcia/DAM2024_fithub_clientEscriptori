@@ -24,6 +24,7 @@ public class Constants {
     public static final String CMD_MOUSE = "mouse";
 
     //Nom tipus Objecte dades
+    public static final String SESSIO_ID = "sessioID";
     public static final String EVENT = "event";
     public static final String USUARI = "usuari";
     public static final String USUARI_LLISTA = "usuariLlista";

@@ -70,11 +70,11 @@ class ThreadClient extends Thread {
     private static Object[] simulacioServer(Object[] msg) {
         Object[] rsp = new Object[2];
         Usuari usuariAdmin = new Usuari("Xavi", "Cano Garcia", "03/04/1997", "C/Llorach 18", "978056784", "xcano@gmail.com", "pass", "05/09/2020");
-        usuariAdmin.setSessioID(1);
+        usuariAdmin.setUsuariID(1);
         usuariAdmin.setTipus(1);
         Usuari usr = new Usuari("", "");
         Usuari usuari1 = new Usuari("Josep", "Lopez", "03/04/1997", "C/Terssol 18", "978056784", "josepLopez@gmail.com", "pass", "05/09/2020");
-        usuari1.setSessioID(2);
+        usuari1.setUsuariID(2);
         Usuari usuari2 = new Usuari("Maria", "Bonet", "13/12/2000", "C/Major 12", "97800987", "MariaBonet@gmail.com", "pass", "15/07/2020");
         Usuari usuari3 = new Usuari("Albert", "Guspi", "18/02/1993", "C/Vell 1", "979807654", "AlbertGuspi@gmail.com", "pass", "14/02/2019");
         Usuari[] llistaUsuari = new Usuari[10];
@@ -138,7 +138,7 @@ class ThreadClient extends Thread {
         }
         //Login
         if (msg[0].equals(CMD_LOGIN) && msg[1].equals("admin@fithub.es") && msg[2].equals("adminpass")) {
-            rsp[0] = USUARI_ACTIU;
+            rsp[0] = "2024,1";
             rsp[1] = usr.usuari_to_map(usuariAdmin);
         } else if (msg[0].equals(CMD_LOGIN) && msg[1].equals("client") && msg[2].equals("pass")) {
             rsp[0] = USUARI_ACTIU;
@@ -154,7 +154,7 @@ class ThreadClient extends Thread {
         Object[] msg = new Object[3];
         Object[] rsp = new Object[2];
         Usuari usuari = new Usuari("admin@fithub.com", "pass");
-        usuari.setSessioID(1);
+        usuari.setUsuariID(1);
 
         // Envia missatge de conectat al client
         outHS.println("Client connectat");

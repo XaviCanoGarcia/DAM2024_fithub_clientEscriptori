@@ -1,9 +1,7 @@
 package fithub.clientEscriptori.gui;
 
-import fithub.clientEscriptori.dades.Constants;
 import fithub.clientEscriptori.dades.objectes.Usuari;
 
-import javax.swing.*;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -40,19 +38,18 @@ public class ControladorGui implements Observer {
         Object[] data = (Object[]) arg;
         String nomDada = (String) data[0];
         Object dada = data[1];
-        //Canvi de frame si hi ha usuariActiu
-        if (nomDada.equals(USUARI_ACTIU)) {
-            Usuari usrActiu = (Usuari) dada;
-            int usrTipus = usrActiu.getTipus();
-            int sessioID = Integer.valueOf(usrActiu.getSessioID());
-            if (sessioID != -1) {
-                if (usrTipus==1) {
+        //Canvi de frame si hi sessio activa
+        if (nomDada.equals(SESSIO_ID)) {
+            String sessioID = (String) dada;
+            if (sessioID.contains(",")) {
+                String tipusUsuari = sessioID.split(",")[1];
+                if (tipusUsuari.equals("1")) {
                     canviaPantalla(MAIN_FRAME, MAIN_ADMIN_FORM);
-                } else if (usrTipus==2) {
-                    canviaPantalla(MAIN_FRAME, USUARI_CLIENT);
+                } else if (tipusUsuari.equals("2")) {
+                    canviaPantalla(MAIN_FRAME, MAIN_ADMIN_FORM);
                 }
             } else {
-                canviaPantalla(CMD_LOGIN, LOGIN_FORM);
+                canviaPantalla(LOGIN_FRAME, LOGIN_FORM);
             }
         }
         controladorPanells.update(arg);
