@@ -26,6 +26,7 @@ public class Constants {
     //Nom tipus Objecte dades
     public static final String SESSIO_ID = "sessioID";
     public static final String EVENT = "event";
+    public static final String DADA_CONSOLA_LOG = "dadaConsolaLog";
     public static final String USUARI = "usuari";
     public static final String USUARI_LLISTA = "usuariLlista";
     public static final String USUARI_ACTIU = "usuariActiu";

@@ -31,8 +31,8 @@ public class ControladorPanells {
         loginForm = new LoginForm();
         mainUser = new MainUser();
         mainAdminForm = new MainAdminForm();
-        // mainAdminForm.getTextAreaLog().setLineWrap(false);
-        // mainAdminForm.getTextAreaLog().setWrapStyleWord(false);
+        mainAdminForm.getTextAreaLog().setLineWrap(false);
+        mainAdminForm.getTextAreaLog().setWrapStyleWord(false);
     }
 
     /**
@@ -45,8 +45,9 @@ public class ControladorPanells {
         Object[] msj = (Object[]) data;
         String nomDada = (String) msj[0];
         Object dada = msj[1];
-        if (nomDada.equals(EVENT)) {
-            //  mainAdminForm.getTextAreaLog().append("**EVENT**    ---- " + (String)dada+"\n");
+        if (nomDada.equals(EVENT) || nomDada.equals(DADA_CONSOLA_LOG)) {
+            //String consoleText = insertaSaltDeLinia((String) dada, 120);
+            mainAdminForm.getTextAreaLog().append("**EVENT**    ---- " + (String) dada + "\n");
         }
         //--------------------------------------------------
         //---------------------USUARIS----------------------
@@ -89,10 +90,24 @@ public class ControladorPanells {
             mainAdminForm.setActivitatText((Activitat) dada);
             return;
         }
-
-
     }
 
+    /**
+     * Inserta caràcters especials de salt de linia i tabulador cada x caracters.
+     * Aquest mètod es fa servir per tractar les linies de text de la consola.
+     *
+     * @param text         Text on es vol insertar salts de linia
+     * @param numCaracters Numero de caràcters de la linia
+     * @return String amb els caràcter especials intercalats
+     */
+    public String insertaSaltDeLinia(String text, int numCaracters) {
+        StringBuilder resultado = new StringBuilder();
+        for (int i = 0; i < text.length(); i += numCaracters) {
+            int fin = Math.min(i + numCaracters, text.length());
+            resultado.append(text.substring(i, fin)).append("\n\t");
+        }
+        return resultado.toString();
+    }
 
     /**
      * Mètode que tansforma una llista d'usuaris en un Object[][] per poder omplir la taula

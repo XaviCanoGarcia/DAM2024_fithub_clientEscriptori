@@ -81,7 +81,7 @@ class ThreadClient extends Thread {
         llistaUsuari[0] = usuari1;
         llistaUsuari[1] = usuari2;
         llistaUsuari[2] = usuari3;
-        Activitat[] llistaActivitat = new Activitat[3];
+        Activitat[] llistaActivitat = new Activitat[4];
         Activitat activitat = new Activitat("tennis", "tennisdesc", 2);
         Activitat activitat2 = new Activitat("basquet", "bascdesc", 10);
         Activitat activitat3 = new Activitat("futbol", "futsdesc", 22);
@@ -115,7 +115,7 @@ class ThreadClient extends Thread {
         if (msg[1].equals(ACTIVITAT)) {
             switch ((String) msg[0]) {
                 case CMD_NOU:
-                    llistaUsuari[3] = usr.map_to_usuari((HashMap<String, String>) msg[2]);
+                    llistaActivitat[3] = activitat.map_to_activitat((HashMap<String, String>) msg[2]);
                     rsp[0] = ACTIVITAT_LLISTA;
                     rsp[1] = activitat.creaLlistaactivitatsMap(llistaActivitat);
                     break;

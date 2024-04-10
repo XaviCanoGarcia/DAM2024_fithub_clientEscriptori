@@ -17,13 +17,10 @@ import static fithub.clientEscriptori.dades.Constants.*;
 public class MainAdminForm {
     NotificadorMissatge notificadorMsg;
     private JPanel panel1;
-    private JTabbedPane tabbedPane1;
     private JTable table_usuaris;
     private JTable table_activitats;
     private JTextField txt_act_nom;
     private JTextField txt_act_descripcio;
-    private JPanel panell_activitat;
-    private JPanel panell_usuari;
     private JTextField txt_usr_correu;
     private JTextField txt_usr_contrasenya;
     private JTextField txt_usr_adreca;
@@ -44,6 +41,10 @@ public class MainAdminForm {
     private JButton guardaActivitatButton;
     private JButton esborraActivitatButton;
     private JButton button4;
+    private JTabbedPane tabbedPane1;
+    private JPanel panell_usuari;
+    private JPanel panell_activitat;
+    private JTextArea textAreaLog;
 
     //private JTextArea textAreaLog;
 
@@ -251,7 +252,7 @@ public class MainAdminForm {
         return table_usuaris;
     }
 
-//    public JTextArea getTextAreaLog() {
-//        return textAreaLog;
-//    }
+    public JTextArea getTextAreaLog() {
+        return textAreaLog;
+    }
 }

@@ -60,28 +60,14 @@ public class DadesAplicacio extends Observable {
         eventMsg = "";
     }
 
-    public Usuari getUsuariActiu() {
-        return usuariActiu;
-    }
-
-    public void setUsuariActiu(Usuari usuariActiu) {
-        if (this.usuariActiu != usuariActiu) {
-            if (usuariActiu == null) ;
-            this.usuariActiu = usuariActiu;
+    public void setSessioID(String sessioID) {
+        if (this.sessioID != sessioID) {
+            this.sessioID = sessioID;
             setChanged();
-            notificaCanviDades(USUARI_ACTIU, this.usuariActiu);
-        }
-    }
-
-    public Usuari getUsuariSeleccionat() {
-        return usuariSeleccionat;
-    }
-
-    public void setUsuariSeleccionat(Usuari usuariSeleccionat) {
-        if (this.usuariSeleccionat != usuariSeleccionat) {
-            this.usuariSeleccionat = usuariSeleccionat;
+            notificaCanviDades(SESSIO_ID, this.sessioID);
+            this.sessioID = sessioID;
             setChanged();
-            notificaCanviDades(USUARI_SELECT, this.usuariSeleccionat);
+            notificaCanviDades(DADA_CONSOLA_LOG, "Dada modificada: " + SESSIO_ID);
         }
     }
 
@@ -94,19 +80,8 @@ public class DadesAplicacio extends Observable {
             this.llistaUsuaris = llistaUsuaris;
             setChanged();
             notificaCanviDades(USUARI_LLISTA, this.llistaUsuaris);
-        }
-    }
-
-    public Activitat getActivitatSeleccionada() {
-        return activitatSeleccionada;
-    }
-
-    public void setActivitatSeleccionada(Activitat activitatSeleccionada) {
-        if (this.activitatSeleccionada != activitatSeleccionada) {
-            if (activitatSeleccionada == null) ;
-            this.activitatSeleccionada = activitatSeleccionada;
             setChanged();
-            notificaCanviDades(ACTIVITAT_SELECT, this.activitatSeleccionada);
+            notificaCanviDades(DADA_CONSOLA_LOG, "Dada modificada: " + USUARI_LLISTA);
         }
     }
 
@@ -119,11 +94,13 @@ public class DadesAplicacio extends Observable {
             this.llistaActivitats = llistaActivitats;
             setChanged();
             notificaCanviDades(ACTIVITAT_LLISTA, this.llistaActivitats);
+            setChanged();
+            notificaCanviDades(DADA_CONSOLA_LOG, "Dada modificada: " + ACTIVITAT_LLISTA);
         }
     }
 
-    public String getErrorMsg() {
-        return errorMsg;
+    public Usuari getUsuariActiu() {
+        return usuariActiu;
     }
 
     public void setErrorMsg(String errorMsg) {
@@ -146,16 +123,53 @@ public class DadesAplicacio extends Observable {
         }
     }
 
+
     public String getSessioID() {
         return sessioID;
     }
 
-    public void setSessioID(String sessioID) {
-        if (this.sessioID != sessioID) {
-            this.sessioID = sessioID;
+    public void setUsuariActiu(Usuari usuariActiu) {
+        if (this.usuariActiu != usuariActiu) {
+            if (usuariActiu == null) ;
+            this.usuariActiu = usuariActiu;
             setChanged();
-            notificaCanviDades(SESSIO_ID, this.sessioID);
-            this.sessioID = sessioID;
+            notificaCanviDades(USUARI_ACTIU, this.usuariActiu);
+            setChanged();
+            notificaCanviDades(DADA_CONSOLA_LOG, "Dada modificada: " + USUARI_ACTIU);
         }
+    }
+
+    public Usuari getUsuariSeleccionat() {
+        return usuariSeleccionat;
+    }
+
+    public void setUsuariSeleccionat(Usuari usuariSeleccionat) {
+        if (this.usuariSeleccionat != usuariSeleccionat) {
+            this.usuariSeleccionat = usuariSeleccionat;
+            setChanged();
+            notificaCanviDades(USUARI_SELECT, this.usuariSeleccionat);
+            setChanged();
+            notificaCanviDades(DADA_CONSOLA_LOG, "Dada modificada: " + USUARI_SELECT);
+        }
+    }
+
+    public Activitat getActivitatSeleccionada() {
+        return activitatSeleccionada;
+    }
+
+    public void setActivitatSeleccionada(Activitat activitatSeleccionada) {
+        if (this.activitatSeleccionada != activitatSeleccionada) {
+            if (activitatSeleccionada == null) ;
+            this.activitatSeleccionada = activitatSeleccionada;
+            setChanged();
+            notificaCanviDades(ACTIVITAT_SELECT, this.activitatSeleccionada);
+            setChanged();
+            notificaCanviDades(DADA_CONSOLA_LOG, "Dada modificada: " + ACTIVITAT_SELECT);
+
+        }
+    }
+
+    public String getErrorMsg() {
+        return errorMsg;
     }
 }
