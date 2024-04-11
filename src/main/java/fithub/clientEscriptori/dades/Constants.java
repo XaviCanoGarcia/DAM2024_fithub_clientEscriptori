@@ -38,6 +38,11 @@ public class Constants {
     public static final String ACTIVITAT_SELECT = "activitatSeleccionada";
     public static final String[] ACTIVITAT_COLUMNES = {"Nom", "Decripció", "Aforament"};
 
+    public static final String INSTALLACIO = "installacio";
+    public static final String INSTALLACIO_LLISTA = "installacioLlista";
+    public static final String INSTALLACIO_SELECT = "installacioSeleccionada";
+    public static final String[] INSTALLACIO_COLUMNES = {"Nom, Descripció", "Tipus"};
+
     //HashMapsIndex
     public static final String HM_USR_NOM = "nomUsuari";
     public static final String HM_USR_COGNOMS = "cognomsUsuari";
@@ -49,11 +54,13 @@ public class Constants {
     public static final String HM_USR_TIPUS = "tipusUsuari";
     public static final String HM_USR_ID = "usuariID";
 
+    public static final String HM_ACT_ID = "activitatID";
     public static final String HM_ACT_NOM = "nomActivitat";
     public static final String HM_ACT_DESC = "descripcioActivitat";
     public static final String HM_ACT_TIPUS = "tipusActivitat";
     public static final String HM_ACT_AFORAMENT = "aforamentActivitat";
 
+    public static final String HM_INS_ID = "installacioID";
     public static final String HM_INS_NOM = "nomInstallacio";
     public static final String HM_INS_DESC = "descripcioInstallacio";
     public static final String HM_INS_TIPUS = "tipusInstallacio";

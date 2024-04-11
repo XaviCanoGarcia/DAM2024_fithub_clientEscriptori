@@ -2,6 +2,7 @@ package fithub.clientEscriptori.dades;
 
 import fithub.clientEscriptori.app.ParlarAmbServidor;
 import fithub.clientEscriptori.dades.objectes.Activitat;
+import fithub.clientEscriptori.dades.objectes.Installacio;
 import fithub.clientEscriptori.dades.objectes.Usuari;
 import fithub.clientEscriptori.gui.ControladorGui;
 
@@ -78,6 +79,7 @@ public class ControladorDades {
             dades.setErrorMsg("Objecte petició llargada incorrecte");
             return null;
         }
+        //Convertir objectes a HashMaps
         if (dada instanceof Usuari) {
             Usuari usr = (Usuari) dada;
             dada = usr.usuari_to_map(usr);
@@ -86,13 +88,17 @@ public class ControladorDades {
             Activitat act = (Activitat) dada;
             dada = act.activitat_to_map(act);
         }
+        if (dada instanceof Installacio) {
+            Installacio ins = (Installacio) dada;
+            dada = ins.installacio_to_map(ins);
+        }
         peticio[2] = dada;
         Object[] peticioTractada = new Object[4];
         peticioTractada[0] = peticio[0];
         peticioTractada[1] = peticio[1];
         peticioTractada[2] = dada;
         peticioTractada[3] = dades.getSessioID();
-        dades.setEventMsg("Petició que s'envia: " + peticioTractada[0] + ", " + peticioTractada[1] + ", " + peticioTractada[2] + ", " + peticioTractada[3]);
+        dades.setEventMsg("Petició que s'envia al servidor: " + peticioTractada[0] + ", " + peticioTractada[1] + ", " + peticioTractada[2] + ", " + peticioTractada[3]);
         return peticioTractada;
         /*
         if (peticio[0].equals(CMD_LOGIN)) {
@@ -152,6 +158,7 @@ public class ControladorDades {
             Object dada = respostaRaw[1];
             Usuari usr = new Usuari("", "");
             Activitat act = new Activitat("", "", 0);
+            Installacio ins = new Installacio("", "", "");
 
             //Identifica resposta de login, comprova el tipus d'usuari
             if (nomDada.contains(",")) {
@@ -161,7 +168,6 @@ public class ControladorDades {
             }
 
             //Crea els objectes de dades a partir dels HashMaps
-
             switch (nomDada) {
                 case USUARI:
                     resposta[1] = usr.map_to_usuari((HashMap<String, String>) respostaRaw[1]);
@@ -174,6 +180,12 @@ public class ControladorDades {
                     break;
                 case ACTIVITAT_LLISTA:
                     resposta[1] = act.crearLlistaActivitats((ArrayList<HashMap<String, String>>) respostaRaw[1]);
+                    break;
+                case INSTALLACIO:
+                    resposta[1] = ins.map_to_installacio((HashMap<String, String>) respostaRaw[1]);
+                    break;
+                case INSTALLACIO_LLISTA:
+                    resposta[1] = ins.crearLlistaInstallacio((ArrayList<HashMap<String, String>>) respostaRaw[1]);
                     break;
             }
         }
@@ -206,6 +218,14 @@ public class ControladorDades {
             case ACTIVITAT_LLISTA:
                 dades.setLlistaActivitats((Activitat[]) dada);
                 break;
+            case INSTALLACIO:
+                dades.setInstallacioSeleccionada((Installacio) dada);
+                break;
+            case INSTALLACIO_LLISTA:
+                dades.setLlistaInstallacio((Installacio[]) dada);
+                break;
+
+
         }
     }
 

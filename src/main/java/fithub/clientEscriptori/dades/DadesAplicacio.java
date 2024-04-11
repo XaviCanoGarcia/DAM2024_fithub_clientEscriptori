@@ -1,6 +1,7 @@
 package fithub.clientEscriptori.dades;
 
 import fithub.clientEscriptori.dades.objectes.Activitat;
+import fithub.clientEscriptori.dades.objectes.Installacio;
 import fithub.clientEscriptori.dades.objectes.Usuari;
 
 import java.util.Observable;
@@ -21,6 +22,8 @@ public class DadesAplicacio extends Observable {
     private Usuari[] llistaUsuaris;
     private Activitat activitatSeleccionada;
     private Activitat[] llistaActivitats;
+    private Installacio installacioSeleccionada;
+    private Installacio[] llistaInstallacio;
     private String errorMsg;
 
     private String eventMsg;
@@ -33,6 +36,7 @@ public class DadesAplicacio extends Observable {
         usuariActiu.setTipus(1);
         usuariSeleccionat = new Usuari("", "");
         activitatSeleccionada = new Activitat("", "", 0);
+        installacioSeleccionada = new Installacio("", "", "");
     }
 
     /**
@@ -169,7 +173,36 @@ public class DadesAplicacio extends Observable {
         }
     }
 
+    public Installacio getInstallacioSeleccionada() {
+        return installacioSeleccionada;
+    }
+
+    public void setInstallacioSeleccionada(Installacio installacioSeleccionada) {
+        if (this.installacioSeleccionada != installacioSeleccionada) {
+            if (installacioSeleccionada == null) ;
+            this.installacioSeleccionada = installacioSeleccionada;
+            setChanged();
+            notificaCanviDades(INSTALLACIO_SELECT, this.installacioSeleccionada);
+            setChanged();
+            notificaCanviDades(DADA_CONSOLA_LOG, "Dada modificada: " + INSTALLACIO_SELECT);
+        }
+    }
+
     public String getErrorMsg() {
         return errorMsg;
+    }
+
+    public Installacio[] getLlistaInstallacio() {
+        return llistaInstallacio;
+    }
+
+    public void setLlistaInstallacio(Installacio[] llistaInstallacio) {
+        if (this.llistaInstallacio != llistaInstallacio) {
+            this.llistaInstallacio = llistaInstallacio;
+            setChanged();
+            notificaCanviDades(INSTALLACIO_LLISTA, this.llistaInstallacio);
+            setChanged();
+            notificaCanviDades(DADA_CONSOLA_LOG, "Dada modificada: " + INSTALLACIO_LLISTA);
+        }
     }
 }

@@ -32,8 +32,8 @@ public class MainAdminForm {
     private JButton esborrausuaributton;
     private JButton actualitzaButton;
     private JButton logoutbutton;
+    private JLabel usuariActualSessio;
     private JLabel usuariActualNom;
-    private JLabel usuariActualCorreu;
     private JTextField txt_usr_nom;
     private JTextField txt_usr_cognoms;
     private JTextField txt_act_aforament;
@@ -45,6 +45,9 @@ public class MainAdminForm {
     private JPanel panell_usuari;
     private JPanel panell_activitat;
     private JTextArea textAreaLog;
+
+    private JLabel usuariActualTipus;
+    private JLabel usuariAcrualCorreu;
 
     //private JTextArea textAreaLog;
 
@@ -162,12 +165,6 @@ public class MainAdminForm {
                 }
             }
         });
-        button4.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
     }
 
     /**
@@ -236,12 +233,12 @@ public class MainAdminForm {
         return panel1;
     }
 
-    public JLabel getUsuariActualNom() {
-        return usuariActualNom;
+    public JLabel getUsuariActualSessio() {
+        return usuariActualSessio;
     }
 
-    public JLabel getUsuariActualCorreu() {
-        return usuariActualCorreu;
+    public JLabel getUsuariActualUsuari() {
+        return usuariActualNom;
     }
 
     public JTable getTable_activitats() {
@@ -254,5 +251,21 @@ public class MainAdminForm {
 
     public JTextArea getTextAreaLog() {
         return textAreaLog;
+    }
+
+    public JLabel getUsuariActualTipus() {
+        return usuariActualTipus;
+    }
+
+    public void setUsuariActualTipus(JLabel usuariActualTipus) {
+        this.usuariActualTipus = usuariActualTipus;
+    }
+
+    public JLabel getUsuariAcrualCorreu() {
+        return usuariAcrualCorreu;
+    }
+
+    public void setUsuariAcrualCorreu(JLabel usuariAcrualCorreu) {
+        this.usuariAcrualCorreu = usuariAcrualCorreu;
     }
 }

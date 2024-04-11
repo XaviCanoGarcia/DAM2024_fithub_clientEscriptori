@@ -49,14 +49,24 @@ public class ControladorPanells {
             //String consoleText = insertaSaltDeLinia((String) dada, 120);
             mainAdminForm.getTextAreaLog().append("**EVENT**    ---- " + (String) dada + "\n");
         }
+        if (nomDada.equals(SESSIO_ID)) {
+            mainAdminForm.getUsuariActualSessio().setText("sessioId: " + dada);
+        }
         //--------------------------------------------------
         //---------------------USUARIS----------------------
         //--------------------------------------------------
         //Actualitza elements grafics d'usuariActiu
         if (nomDada.equals(USUARI_ACTIU)) {
             Usuari usuari = (Usuari) dada;
-            mainAdminForm.getUsuariActualCorreu().setText("Id: " + usuari.getUsuariID() + ", " + usuari.getTipus() + ", " + usuari.getCorreu());
-            mainAdminForm.getUsuariActualNom().setText(usuari.getNom() + " " + usuari.getCognoms());
+            String txt = "null";
+            if (usuari.getTipus() == 1) {
+                txt = "Usuari Administrador";
+            } else if (usuari.getTipus() == 2) {
+                txt = "Usuari Client";
+            }
+            mainAdminForm.getUsuariActualTipus().setText(txt);
+            mainAdminForm.getUsuariActualUsuari().setText(usuari.getNom() + " " + usuari.getCognoms());
+            mainAdminForm.getUsuariAcrualCorreu().setText(usuari.getCorreu());
             loginForm.getTextFieldNom().setText("");
             loginForm.getTextFieldPass().setText("");
             return;
