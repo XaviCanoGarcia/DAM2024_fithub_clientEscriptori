@@ -58,7 +58,7 @@ public class Installacio {
         Installacio installacio = new Installacio("", "", "");
         installacio.setNom(map.get(HM_INS_NOM));
         installacio.setTipus(map.get(HM_INS_TIPUS));
-        installacio.setDescripcio(map.get(HM_ACT_DESC));
+        installacio.setDescripcio(map.get(HM_INS_DESC));
         installacio.setId(Integer.valueOf(map.get(HM_INS_ID)));
 
         return installacio;

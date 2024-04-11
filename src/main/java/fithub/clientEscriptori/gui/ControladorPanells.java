@@ -1,6 +1,7 @@
 package fithub.clientEscriptori.gui;
 
 import fithub.clientEscriptori.dades.objectes.Activitat;
+import fithub.clientEscriptori.dades.objectes.Installacio;
 import fithub.clientEscriptori.dades.objectes.Usuari;
 
 import fithub.clientEscriptori.gui.panells.MainAdminForm;
@@ -100,6 +101,22 @@ public class ControladorPanells {
             mainAdminForm.setActivitatText((Activitat) dada);
             return;
         }
+        //--------------------------------------------------
+        //---------------------INSTAL·LACIONS---------------
+        //--------------------------------------------------
+        //Actualitza elements grafics llistaInstal·lacions
+        if (nomDada.equals(INSTALLACIO_LLISTA)) {
+            String[] columnNamesInstallacio = INSTALLACIO_COLUMNES;
+            Object[][] dadesTaulaInstallacio = llistaInstallacionsTaula((Installacio[]) dada);
+            DefaultTableModel modelInstallacio = new DefaultTableModel(dadesTaulaInstallacio, columnNamesInstallacio);
+            mainAdminForm.getTable_installacions().setModel(modelInstallacio);
+            return;
+        }
+        //Actualitza elements grafics activitatSeleccionada
+        if (nomDada.equals(INSTALLACIO_SELECT)) {
+            mainAdminForm.setInstallacioText((Installacio) dada);
+            return;
+        }
     }
 
     /**
@@ -160,6 +177,27 @@ public class ControladorPanells {
                 taula[i][0] = activitat.getNom();
                 taula[i][1] = activitat.getDescripcio();
                 taula[i][2] = activitat.getAforament();
+                i++;
+            }
+        }
+        return taula;
+    }
+
+    /**
+     * Mètode que tansforma una llista de instal·lacions en un Object[][] per poder omplir la taula
+     *
+     * @param llista Llista d'instal·lacions
+     * @return taula Array objecte dos dimensions
+     */
+    private Object[][] llistaInstallacionsTaula(Installacio[] llista) {
+        Object[][] taula = new Object[50][3];
+        int i = 0;
+        if (llista == null) return taula;
+        for (Installacio installacio : llista) {
+            if (installacio != null) {
+                taula[i][0] = installacio.getNom();
+                taula[i][1] = installacio.getDescripcio();
+                taula[i][2] = installacio.getTipus();
                 i++;
             }
         }

@@ -6,6 +6,7 @@
 package fithub.clientEscriptori;
 
 import fithub.clientEscriptori.dades.objectes.Activitat;
+import fithub.clientEscriptori.dades.objectes.Installacio;
 import fithub.clientEscriptori.dades.objectes.Usuari;
 
 import java.io.IOException;
@@ -85,6 +86,14 @@ class ThreadClient extends Thread {
         Activitat activitat = new Activitat("tennis", "tennisdesc", 2);
         Activitat activitat2 = new Activitat("basquet", "bascdesc", 10);
         Activitat activitat3 = new Activitat("futbol", "futsdesc", 22);
+        activitat.setTipusActivitat(1);
+        activitat3.setTipusActivitat(1);
+        activitat2.setTipusActivitat(1);
+        Installacio[] llistaInstallacio = new Installacio[4];
+        Installacio installacio1 = new Installacio("Pista tennis", "Pista de tennis descoberta", "exterior");
+        Installacio installacio2 = new Installacio("Piscina", "Piscina coberta", "interior");
+        llistaInstallacio[0] = installacio1;
+        llistaInstallacio[1] = installacio2;
         llistaActivitat[0] = activitat;
         llistaActivitat[1] = activitat2;
         llistaActivitat[2] = activitat3;
@@ -103,7 +112,7 @@ class ThreadClient extends Thread {
                     break;
                 case CMD_SELECT:
                     rsp[0] = USUARI;
-                    rsp[1] = usuari1;
+                    rsp[1] = usr.usuari_to_map(usuari2);
                     break;
                 case CMD_SELECT_ALL:
                     rsp[0] = USUARI_LLISTA;
@@ -127,11 +136,35 @@ class ThreadClient extends Thread {
                     break;
                 case CMD_SELECT:
                     rsp[0] = ACTIVITAT;
-                    rsp[1] = activitat3;
+                    rsp[1] = activitat.activitat_to_map(activitat2);
                     break;
                 case CMD_SELECT_ALL:
                     rsp[0] = ACTIVITAT_LLISTA;
                     rsp[1] = activitat.creaLlistaactivitatsMap(llistaActivitat);
+                    break;
+            }
+            return rsp;
+        }
+        if (msg[1].equals(INSTALLACIO)) {
+            switch ((String) msg[0]) {
+                case CMD_NOU:
+                    llistaActivitat[3] = activitat.map_to_activitat((HashMap<String, String>) msg[2]);
+                    rsp[0] = INSTALLACIO_LLISTA;
+                    rsp[1] = installacio1.creaLlistaInstallacioMap(llistaInstallacio);
+                    break;
+                case CMD_ELIMINA:
+                    break;
+                case CMD_MODIFICA:
+                    rsp[0] = INSTALLACIO;
+                    rsp[1] = installacio1.installacio_to_map(installacio2);
+                    break;
+                case CMD_SELECT:
+                    rsp[0] = INSTALLACIO;
+                    rsp[1] = installacio1.installacio_to_map(installacio2);
+                    break;
+                case CMD_SELECT_ALL:
+                    rsp[0] = INSTALLACIO_LLISTA;
+                    rsp[1] = installacio1.creaLlistaInstallacioMap(llistaInstallacio);
                     break;
             }
             return rsp;

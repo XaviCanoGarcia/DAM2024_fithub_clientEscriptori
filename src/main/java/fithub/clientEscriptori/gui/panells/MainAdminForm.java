@@ -2,6 +2,7 @@ package fithub.clientEscriptori.gui.panells;
 
 import fithub.clientEscriptori.app.ControladorAplicacio;
 import fithub.clientEscriptori.dades.objectes.Activitat;
+import fithub.clientEscriptori.dades.objectes.Installacio;
 import fithub.clientEscriptori.dades.objectes.Usuari;
 import fithub.clientEscriptori.events.NotificadorMissatge;
 
@@ -48,6 +49,14 @@ public class MainAdminForm {
 
     private JLabel usuariActualTipus;
     private JLabel usuariAcrualCorreu;
+    private JPanel panell_installacio;
+    private JTable table_installacions;
+    private JTextField txt_ins_nom;
+    private JTextField txt_ins_tipus;
+    private JTextField txt_ins_descripcio;
+    private JButton novaInstallacioButton;
+    private JButton guardaInstallacioButton;
+    private JButton esborraInstallacioButton;
 
     //private JTextArea textAreaLog;
 
@@ -69,8 +78,10 @@ public class MainAdminForm {
             public void actionPerformed(ActionEvent e) {
                 Object[] msg = new Object[]{(CMD_SELECT_ALL), (USUARI), (null)};
                 Object[] msg2 = new Object[]{(CMD_SELECT_ALL), (ACTIVITAT), (null)};
+                Object[] msg3 = new Object[]{(CMD_SELECT_ALL), (INSTALLACIO), (null)};
                 notificadorMsg.notificarMsg(msg);
                 notificadorMsg.notificarMsg(msg2);
+                notificadorMsg.notificarMsg(msg3);
             }
         });
         //--------------------------------------------------
@@ -130,7 +141,7 @@ public class MainAdminForm {
                 notificadorMsg.notificarMsg(msg);
             }
         });
-        //GUARDAR ACYIVITAT
+        //GUARDAR ACTIVITAT
         guardaActivitatButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -153,12 +164,58 @@ public class MainAdminForm {
                 super.mouseClicked(e);
                 if (e.getClickCount() == 1) {
                     Point point = e.getPoint();
-                    int row = table_activitats.rowAtPoint(point);
+                    int row = table_installacions.rowAtPoint(point);
                     //int column = table1.columnAtPoint(point);
                     if (row != -1) {
                         Object[] msg = new Object[3];
                         msg[0] = CMD_MOUSE;
                         msg[1] = ACTIVITAT_SELECT;
+                        msg[2] = row;
+                        notificadorMsg.notificarMsg(msg);
+                    }
+                }
+            }
+        });
+        //--------------------------------------------------
+        //---------------------INSTAL·LACIONS-------------------
+        //--------------------------------------------------
+        //NOVA INSTAL·LACIÓ
+        novaInstallacioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Object[] msg = new Object[]{(CMD_NOU), (INSTALLACIO), (getInstallacioText())};
+                notificadorMsg.notificarMsg(msg);
+            }
+        });
+        //GUARDAR INSTAL·LACIÓ
+        guardaInstallacioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Object[] msg = new Object[]{(CMD_MODIFICA), (INSTALLACIO), (getInstallacioText())};
+                notificadorMsg.notificarMsg(msg);
+            }
+        });
+        //ESBORRA INSTAL·LACIÓ
+        esborraInstallacioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Object[] msg = new Object[]{(CMD_ELIMINA), (INSTALLACIO), (getInstallacioText())};
+                notificadorMsg.notificarMsg(msg);
+            }
+        });
+        //TAULA SELECCIO INSTAL·LACIÓ
+        table_installacions.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if (e.getClickCount() == 1) {
+                    Point point = e.getPoint();
+                    int row = table_installacions.rowAtPoint(point);
+                    //int column = table1.columnAtPoint(point);
+                    if (row != -1) {
+                        Object[] msg = new Object[3];
+                        msg[0] = CMD_MOUSE;
+                        msg[1] = INSTALLACIO_SELECT;
                         msg[2] = row;
                         notificadorMsg.notificarMsg(msg);
                     }
@@ -215,6 +272,19 @@ public class MainAdminForm {
     }
 
     /**
+     * Mètode que crea un objecte installacio amb les dades de les caixes de text de l'instal·lació seleccionada
+     *
+     * @return Instal·lació Objecte Activitat generat.
+     */
+    public Installacio getInstallacioText() {
+        Installacio installacio = new Installacio("", "", "");
+        installacio.setNom(txt_ins_nom.getText());
+        installacio.setDescripcio(txt_ins_descripcio.getText());
+        installacio.setTipus(txt_ins_tipus.getText());
+        return installacio;
+    }
+
+    /**
      * Metode que omple les caixes de text amb les dades d'un objecte Activitat
      *
      * @param activitat Objecte activitat amb el que es vol omplir les caixes de text.
@@ -223,6 +293,17 @@ public class MainAdminForm {
         txt_act_nom.setText(activitat.getNom());
         txt_act_descripcio.setText(activitat.getDescripcio());
         txt_act_aforament.setText(String.valueOf(activitat.getAforament()));
+    }
+
+    /**
+     * Metode que omple les caixes de text amb les dades d'un objecte Instal·lació
+     *
+     * @param installacio Objecte instal·lació amb el que es vol omplir les caixes de text.
+     */
+    public void setInstallacioText(Installacio installacio) {
+        txt_ins_nom.setText(installacio.getNom());
+        txt_ins_descripcio.setText(installacio.getDescripcio());
+        txt_ins_tipus.setText(installacio.getTipus());
     }
 
     public void setListenerMsg(ControladorAplicacio controladorAplicacio) {
@@ -241,9 +322,6 @@ public class MainAdminForm {
         return usuariActualNom;
     }
 
-    public JTable getTable_activitats() {
-        return table_activitats;
-    }
 
     public JTable getTable_usuaris() {
         return table_usuaris;
@@ -267,5 +345,42 @@ public class MainAdminForm {
 
     public void setUsuariAcrualCorreu(JLabel usuariAcrualCorreu) {
         this.usuariAcrualCorreu = usuariAcrualCorreu;
+    }
+
+
+    public JTextField getTxt_ins_nom() {
+        return txt_ins_nom;
+    }
+
+    public void setTxt_ins_nom(JTextField txt_ins_nom) {
+        this.txt_ins_nom = txt_ins_nom;
+    }
+
+    public JTextField getTxt_ins_tipus() {
+        return txt_ins_tipus;
+    }
+
+    public void setTxt_ins_tipus(JTextField txt_ins_tipus) {
+        this.txt_ins_tipus = txt_ins_tipus;
+    }
+
+    public JTextField getTxt_ins_decripcio() {
+        return txt_ins_descripcio;
+    }
+
+    public void setTxt_ins_decripcio(JTextField txt_ins_decripcio) {
+        this.txt_ins_descripcio = txt_ins_decripcio;
+    }
+
+    public JTable getTable_activitats() {
+        return table_activitats;
+    }
+
+    public void setTable_activitats(JTable table_activitats) {
+        this.table_activitats = table_activitats;
+    }
+
+    public JTable getTable_installacions() {
+        return table_installacions;
     }
 }

@@ -41,7 +41,7 @@ public class Constants {
     public static final String INSTALLACIO = "installacio";
     public static final String INSTALLACIO_LLISTA = "installacioLlista";
     public static final String INSTALLACIO_SELECT = "installacioSeleccionada";
-    public static final String[] INSTALLACIO_COLUMNES = {"Nom, Descripció", "Tipus"};
+    public static final String[] INSTALLACIO_COLUMNES = {"Nom", "Descripció", "Tipus"};
 
     //HashMapsIndex
     public static final String HM_USR_NOM = "nomUsuari";

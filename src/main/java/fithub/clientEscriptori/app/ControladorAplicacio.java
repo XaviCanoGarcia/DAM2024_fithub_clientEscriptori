@@ -74,6 +74,17 @@ public class ControladorAplicacio implements MissatgeListener {
             }
             return;
         }
+        //Seleccio amb el mouse d'una intal·lació de la taula
+        if (cmd.equals(CMD_MOUSE) && peticio[1].equals(INSTALLACIO_SELECT)) {
+            int numTaulaSeleccionat = (int) peticio[2];
+            if (numTaulaSeleccionat < controladorDades.getDades().getLlistaInstallacio().length) {
+                if (controladorDades.getDades().getLlistaInstallacio()[numTaulaSeleccionat] != null) {
+                    controladorDades.getDades().setInstallacioSeleccionada(controladorDades.getDades().getLlistaInstallacio()[numTaulaSeleccionat]);
+
+                }
+            }
+            return;
+        }
         //Petició al servidor
         controladorDades.crearPeticio(peticio);
     }
