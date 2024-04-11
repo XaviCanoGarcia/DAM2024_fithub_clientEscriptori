@@ -58,6 +58,8 @@ public class MainAdminForm {
     private JButton guardaInstallacioButton;
     private JButton esborraInstallacioButton;
 
+    private int idUsuari = 0;
+
     //private JTextArea textAreaLog;
 
 
@@ -231,6 +233,7 @@ public class MainAdminForm {
      */
     public Usuari getUsuariText() {
         Usuari usuari = new Usuari("", "");
+        usuari.setUsuariID(idUsuari);
         usuari.setNom(txt_usr_nom.getText());
         usuari.setCognoms(txt_usr_cognoms.getText());
         usuari.setDataNaixement(txt_usr_dataN.getText());
@@ -382,5 +385,9 @@ public class MainAdminForm {
 
     public JTable getTable_installacions() {
         return table_installacions;
+    }
+
+    public void setIdUsuari(int idUsuari) {
+        this.idUsuari = idUsuari;
     }
 }

@@ -97,7 +97,11 @@ public class ControladorDades {
         peticioTractada[0] = peticio[0];
         peticioTractada[1] = peticio[1];
         peticioTractada[2] = dada;
-        peticioTractada[3] = dades.getSessioID();
+        if(dades.getSessioID().equals("")){
+            peticioTractada[3] = null;
+        }else{
+            peticioTractada[3] = dades.getSessioID();
+        }
         dades.setEventMsg("Petició que s'envia al servidor: " + peticioTractada[0] + ", " + peticioTractada[1] + ", " + peticioTractada[2] + ", " + peticioTractada[3]);
         return peticioTractada;
         /*

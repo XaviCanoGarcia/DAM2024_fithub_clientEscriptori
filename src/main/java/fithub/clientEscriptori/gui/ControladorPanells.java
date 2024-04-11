@@ -48,10 +48,11 @@ public class ControladorPanells {
         Object dada = msj[1];
         if (nomDada.equals(EVENT) || nomDada.equals(DADA_CONSOLA_LOG)) {
             //String consoleText = insertaSaltDeLinia((String) dada, 120);
-            mainAdminForm.getTextAreaLog().append("**EVENT**    ---- " + (String) dada + "\n");
+            //mainAdminForm.getTextAreaLog().append("**EVENT**    ---- " + (String) dada + "\n");
         }
         if (nomDada.equals(SESSIO_ID)) {
             mainAdminForm.getUsuariActualSessio().setText("sessioId: " + dada);
+
         }
         //--------------------------------------------------
         //---------------------USUARIS----------------------
@@ -83,6 +84,7 @@ public class ControladorPanells {
         //Actualitza elements grafics usuariSeleccionat
         if (nomDada.equals(USUARI_SELECT)) {
             mainAdminForm.setUsuariText((Usuari) dada);
+            mainAdminForm.setIdUsuari(((Usuari) dada).getUsuariID());
             return;
         }
         //--------------------------------------------------

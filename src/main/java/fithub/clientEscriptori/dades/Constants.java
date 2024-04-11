@@ -52,15 +52,15 @@ public class Constants {
     public static final String HM_USR_ADRECA = "adreca";
     public static final String HM_USR_TELEFON = "telefon";
     public static final String HM_USR_TIPUS = "tipusUsuari";
-    public static final String HM_USR_ID = "usuariID";
+    public static final String HM_USR_ID = "IDusuari";
 
-    public static final String HM_ACT_ID = "activitatID";
+    public static final String HM_ACT_ID = "IDactivitat";
     public static final String HM_ACT_NOM = "nomActivitat";
     public static final String HM_ACT_DESC = "descripcioActivitat";
     public static final String HM_ACT_TIPUS = "tipusActivitat";
     public static final String HM_ACT_AFORAMENT = "aforamentActivitat";
 
-    public static final String HM_INS_ID = "installacioID";
+    public static final String HM_INS_ID = "IDinstallacio";
     public static final String HM_INS_NOM = "nomInstallacio";
     public static final String HM_INS_DESC = "descripcioInstallacio";
     public static final String HM_INS_TIPUS = "tipusInstallacio";
