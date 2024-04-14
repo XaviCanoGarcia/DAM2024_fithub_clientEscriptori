@@ -37,7 +37,7 @@ public class LoginForm {
                 /*Usuari usr = new Usuari("Josep", "Lopez", "03/04/1997", "C/Terssol 18", "978056784", "josepLopez@gmail.com", "pass", "05/09/2020");
                 usr.setSessioID(1);
                 usr.setTipus("admin");*/
-                notificadorMsg.notificarMsg(new Object[]{("login"), ("admin@fithub.es"), ("adminpass")});
+                notificadorMsg.notificarMsg(new Object[]{("login"), ("admin@fithub.es"), ("Adminpass37")});
             }
         });
     }

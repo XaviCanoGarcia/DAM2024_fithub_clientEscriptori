@@ -33,6 +33,13 @@ public class ControladorGui implements Observer {
 
     }
 
+
+    /**
+     * Actualitza finestres i notifica al controladorPanells
+     *
+     * @param o   Objecte que s'observa si hi ha canvi de dades
+     * @param arg Nom i objecte dada que s'ha modificat
+     */
     @Override
     public void update(Observable o, Object arg) {
         Object[] data = (Object[]) arg;

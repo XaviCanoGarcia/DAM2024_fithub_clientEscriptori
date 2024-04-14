@@ -41,7 +41,7 @@ public class ControladorDades {
 
         peticio = tractarPeticio(peticioUsr);
         respostaRaw = ferPeticio(peticio);
-        dades.setEventMsg("Resposta obtinguda: " + respostaRaw[0] + ", " + respostaRaw[1]);
+
         resposta = tractarResposta(respostaRaw);
         actualitzaDades(resposta);
 
@@ -70,14 +70,37 @@ public class ControladorDades {
      * @param peticio Petició que es fara al server.
      * @return peticio retorna la petició amb les dades adaptades.
      */
-    private Object[] tractarPeticio(Object[] peticio) {
+    public Object[] tractarPeticio(Object[] peticio) {
         String cmd = (String) peticio[0];
         String param = (String) peticio[1];
         Object dada = peticio[2];
-
+        Object[] peticioTractada = new Object[4];
+        //Supervisa la llargada de l'objecte petició
         if (peticio.length != 3) {
             dades.setErrorMsg("Objecte petició llargada incorrecte");
             return null;
+        }
+        //Supervisa les dades de login introduides per l'usuari
+        if (peticio[0].equals(CMD_LOGIN)) {
+            String correu = (String) peticio[1];
+            String pass = (String) peticio[2];
+            //Supervisa correu
+            if (!correu.matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")) {
+                dades.setErrorMsg("Format correu incorrecte");
+                return null;
+            }
+            //Supervisa contrasenya
+            if (pass.length() < 8 || !pass.matches(".*\\d.*") || !pass.matches(".*[a-zA-Z].*")) {
+                dades.setErrorMsg("Format Contrasenya incorrecte");
+                return null;
+            }
+        }
+        //Assigna sessioID a la peticio
+        if (dades.getSessioID().equals("")) {
+            peticioTractada[3] = null;
+            dades.setErrorMsg("Sessio no iniciada");
+        } else {
+            peticioTractada[3] = dades.getSessioID();
         }
         //Convertir objectes a HashMaps
         if (dada instanceof Usuari) {
@@ -92,50 +115,14 @@ public class ControladorDades {
             Installacio ins = (Installacio) dada;
             dada = ins.installacio_to_map(ins);
         }
-        peticio[2] = dada;
-        Object[] peticioTractada = new Object[4];
+
         peticioTractada[0] = peticio[0];
         peticioTractada[1] = peticio[1];
         peticioTractada[2] = dada;
-        if(dades.getSessioID().equals("")){
-            peticioTractada[3] = null;
-        }else{
-            peticioTractada[3] = dades.getSessioID();
-        }
-        dades.setEventMsg("Petició que s'envia al servidor: " + peticioTractada[0] + ", " + peticioTractada[1] + ", " + peticioTractada[2] + ", " + peticioTractada[3]);
-        return peticioTractada;
-        /*
-        if (peticio[0].equals(CMD_LOGIN)) {
-            Usuari usr = (Usuari) peticio[2];
-            String correu = usr.getCorreu();
-            String pass = usr.getContrasenya();
-            String telefon = usr.getTelefon();
-            String dataNeixament = usr.getDataNaixement();
-            //Supervisa correu
-            if (!correu.matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")){
-                dades.setErrorMsg("Format correu incorrecte");
-                return null;
-            }
-            //Supervisa telefon
-            if (!(telefon.length() == 9)){
-                dades.setErrorMsg("Format telefon incorrecte");
-                return null;
-            }
-            //Supervisa contrasenya
-            if (pass.length() < 8 || !pass.matches(".*\\d.*") || !pass.matches(".*[a-zA-Z].*")){
-                dades.setErrorMsg("Format Contrasenya incorrecte");
-                return null;
-            }
-            //Supervisa data neixament
-            try {
-                Date data = formatData.parse(dataNeixament);
-            } catch (ParseException e) {
-                dades.setErrorMsg("Format data neixament incorrecte");
-                return null;
-            }
-        }
 
-         */
+        dades.setEventMsg("Petició que s'envia al servidor: " + peticioTractada[0] + ", " + peticioTractada[1] + ", " + peticioTractada[2] + ", " + peticioTractada[3]);
+
+        return peticioTractada;
     }
 
     /**
@@ -245,10 +232,12 @@ public class ControladorDades {
         ParlarAmbServidor srv = new ParlarAmbServidor();
         try {
             resposta = srv.enviarPeticio(peticio);  //Petició al servidor
+
         } catch (ConnectException cx) {
             dades.setErrorMsg("No hi ha connexió");
             return null;
         }
+        dades.setEventMsg("Resposta obtinguda: " + resposta[0] + ", " + resposta[1]);
         return resposta;
     }
 

@@ -1,5 +1,9 @@
 package fithub.clientEscriptori.dades;
 
+
+/**
+ * Aquesta classe emmagatzema variables constants
+ */
 public class Constants {
 
     //Nom finestres
