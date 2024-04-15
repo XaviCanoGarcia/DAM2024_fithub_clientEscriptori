@@ -31,7 +31,7 @@ public class Activitat {
         this.nom = nom;
         this.descripcio = descripcio;
         this.aforament = aforament;
-        this.tipusActivitat = -1;
+        this.tipusActivitat = 1;
     }
 
 
@@ -47,6 +47,7 @@ public class Activitat {
         activitatMap.put(HM_ACT_NOM, activitat.getNom());
         activitatMap.put(HM_ACT_DESC, activitat.getDescripcio());
         activitatMap.put(HM_ACT_AFORAMENT, String.valueOf(activitat.getAforament()));
+        activitatMap.put(HM_ACT_ID,String.valueOf(activitat.getId()));
 
         return activitatMap;
     }
@@ -63,6 +64,7 @@ public class Activitat {
         activitat.setTipusActivitat(Integer.parseInt(map.get(HM_ACT_TIPUS)));
         activitat.setAforament(Integer.parseInt(map.get(HM_ACT_AFORAMENT)));
         activitat.setDescripcio(map.get(HM_ACT_DESC));
+        activitat.setId(Integer.parseInt(map.get(HM_ACT_ID)));
 
         return activitat;
     }

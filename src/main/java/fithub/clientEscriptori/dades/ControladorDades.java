@@ -40,6 +40,7 @@ public class ControladorDades {
         Object[] resposta;
 
         peticio = tractarPeticio(peticioUsr);
+        if(peticio==null)return;
         respostaRaw = ferPeticio(peticio);
 
         resposta = tractarResposta(respostaRaw);

@@ -101,6 +101,7 @@ public class ControladorPanells {
         //Actualitza elements grafics activitatSeleccionada
         if (nomDada.equals(ACTIVITAT_SELECT)) {
             mainAdminForm.setActivitatText((Activitat) dada);
+            mainAdminForm.setIdActivitat(((Activitat) dada).getId());
             return;
         }
         //--------------------------------------------------
@@ -117,6 +118,7 @@ public class ControladorPanells {
         //Actualitza elements grafics activitatSeleccionada
         if (nomDada.equals(INSTALLACIO_SELECT)) {
             mainAdminForm.setInstallacioText((Installacio) dada);
+            mainAdminForm.setIdInstallacio(((Installacio) dada).getId());
             return;
         }
     }

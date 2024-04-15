@@ -60,6 +60,10 @@ public class MainAdminForm {
 
     private int idUsuari = 0;
 
+    private int idActivitat = 0;
+
+    private int idInstallacio = 0;
+
     //private JTextArea textAreaLog;
 
 
@@ -139,7 +143,9 @@ public class MainAdminForm {
         novaActivitatButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Object[] msg = new Object[]{(CMD_NOU), (ACTIVITAT), (getActivitatText())};
+                Activitat act = getActivitatText();
+                act.setId(-1);
+                Object[] msg = new Object[]{(CMD_NOU), (ACTIVITAT), (act)};
                 notificadorMsg.notificarMsg(msg);
             }
         });
@@ -155,7 +161,7 @@ public class MainAdminForm {
         esborraActivitatButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Object[] msg = new Object[]{(CMD_ELIMINA), (ACTIVITAT), (getActivitatText())};
+                Object[] msg = new Object[]{(CMD_ELIMINA), (ACTIVITAT), (getActivitatText().getNom())};
                 notificadorMsg.notificarMsg(msg);
             }
         });
@@ -185,7 +191,9 @@ public class MainAdminForm {
         novaInstallacioButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Object[] msg = new Object[]{(CMD_NOU), (INSTALLACIO), (getInstallacioText())};
+                Installacio ins = getInstallacioText();
+                ins.setId(-1);
+                Object[] msg = new Object[]{(CMD_NOU), (INSTALLACIO), (ins)};
                 notificadorMsg.notificarMsg(msg);
             }
         });
@@ -201,7 +209,7 @@ public class MainAdminForm {
         esborraInstallacioButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Object[] msg = new Object[]{(CMD_ELIMINA), (INSTALLACIO), (getInstallacioText())};
+                Object[] msg = new Object[]{(CMD_ELIMINA), (INSTALLACIO), (getInstallacioText().getNom())};
                 notificadorMsg.notificarMsg(msg);
             }
         });
@@ -268,6 +276,7 @@ public class MainAdminForm {
      */
     public Activitat getActivitatText() {
         Activitat activitat = new Activitat("", "", 0);
+        activitat.setId(idActivitat);
         activitat.setNom(txt_act_nom.getText());
         activitat.setDescripcio(txt_act_descripcio.getText());
         activitat.setAforament(Integer.valueOf(txt_act_aforament.getText()));
@@ -281,6 +290,7 @@ public class MainAdminForm {
      */
     public Installacio getInstallacioText() {
         Installacio installacio = new Installacio("", "", "");
+        installacio.setId(idInstallacio);
         installacio.setNom(txt_ins_nom.getText());
         installacio.setDescripcio(txt_ins_descripcio.getText());
         installacio.setTipus(txt_ins_tipus.getText());
@@ -389,5 +399,13 @@ public class MainAdminForm {
 
     public void setIdUsuari(int idUsuari) {
         this.idUsuari = idUsuari;
+    }
+
+    public void setIdActivitat(int idActivitat) {
+        this.idActivitat = idActivitat;
+    }
+
+    public void setIdInstallacio(int idInstallacio) {
+        this.idInstallacio = idInstallacio;
     }
 }
