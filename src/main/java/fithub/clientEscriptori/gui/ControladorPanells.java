@@ -11,6 +11,10 @@ import fithub.clientEscriptori.gui.panells.MainUser;
 
 import javax.swing.table.DefaultTableModel;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+
 import static fithub.clientEscriptori.dades.Constants.*;
 
 
@@ -47,8 +51,12 @@ public class ControladorPanells {
         String nomDada = (String) msj[0];
         Object dada = msj[1];
         if (nomDada.equals(EVENT) || nomDada.equals(DADA_CONSOLA_LOG)) {
-            //String consoleText = insertaSaltDeLinia((String) dada, 120);
-            //mainAdminForm.getTextAreaLog().append("**EVENT**    ---- " + (String) dada + "\n");
+            Instant timestamp = Instant.now();
+            timestamp = Instant.parse(timestamp.toString());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss.SSS")
+                    .withZone(ZoneId.of("UTC"));
+            String formattedTimestamp = formatter.format(timestamp);
+            mainAdminForm.getTextAreaLog().append(formattedTimestamp + " - **EVENT**    ---- " + (String) dada + "\n");
         }
         if (nomDada.equals(SESSIO_ID)) {
             mainAdminForm.getUsuariActualSessio().setText("sessioId: " + dada);

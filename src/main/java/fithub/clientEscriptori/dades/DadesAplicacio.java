@@ -4,6 +4,9 @@ import fithub.clientEscriptori.dades.objectes.Activitat;
 import fithub.clientEscriptori.dades.objectes.Installacio;
 import fithub.clientEscriptori.dades.objectes.Usuari;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Observable;
 
 import static fithub.clientEscriptori.dades.Constants.*;
@@ -50,7 +53,14 @@ public class DadesAplicacio extends Observable {
         updatedData[0] = nomDada;
         updatedData[1] = dada;
         notifyObservers(updatedData);
-        if (!nomDada.equals(EVENT)) System.out.println("**DATA**     ---- Dada modificada: " + nomDada);
+        if (!nomDada.equals(EVENT)) {
+            Instant timestamp = Instant.now();
+            timestamp = Instant.parse(timestamp.toString());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss.SSS")
+                    .withZone(ZoneId.of("UTC"));
+            String formattedTimestamp = formatter.format(timestamp);
+            System.out.println(formattedTimestamp + " - **DATA**     ---- Dada modificada: " + nomDada);
+        }
     }
 
     void inicialitzaDades() {

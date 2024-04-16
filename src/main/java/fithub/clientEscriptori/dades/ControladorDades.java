@@ -132,7 +132,7 @@ public class ControladorDades {
      * @param respostaRaw Resposta obtinguda del servidor
      * @return resposta Resposta tractada amb les dades adaptades
      */
-    private Object[] tractarResposta(Object[] respostaRaw) {
+    public Object[] tractarResposta(Object[] respostaRaw) {
         Object[] resposta = respostaRaw;
         //Respostes incorrectes
         if (respostaRaw == null || respostaRaw[0] == null) {
@@ -196,6 +196,7 @@ public class ControladorDades {
         if (nomDada.contains(",")) {
             dades.setSessioID(nomDada);
             dades.setUsuariActiu((Usuari) dada);
+            return;
         }
         switch (nomDada) {
             case USUARI:
@@ -227,7 +228,7 @@ public class ControladorDades {
      * @param peticio Petició que es passa al servidor.
      * @return resposta Resposta obtinguda del servidor.
      */
-    private Object[] ferPeticio(Object[] peticio) {
+    public Object[] ferPeticio(Object[] peticio) {
         Object[] resposta;
         //Peticio
         ParlarAmbServidor srv = new ParlarAmbServidor();

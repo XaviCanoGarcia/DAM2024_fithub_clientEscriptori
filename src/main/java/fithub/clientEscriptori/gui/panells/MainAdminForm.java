@@ -7,6 +7,7 @@ import fithub.clientEscriptori.dades.objectes.Usuari;
 import fithub.clientEscriptori.events.NotificadorMissatge;
 
 import javax.swing.*;
+import javax.swing.text.DefaultCaret;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -69,6 +70,8 @@ public class MainAdminForm {
 
     public MainAdminForm() {
         notificadorMsg = new NotificadorMissatge();
+        DefaultCaret caret = (DefaultCaret) textAreaLog.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
         //textAreaLog.setEditable(false);
         //LOGOUT
         logoutbutton.addActionListener(new ActionListener() {

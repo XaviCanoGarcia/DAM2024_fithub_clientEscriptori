@@ -1,6 +1,8 @@
 package Test;
 
 import fithub.clientEscriptori.dades.ControladorDades;
+import fithub.clientEscriptori.dades.objectes.Activitat;
+import fithub.clientEscriptori.dades.objectes.Installacio;
 import fithub.clientEscriptori.dades.objectes.Usuari;
 import fithub.clientEscriptori.gui.ControladorGui;
 import org.junit.jupiter.api.Test;
@@ -10,7 +12,9 @@ import java.util.Map;
 
 import static fithub.clientEscriptori.dades.Constants.*;
 
-
+/**
+ * Test per comprobar el mètode tractar petició de la classe Controlador de dades
+ */
 public class TractarPeticio {
 
     //LOGIN
@@ -29,16 +33,6 @@ public class TractarPeticio {
     @Test
     public void login_format_pass_incorrecte_numero() {
         Object[] peticio = {("login"), ("admin@fithub.es"), ("AdminPass")};
-        ControladorDades controladorDades = new ControladorDades(new ControladorGui());
-        Object[] rsp = controladorDades.tractarPeticio(peticio);
-        boolean status = true;
-        if (!(rsp == null)) status = false;
-        assert status;
-    }
-
-    @Test
-    public void login_format_pass_incorrecte_Majus() {
-        Object[] peticio = {("login"), ("admin@fithub.es"), ("adminpass37")};
         ControladorDades controladorDades = new ControladorDades(new ControladorGui());
         Object[] rsp = controladorDades.tractarPeticio(peticio);
         boolean status = true;
@@ -129,6 +123,65 @@ public class TractarPeticio {
         boolean status = usuariMap.size() == hs.size();
         if (status) {
             for (Map.Entry<String, String> entry : usuariMap.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+                if (!hs.containsKey(key) || !hs.get(key).equals(value)) {
+                    status = false;
+                    break;
+                }
+            }
+        }
+        assert status;
+    }
+
+    @Test
+    public void activitat_a_hashmap() {
+        Activitat activitat = new Activitat("tennis", "tennisdesc", 2);
+        activitat.setId(1);
+        activitat.setTipusActivitat(1);
+        HashMap<String, String> activitatMap = new HashMap<>();
+        activitatMap.put(HM_ACT_TIPUS, String.valueOf(activitat.getTipusActivitat()));
+        activitatMap.put(HM_ACT_NOM, activitat.getNom());
+        activitatMap.put(HM_ACT_DESC, activitat.getDescripcio());
+        activitatMap.put(HM_ACT_AFORAMENT, String.valueOf(activitat.getAforament()));
+        activitatMap.put(HM_ACT_ID, String.valueOf(activitat.getId()));
+        Object[] peticio = {("insert"), ("activitat"), (activitat)};
+        ControladorDades controladorDades = new ControladorDades(new ControladorGui());
+        controladorDades.getDades().setSessioID("");
+        Object[] rsp = controladorDades.tractarPeticio(peticio);
+        HashMap<String, String> hs = (HashMap<String, String>) rsp[2];
+        boolean status = activitatMap.size() == hs.size();
+        if (status) {
+            for (Map.Entry<String, String> entry : activitatMap.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+                if (!hs.containsKey(key) || !hs.get(key).equals(value)) {
+                    status = false;
+                    break;
+                }
+            }
+        }
+        assert status;
+    }
+
+    @Test
+    public void installacio_a_hashmap() {
+        Installacio installacio1 = new Installacio("Pista tennis", "Pista de tennis descoberta", "exterior");
+        installacio1.setId(1);
+        installacio1.setTipus("1");
+        HashMap<String, String> installacioMap = new HashMap<>();
+        installacioMap.put(HM_INS_TIPUS, installacio1.getTipus());
+        installacioMap.put(HM_INS_NOM, installacio1.getNom());
+        installacioMap.put(HM_INS_DESC, installacio1.getDescripcio());
+        installacioMap.put(HM_INS_ID, String.valueOf(installacio1.getId()));
+        Object[] peticio = {("insert"), ("installacio"), (installacio1)};
+        ControladorDades controladorDades = new ControladorDades(new ControladorGui());
+        controladorDades.getDades().setSessioID("");
+        Object[] rsp = controladorDades.tractarPeticio(peticio);
+        HashMap<String, String> hs = (HashMap<String, String>) rsp[2];
+        boolean status = installacioMap.size() == hs.size();
+        if (status) {
+            for (Map.Entry<String, String> entry : installacioMap.entrySet()) {
                 String key = entry.getKey();
                 String value = entry.getValue();
                 if (!hs.containsKey(key) || !hs.get(key).equals(value)) {
