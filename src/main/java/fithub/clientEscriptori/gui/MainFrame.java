@@ -18,7 +18,7 @@ public class MainFrame extends JFrame {
      */
     public MainFrame() {
         this.setTitle("FITHUB - Main");
-        this.setSize(800, 600);
+        this.setSize(1237, 960);
         this.setLocationRelativeTo(null);
         this.setResizable(true);
         this.setVisible(false);

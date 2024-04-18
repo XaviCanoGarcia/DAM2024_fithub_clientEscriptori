@@ -2,11 +2,12 @@ package fithub.clientEscriptori.dades;
 
 import fithub.clientEscriptori.app.ParlarAmbServidor;
 import fithub.clientEscriptori.dades.objectes.Activitat;
+import fithub.clientEscriptori.dades.objectes.Installacio;
 import fithub.clientEscriptori.dades.objectes.Usuari;
 import fithub.clientEscriptori.gui.ControladorGui;
 
 import java.net.ConnectException;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static fithub.clientEscriptori.dades.Constants.*;
@@ -39,9 +40,9 @@ public class ControladorDades {
         Object[] resposta;
 
         peticio = tractarPeticio(peticioUsr);
-        dades.setEventMsg("Petició que s'envia: " + peticio[0] + ", " + peticio[1] + ", " + peticio[2]);
+        if(peticio==null)return;
         respostaRaw = ferPeticio(peticio);
-        dades.setEventMsg("Resposta obtinguda: " + respostaRaw[0] + ", " + respostaRaw[1]);
+
         resposta = tractarResposta(respostaRaw);
         actualitzaDades(resposta);
 
@@ -70,15 +71,39 @@ public class ControladorDades {
      * @param peticio Petició que es fara al server.
      * @return peticio retorna la petició amb les dades adaptades.
      */
-    private Object[] tractarPeticio(Object[] peticio) {
+    public Object[] tractarPeticio(Object[] peticio) {
         String cmd = (String) peticio[0];
         String param = (String) peticio[1];
         Object dada = peticio[2];
-
+        Object[] peticioTractada = new Object[4];
+        //Supervisa la llargada de l'objecte petició
         if (peticio.length != 3) {
             dades.setErrorMsg("Objecte petició llargada incorrecte");
             return null;
         }
+        //Supervisa les dades de login introduides per l'usuari
+        if (peticio[0].equals(CMD_LOGIN)) {
+            String correu = (String) peticio[1];
+            String pass = (String) peticio[2];
+            //Supervisa correu
+            if (!correu.matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")) {
+                dades.setErrorMsg("Format correu incorrecte");
+                return null;
+            }
+            //Supervisa contrasenya
+            if (pass.length() < 8 || !pass.matches(".*\\d.*") || !pass.matches(".*[a-zA-Z].*")) {
+                dades.setErrorMsg("Format Contrasenya incorrecte");
+                return null;
+            }
+        }
+        //Assigna sessioID a la peticio
+        if (dades.getSessioID().equals("")) {
+            peticioTractada[3] = null;
+            dades.setErrorMsg("Sessio no iniciada");
+        } else {
+            peticioTractada[3] = dades.getSessioID();
+        }
+        //Convertir objectes a HashMaps
         if (dada instanceof Usuari) {
             Usuari usr = (Usuari) dada;
             dada = usr.usuari_to_map(usr);
@@ -87,40 +112,18 @@ public class ControladorDades {
             Activitat act = (Activitat) dada;
             dada = act.activitat_to_map(act);
         }
-        peticio[2] = dada;
-        return peticio;
-        /*
-        if (peticio[0].equals(CMD_LOGIN)) {
-            Usuari usr = (Usuari) peticio[2];
-            String correu = usr.getCorreu();
-            String pass = usr.getContrasenya();
-            String telefon = usr.getTelefon();
-            String dataNeixament = usr.getDataNaixement();
-            //Supervisa correu
-            if (!correu.matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")){
-                dades.setErrorMsg("Format correu incorrecte");
-                return null;
-            }
-            //Supervisa telefon
-            if (!(telefon.length() == 9)){
-                dades.setErrorMsg("Format telefon incorrecte");
-                return null;
-            }
-            //Supervisa contrasenya
-            if (pass.length() < 8 || !pass.matches(".*\\d.*") || !pass.matches(".*[a-zA-Z].*")){
-                dades.setErrorMsg("Format Contrasenya incorrecte");
-                return null;
-            }
-            //Supervisa data neixament
-            try {
-                Date data = formatData.parse(dataNeixament);
-            } catch (ParseException e) {
-                dades.setErrorMsg("Format data neixament incorrecte");
-                return null;
-            }
+        if (dada instanceof Installacio) {
+            Installacio ins = (Installacio) dada;
+            dada = ins.installacio_to_map(ins);
         }
 
-         */
+        peticioTractada[0] = peticio[0];
+        peticioTractada[1] = peticio[1];
+        peticioTractada[2] = dada;
+
+        dades.setEventMsg("Petició que s'envia al servidor: " + peticioTractada[0] + ", " + peticioTractada[1] + ", " + peticioTractada[2] + ", " + peticioTractada[3]);
+
+        return peticioTractada;
     }
 
     /**
@@ -129,8 +132,8 @@ public class ControladorDades {
      * @param respostaRaw Resposta obtinguda del servidor
      * @return resposta Resposta tractada amb les dades adaptades
      */
-    private Object[] tractarResposta(Object[] respostaRaw) {
-        Object[] resposta = new Object[]{(""), ("")};
+    public Object[] tractarResposta(Object[] respostaRaw) {
+        Object[] resposta = respostaRaw;
         //Respostes incorrectes
         if (respostaRaw == null || respostaRaw[0] == null) {
             dades.setErrorMsg("Reseposta null del servidor");
@@ -145,25 +148,38 @@ public class ControladorDades {
         if (!respostaRaw[0].equals("") && respostaRaw[1] != null) {
             String nomDada = (String) respostaRaw[0];
             Object dada = respostaRaw[1];
-            resposta[0] = respostaRaw[0];
             Usuari usr = new Usuari("", "");
             Activitat act = new Activitat("", "", 0);
+            Installacio ins = new Installacio("", "", "");
+
+            //Identifica resposta de login, comprova el tipus d'usuari
+            if (nomDada.contains(",")) {
+                if (nomDada.split(",")[1].equals("1") || nomDada.split(",")[1].equals("2")) {
+                    resposta[1] = usr.map_to_usuari((HashMap<String, String>) respostaRaw[1]);
+                }
+            }
+
             //Crea els objectes de dades a partir dels HashMaps
             switch (nomDada) {
-                case USUARI, USUARI_ACTIU:
+                case USUARI:
                     resposta[1] = usr.map_to_usuari((HashMap<String, String>) respostaRaw[1]);
                     break;
                 case USUARI_LLISTA:
-                    resposta[1] = usr.crearLlistaUsuaris((HashMap<String, String>[]) respostaRaw[1]);
+                    resposta[1] = usr.crearLlistaUsuaris((ArrayList<HashMap<String, String>>) respostaRaw[1]);
                     break;
                 case ACTIVITAT:
                     resposta[1] = act.map_to_activitat((HashMap<String, String>) respostaRaw[1]);
                     break;
                 case ACTIVITAT_LLISTA:
-                    resposta[1] = act.crearLlistaActivitats((HashMap<String, String>[]) respostaRaw[1]);
+                    resposta[1] = act.crearLlistaActivitats((ArrayList<HashMap<String, String>>) respostaRaw[1]);
+                    break;
+                case INSTALLACIO:
+                    resposta[1] = ins.map_to_installacio((HashMap<String, String>) respostaRaw[1]);
+                    break;
+                case INSTALLACIO_LLISTA:
+                    resposta[1] = ins.crearLlistaInstallacio((ArrayList<HashMap<String, String>>) respostaRaw[1]);
                     break;
             }
-
         }
         return resposta;
     }
@@ -177,10 +193,12 @@ public class ControladorDades {
         if (resposta == null || resposta[0].equals("") || resposta[1] == null) return;
         String nomDada = (String) resposta[0];
         Object dada = resposta[1];
+        if (nomDada.contains(",")) {
+            dades.setSessioID(nomDada);
+            dades.setUsuariActiu((Usuari) dada);
+            return;
+        }
         switch (nomDada) {
-            case USUARI_ACTIU:
-                dades.setUsuariActiu((Usuari) dada);
-                break;
             case USUARI:
                 dades.setUsuariSeleccionat((Usuari) dada);
                 break;
@@ -188,11 +206,19 @@ public class ControladorDades {
                 dades.setLlistaUsuaris((Usuari[]) dada);
                 break;
             case ACTIVITAT:
-                dades.setActivitat((Activitat) dada);
+                dades.setActivitatSeleccionada((Activitat) dada);
                 break;
             case ACTIVITAT_LLISTA:
                 dades.setLlistaActivitats((Activitat[]) dada);
                 break;
+            case INSTALLACIO:
+                dades.setInstallacioSeleccionada((Installacio) dada);
+                break;
+            case INSTALLACIO_LLISTA:
+                dades.setLlistaInstallacio((Installacio[]) dada);
+                break;
+
+
         }
     }
 
@@ -202,16 +228,18 @@ public class ControladorDades {
      * @param peticio Petició que es passa al servidor.
      * @return resposta Resposta obtinguda del servidor.
      */
-    private Object[] ferPeticio(Object[] peticio) {
+    public Object[] ferPeticio(Object[] peticio) {
         Object[] resposta;
         //Peticio
         ParlarAmbServidor srv = new ParlarAmbServidor();
         try {
             resposta = srv.enviarPeticio(peticio);  //Petició al servidor
+
         } catch (ConnectException cx) {
             dades.setErrorMsg("No hi ha connexió");
             return null;
         }
+        dades.setEventMsg("Resposta obtinguda: " + resposta[0] + ", " + resposta[1]);
         return resposta;
     }
 

@@ -1,7 +1,10 @@
 package fithub.clientEscriptori.dades.objectes;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
+
+import static fithub.clientEscriptori.dades.Constants.*;
 
 /**
  * Classe que representa l'objecte Activitat
@@ -14,6 +17,7 @@ public class Activitat {
     private String nom;
     private String descripcio;
     private int aforament;
+    private int tipusActivitat;
 
     /**
      * Constructor de la classe Activitat.
@@ -27,6 +31,7 @@ public class Activitat {
         this.nom = nom;
         this.descripcio = descripcio;
         this.aforament = aforament;
+        this.tipusActivitat = 1;
     }
 
 
@@ -38,10 +43,11 @@ public class Activitat {
      */
     public HashMap<String, String> activitat_to_map(Activitat activitat) {
         HashMap<String, String> activitatMap = new HashMap<>();
-        activitatMap.put("id", String.valueOf(activitat.getId()));
-        activitatMap.put("nom", activitat.getNom());
-        activitatMap.put("descripcio", activitat.getDescripcio());
-        activitatMap.put("aformanet", String.valueOf(activitat.getAforament()));
+        activitatMap.put(HM_ACT_TIPUS, String.valueOf(activitat.getTipusActivitat()));
+        activitatMap.put(HM_ACT_NOM, activitat.getNom());
+        activitatMap.put(HM_ACT_DESC, activitat.getDescripcio());
+        activitatMap.put(HM_ACT_AFORAMENT, String.valueOf(activitat.getAforament()));
+        activitatMap.put(HM_ACT_ID,String.valueOf(activitat.getId()));
 
         return activitatMap;
     }
@@ -54,10 +60,11 @@ public class Activitat {
      */
     public Activitat map_to_activitat(HashMap<String, String> map) {
         Activitat activitat = new Activitat("", "", 0);
-        activitat.setNom(map.get("nom"));
-        activitat.setId(Integer.parseInt(map.get("id")));
-        activitat.setAforament(Integer.parseInt(map.get("aforament")));
-        activitat.setDescripcio(map.get("descripcio"));
+        activitat.setNom(map.get(HM_ACT_NOM));
+        activitat.setTipusActivitat(Integer.parseInt(map.get(HM_ACT_TIPUS)));
+        activitat.setAforament(Integer.parseInt(map.get(HM_ACT_AFORAMENT)));
+        activitat.setDescripcio(map.get(HM_ACT_DESC));
+        activitat.setId(Integer.parseInt(map.get(HM_ACT_ID)));
 
         return activitat;
     }
@@ -68,12 +75,12 @@ public class Activitat {
      * @param llistaactivitat Llista d'activitats que es vol convertir
      * @return mapList Llista d'activitats convertida a mapa
      */
-    public HashMap<String, String>[] creaLlistaactivitatsMap(Activitat[] llistaactivitat) {
-        HashMap<String, String>[] mapList = new HashMap[llistaactivitat.length];
+    public ArrayList<HashMap<String, String>> creaLlistaactivitatsMap(Activitat[] llistaactivitat) {
+        ArrayList<HashMap<String, String>> mapList = new ArrayList<HashMap<String, String>>();
         int index = 0;
         for (Activitat usr : llistaactivitat) {
             if (usr != null) {
-                mapList[index++] = (activitat_to_map(usr));
+                mapList.add(activitat_to_map(usr));
             }
         }
         return mapList;
@@ -82,14 +89,14 @@ public class Activitat {
     /**
      * Aquest metode llegeix un HashMap i el converteix a llista d'activitats
      *
-     * @param map HashMap que conté la llista d'activitats
+     * @param mapList ArrayList que conté la llista d'activitats
      * @return llistaactivitat Llista d'activitats extreta del HashMap
      */
-    public Activitat[] crearLlistaActivitats(HashMap<String, String>[] map) {
-        Activitat[] llistraActivitat = new Activitat[map.length];
+    public Activitat[] crearLlistaActivitats(ArrayList<HashMap<String, String>> mapList) {
+        Activitat[] llistraActivitat = new Activitat[mapList.size()];
         int index = 0;
-        for (int i = 0; i < map.length; i++) {
-            if (map[i] != null) llistraActivitat[i] = map_to_activitat(map[i]);
+        for (int i = 0; i < mapList.size(); i++) {
+            if (mapList.get(i) != null) llistraActivitat[i] = map_to_activitat(mapList.get(i));
         }
 
         return llistraActivitat;
@@ -159,6 +166,15 @@ public class Activitat {
     public void setId(int id) {
         this.id = id;
     }
+
+    public int getTipusActivitat() {
+        return tipusActivitat;
+    }
+
+    public void setTipusActivitat(int tipusActivitat) {
+        this.tipusActivitat = tipusActivitat;
+    }
+
 
 }
 

@@ -5,6 +5,8 @@
  */
 package fithub.clientEscriptori;
 
+import fithub.clientEscriptori.dades.objectes.Activitat;
+import fithub.clientEscriptori.dades.objectes.Installacio;
 import fithub.clientEscriptori.dades.objectes.Usuari;
 
 import java.io.IOException;
@@ -17,6 +19,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Scanner;
+
+import static fithub.clientEscriptori.dades.Constants.*;
 
 public class MainServer {
 
@@ -67,50 +71,115 @@ class ThreadClient extends Thread {
     private static Object[] simulacioServer(Object[] msg) {
         Object[] rsp = new Object[2];
         Usuari usuariAdmin = new Usuari("Xavi", "Cano Garcia", "03/04/1997", "C/Llorach 18", "978056784", "xcano@gmail.com", "pass", "05/09/2020");
-        usuariAdmin.setSessioID(1);
-        usuariAdmin.setTipus("admin");
+        usuariAdmin.setUsuariID(1);
+        usuariAdmin.setTipus(1);
         Usuari usr = new Usuari("", "");
         Usuari usuari1 = new Usuari("Josep", "Lopez", "03/04/1997", "C/Terssol 18", "978056784", "josepLopez@gmail.com", "pass", "05/09/2020");
-        usuari1.setSessioID(2);
+        usuari1.setUsuariID(2);
         Usuari usuari2 = new Usuari("Maria", "Bonet", "13/12/2000", "C/Major 12", "97800987", "MariaBonet@gmail.com", "pass", "15/07/2020");
         Usuari usuari3 = new Usuari("Albert", "Guspi", "18/02/1993", "C/Vell 1", "979807654", "AlbertGuspi@gmail.com", "pass", "14/02/2019");
         Usuari[] llistaUsuari = new Usuari[10];
         llistaUsuari[0] = usuari1;
         llistaUsuari[1] = usuari2;
         llistaUsuari[2] = usuari3;
-
-        if (msg[1].equals("usuari")) {
+        Activitat[] llistaActivitat = new Activitat[4];
+        Activitat activitat = new Activitat("tennis", "tennisdesc", 2);
+        Activitat activitat2 = new Activitat("basquet", "bascdesc", 10);
+        Activitat activitat3 = new Activitat("futbol", "futsdesc", 22);
+        activitat.setTipusActivitat(1);
+        activitat3.setTipusActivitat(1);
+        activitat2.setTipusActivitat(1);
+        Installacio[] llistaInstallacio = new Installacio[4];
+        Installacio installacio1 = new Installacio("Pista tennis", "Pista de tennis descoberta", "exterior");
+        Installacio installacio2 = new Installacio("Piscina", "Piscina coberta", "interior");
+        llistaInstallacio[0] = installacio1;
+        llistaInstallacio[1] = installacio2;
+        llistaActivitat[0] = activitat;
+        llistaActivitat[1] = activitat2;
+        llistaActivitat[2] = activitat3;
+        if (msg[1].equals(USUARI)) {
             switch ((String) msg[0]) {
-                case "insert":
+                case CMD_NOU:
                     llistaUsuari[3] = usr.map_to_usuari((HashMap<String, String>) msg[2]);
-                    rsp[0] = "usuariList";
+                    rsp[0] = USUARI_LLISTA;
                     rsp[1] = usr.creaLlistaUsuarisMap(llistaUsuari);
                     break;
-                case "delete":
+                case CMD_ELIMINA:
                     break;
-                case "update":
-                    rsp[0] = "usuari";
+                case CMD_MODIFICA:
+                    rsp[0] = USUARI;
                     rsp[1] = usr.usuari_to_map(usuari2);
                     break;
-                case "select":
-                    rsp[0] = "usuari";
-                    rsp[1] = usuari1;
+                case CMD_SELECT:
+                    rsp[0] = USUARI;
+                    rsp[1] = usr.usuari_to_map(usuari2);
                     break;
-                case "selectAll":
-                    rsp[0] = "usuariList";
+                case CMD_SELECT_ALL:
+                    rsp[0] = USUARI_LLISTA;
                     rsp[1] = usr.creaLlistaUsuarisMap(llistaUsuari);
                     break;
             }
             return rsp;
         }
+        if (msg[1].equals(ACTIVITAT)) {
+            switch ((String) msg[0]) {
+                case CMD_NOU:
+                    llistaActivitat[3] = activitat.map_to_activitat((HashMap<String, String>) msg[2]);
+                    rsp[0] = ACTIVITAT_LLISTA;
+                    rsp[1] = activitat.creaLlistaactivitatsMap(llistaActivitat);
+                    break;
+                case CMD_ELIMINA:
+                    break;
+                case CMD_MODIFICA:
+                    rsp[0] = ACTIVITAT;
+                    rsp[1] = activitat.activitat_to_map(activitat2);
+                    break;
+                case CMD_SELECT:
+                    rsp[0] = ACTIVITAT;
+                    rsp[1] = activitat.activitat_to_map(activitat2);
+                    break;
+                case CMD_SELECT_ALL:
+                    rsp[0] = ACTIVITAT_LLISTA;
+                    rsp[1] = activitat.creaLlistaactivitatsMap(llistaActivitat);
+                    break;
+            }
+            return rsp;
+        }
+        if (msg[1].equals(INSTALLACIO)) {
+            switch ((String) msg[0]) {
+                case CMD_NOU:
+                    llistaActivitat[3] = activitat.map_to_activitat((HashMap<String, String>) msg[2]);
+                    rsp[0] = INSTALLACIO_LLISTA;
+                    rsp[1] = installacio1.creaLlistaInstallacioMap(llistaInstallacio);
+                    break;
+                case CMD_ELIMINA:
+                    break;
+                case CMD_MODIFICA:
+                    rsp[0] = INSTALLACIO;
+                    rsp[1] = installacio1.installacio_to_map(installacio2);
+                    break;
+                case CMD_SELECT:
+                    rsp[0] = INSTALLACIO;
+                    rsp[1] = installacio1.installacio_to_map(installacio2);
+                    break;
+                case CMD_SELECT_ALL:
+                    rsp[0] = INSTALLACIO_LLISTA;
+                    rsp[1] = installacio1.creaLlistaInstallacioMap(llistaInstallacio);
+                    break;
+            }
+            return rsp;
+        }
         //Login
-        if (msg[0].equals("login") && msg[1].equals("admin") && msg[2].equals("pass")) {
-            rsp[0] = "usuariActiu";
+        if (msg[0].equals(CMD_LOGIN) && msg[1].equals("admin@fithub.es") && msg[2].equals("Adminpass37")) {
+            rsp[0] = "2024,1";
             rsp[1] = usr.usuari_to_map(usuariAdmin);
-        } else if (msg[0].equals("login") && msg[1].equals("client") && msg[2].equals("pass")) {
-            rsp[0] = "usuariActiu";
-            usr.setTipus("client");
+        } else if (msg[0].equals(CMD_LOGIN) && msg[1].equals("client") && msg[2].equals("pass")) {
+            rsp[0] = USUARI_ACTIU;
+            usr.setTipus(1);
             rsp[1] = usr.usuari_to_map(usuari1);
+        } else if (msg[0].equals(CMD_LOGOUT)) {
+            rsp[0] = CMD_LOGOUT;
+            rsp[1] = "true";
         }
         return rsp;
     }
@@ -121,7 +190,7 @@ class ThreadClient extends Thread {
         Object[] msg = new Object[3];
         Object[] rsp = new Object[2];
         Usuari usuari = new Usuari("admin@fithub.com", "pass");
-        usuari.setSessioID(1);
+        usuari.setUsuariID(1);
 
         // Envia missatge de conectat al client
         outHS.println("Client connectat");

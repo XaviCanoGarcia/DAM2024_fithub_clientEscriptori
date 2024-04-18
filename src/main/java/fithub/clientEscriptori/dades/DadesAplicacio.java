@@ -1,8 +1,12 @@
 package fithub.clientEscriptori.dades;
 
 import fithub.clientEscriptori.dades.objectes.Activitat;
+import fithub.clientEscriptori.dades.objectes.Installacio;
 import fithub.clientEscriptori.dades.objectes.Usuari;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Observable;
 
 import static fithub.clientEscriptori.dades.Constants.*;
@@ -15,12 +19,14 @@ import static fithub.clientEscriptori.dades.Constants.*;
  */
 public class DadesAplicacio extends Observable {
 
-    private int pestanyaActiva = 1;
+    private String sessioID = "";
     private Usuari usuariActiu;
     private Usuari usuariSeleccionat;
     private Usuari[] llistaUsuaris;
-    private Activitat activitat;
+    private Activitat activitatSeleccionada;
     private Activitat[] llistaActivitats;
+    private Installacio installacioSeleccionada;
+    private Installacio[] llistaInstallacio;
     private String errorMsg;
 
     private String eventMsg;
@@ -30,9 +36,10 @@ public class DadesAplicacio extends Observable {
      */
     public DadesAplicacio() {
         usuariActiu = new Usuari("", "");
-        usuariActiu.setTipus(USUARI_ADMIN);
+        usuariActiu.setTipus(1);
         usuariSeleccionat = new Usuari("", "");
-        activitat = new Activitat("", "", 0);
+        activitatSeleccionada = new Activitat("", "", 0);
+        installacioSeleccionada = new Installacio("", "", "");
     }
 
     /**
@@ -46,53 +53,35 @@ public class DadesAplicacio extends Observable {
         updatedData[0] = nomDada;
         updatedData[1] = dada;
         notifyObservers(updatedData);
-        if (!nomDada.equals("event")) System.out.println("**DATA**    ---- Dada modificada:" + nomDada);
+        if (!nomDada.equals(EVENT)) {
+            Instant timestamp = Instant.now();
+            timestamp = Instant.parse(timestamp.toString());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss.SSS")
+                    .withZone(ZoneId.of("UTC"));
+            String formattedTimestamp = formatter.format(timestamp);
+            System.out.println(formattedTimestamp + " - **DATA**     ---- Dada modificada: " + nomDada);
+        }
     }
 
     void inicialitzaDades() {
-        setPestanyaActiva(0);
+        setSessioID("");
         setUsuariActiu(new Usuari("a", "a"));
         setUsuariSeleccionat(new Usuari("", ""));
         setLlistaUsuaris(new Usuari[]{(new Usuari("", "")), (new Usuari("", ""))});
-
+        setActivitatSeleccionada(new Activitat("", "", 0));
+        setLlistaActivitats(new Activitat[]{(new Activitat("", "", 0)), new Activitat("", "", 0)});
         errorMsg = "";
         eventMsg = "";
     }
 
-    public int getPestanyaActiva() {
-        return pestanyaActiva;
-    }
-
-    public void setPestanyaActiva(int pestanyaActiva) {
-        if (this.pestanyaActiva != pestanyaActiva) {
-            this.pestanyaActiva = pestanyaActiva;
+    public void setSessioID(String sessioID) {
+        if (this.sessioID != sessioID) {
+            this.sessioID = sessioID;
             setChanged();
-            notificaCanviDades(PESTANYA, this.pestanyaActiva);
-        }
-    }
-
-    public Usuari getUsuariActiu() {
-        return usuariActiu;
-    }
-
-    public void setUsuariActiu(Usuari usuariActiu) {
-        if (this.usuariActiu != usuariActiu) {
-            if (usuariActiu == null) ;
-            this.usuariActiu = usuariActiu;
+            notificaCanviDades(SESSIO_ID, this.sessioID);
+            this.sessioID = sessioID;
             setChanged();
-            notificaCanviDades(USUARI_ACTIU, this.usuariActiu);
-        }
-    }
-
-    public Usuari getUsuariSeleccionat() {
-        return usuariSeleccionat;
-    }
-
-    public void setUsuariSeleccionat(Usuari usuariSeleccionat) {
-        if (this.usuariSeleccionat != usuariSeleccionat) {
-            this.usuariSeleccionat = usuariSeleccionat;
-            setChanged();
-            notificaCanviDades(USUARI_SELECT, this.usuariSeleccionat);
+            notificaCanviDades(DADA_CONSOLA_LOG, "Dada modificada: " + SESSIO_ID);
         }
     }
 
@@ -105,19 +94,8 @@ public class DadesAplicacio extends Observable {
             this.llistaUsuaris = llistaUsuaris;
             setChanged();
             notificaCanviDades(USUARI_LLISTA, this.llistaUsuaris);
-        }
-    }
-
-    public Activitat getActivitat() {
-        return activitat;
-    }
-
-    public void setActivitat(Activitat activitat) {
-        if (this.activitat != activitat) {
-            if (activitat == null) ;
-            this.activitat = activitat;
             setChanged();
-            notificaCanviDades(ACTIVITAT, this.activitat);
+            notificaCanviDades(DADA_CONSOLA_LOG, "Dada modificada: " + USUARI_LLISTA);
         }
     }
 
@@ -130,11 +108,13 @@ public class DadesAplicacio extends Observable {
             this.llistaActivitats = llistaActivitats;
             setChanged();
             notificaCanviDades(ACTIVITAT_LLISTA, this.llistaActivitats);
+            setChanged();
+            notificaCanviDades(DADA_CONSOLA_LOG, "Dada modificada: " + ACTIVITAT_LLISTA);
         }
     }
 
-    public String getErrorMsg() {
-        return errorMsg;
+    public Usuari getUsuariActiu() {
+        return usuariActiu;
     }
 
     public void setErrorMsg(String errorMsg) {
@@ -151,9 +131,88 @@ public class DadesAplicacio extends Observable {
         if (this.eventMsg != eventMsg) {
             this.eventMsg = eventMsg;
             setChanged();
-            notificaCanviDades("event", this.eventMsg);
+            notificaCanviDades(EVENT, this.eventMsg);
             System.out.println("**EVENT**    ---- " + eventMsg);
             this.eventMsg = "";
+        }
+    }
+
+
+    public String getSessioID() {
+        return sessioID;
+    }
+
+    public void setUsuariActiu(Usuari usuariActiu) {
+        if (this.usuariActiu != usuariActiu) {
+            if (usuariActiu == null) ;
+            this.usuariActiu = usuariActiu;
+            setChanged();
+            notificaCanviDades(USUARI_ACTIU, this.usuariActiu);
+            setChanged();
+            notificaCanviDades(DADA_CONSOLA_LOG, "Dada modificada: " + USUARI_ACTIU);
+        }
+    }
+
+    public Usuari getUsuariSeleccionat() {
+        return usuariSeleccionat;
+    }
+
+    public void setUsuariSeleccionat(Usuari usuariSeleccionat) {
+        if (this.usuariSeleccionat != usuariSeleccionat) {
+            this.usuariSeleccionat = usuariSeleccionat;
+            setChanged();
+            notificaCanviDades(USUARI_SELECT, this.usuariSeleccionat);
+            setChanged();
+            notificaCanviDades(DADA_CONSOLA_LOG, "Dada modificada: " + USUARI_SELECT);
+        }
+    }
+
+    public Activitat getActivitatSeleccionada() {
+        return activitatSeleccionada;
+    }
+
+    public void setActivitatSeleccionada(Activitat activitatSeleccionada) {
+        if (this.activitatSeleccionada != activitatSeleccionada) {
+            if (activitatSeleccionada == null) ;
+            this.activitatSeleccionada = activitatSeleccionada;
+            setChanged();
+            notificaCanviDades(ACTIVITAT_SELECT, this.activitatSeleccionada);
+            setChanged();
+            notificaCanviDades(DADA_CONSOLA_LOG, "Dada modificada: " + ACTIVITAT_SELECT);
+
+        }
+    }
+
+    public Installacio getInstallacioSeleccionada() {
+        return installacioSeleccionada;
+    }
+
+    public void setInstallacioSeleccionada(Installacio installacioSeleccionada) {
+        if (this.installacioSeleccionada != installacioSeleccionada) {
+            if (installacioSeleccionada == null) ;
+            this.installacioSeleccionada = installacioSeleccionada;
+            setChanged();
+            notificaCanviDades(INSTALLACIO_SELECT, this.installacioSeleccionada);
+            setChanged();
+            notificaCanviDades(DADA_CONSOLA_LOG, "Dada modificada: " + INSTALLACIO_SELECT);
+        }
+    }
+
+    public String getErrorMsg() {
+        return errorMsg;
+    }
+
+    public Installacio[] getLlistaInstallacio() {
+        return llistaInstallacio;
+    }
+
+    public void setLlistaInstallacio(Installacio[] llistaInstallacio) {
+        if (this.llistaInstallacio != llistaInstallacio) {
+            this.llistaInstallacio = llistaInstallacio;
+            setChanged();
+            notificaCanviDades(INSTALLACIO_LLISTA, this.llistaInstallacio);
+            setChanged();
+            notificaCanviDades(DADA_CONSOLA_LOG, "Dada modificada: " + INSTALLACIO_LLISTA);
         }
     }
 }

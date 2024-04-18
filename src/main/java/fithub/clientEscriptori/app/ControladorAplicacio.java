@@ -1,9 +1,12 @@
 package fithub.clientEscriptori.app;
 
+import fithub.clientEscriptori.dades.Constants;
 import fithub.clientEscriptori.dades.ControladorDades;
 import fithub.clientEscriptori.events.MissatgeEvent;
 import fithub.clientEscriptori.events.MissatgeListener;
 import fithub.clientEscriptori.gui.ControladorGui;
+
+import static fithub.clientEscriptori.dades.Constants.*;
 
 
 /**
@@ -45,22 +48,38 @@ public class ControladorAplicacio implements MissatgeListener {
         controladorDades.getDades().setEventMsg("Generat per l'usuari: " + peticio[0] + " " + peticio[1]);
 
         //Accio Logout
-        if (cmd.equals("logout")) {
+        if (cmd.equals(CMD_LOGOUT)) {
             controladorDades.accioLogout();
             return;
         }
-        //Seleccio pestanya
-        if (cmd.equals("mouse") && param.equals("pestanya")) {
-            int pestanya = (int) dada;
-            controladorDades.getDades().setPestanyaActiva(pestanya);
-            return;
-        }
         //Seleccio amb el mouse un usuari de la taula
-        if (cmd.equals("mouse") && peticio[1].equals("usuariSeleccionat")) {
+        if (cmd.equals(CMD_MOUSE) && peticio[1].equals(USUARI_SELECT)) {
             int numUsuariTaulaSeleccionat = (int) peticio[2];
             if (numUsuariTaulaSeleccionat < controladorDades.getDades().getLlistaUsuaris().length) {
                 if (controladorDades.getDades().getLlistaUsuaris()[numUsuariTaulaSeleccionat] != null) {
                     controladorDades.getDades().setUsuariSeleccionat(controladorDades.getDades().getLlistaUsuaris()[numUsuariTaulaSeleccionat]);
+
+                }
+            }
+            return;
+        }
+        //Seleccio amb el mouse d'una activitat de la taula
+        if (cmd.equals(CMD_MOUSE) && peticio[1].equals(ACTIVITAT_SELECT)) {
+            int numTaulaSeleccionat = (int) peticio[2];
+            if (numTaulaSeleccionat < controladorDades.getDades().getLlistaActivitats().length) {
+                if (controladorDades.getDades().getLlistaActivitats()[numTaulaSeleccionat] != null) {
+                    controladorDades.getDades().setActivitatSeleccionada(controladorDades.getDades().getLlistaActivitats()[numTaulaSeleccionat]);
+
+                }
+            }
+            return;
+        }
+        //Seleccio amb el mouse d'una intal·lació de la taula
+        if (cmd.equals(CMD_MOUSE) && peticio[1].equals(INSTALLACIO_SELECT)) {
+            int numTaulaSeleccionat = (int) peticio[2];
+            if (numTaulaSeleccionat < controladorDades.getDades().getLlistaInstallacio().length) {
+                if (controladorDades.getDades().getLlistaInstallacio()[numTaulaSeleccionat] != null) {
+                    controladorDades.getDades().setInstallacioSeleccionada(controladorDades.getDades().getLlistaInstallacio()[numTaulaSeleccionat]);
 
                 }
             }

@@ -1,7 +1,10 @@
 package fithub.clientEscriptori.dades.objectes;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+
+import static fithub.clientEscriptori.dades.Constants.*;
 
 /**
  * Classe Usuari que representa un usuari en l'aplicació FitHub.
@@ -15,10 +18,10 @@ import java.util.HashMap;
 public class Usuari implements Serializable {
     //Dades Obligatories
     private String DEFAULT_VALUE = "";
-    private int sessioID;
+    private int usuariID;
     private String correu;
     private String contrasenya;
-    private String tipus;
+    private int tipus;
 
     //Dades opcionals
     private String nom;
@@ -37,9 +40,9 @@ public class Usuari implements Serializable {
     public Usuari(String correu, String contrasenya) {
         this.correu = correu;
         this.contrasenya = contrasenya;
-        this.sessioID = -1;
+        this.usuariID = -1;
 
-        this.tipus = "client";
+        this.tipus = 2;
         this.nom = DEFAULT_VALUE;
         this.cognoms = DEFAULT_VALUE;
         this.dataNaixement = DEFAULT_VALUE;
@@ -61,8 +64,8 @@ public class Usuari implements Serializable {
      * @param dataInscripcio La data d'inscripció de l'usuari.
      */
     public Usuari(String nom, String cognoms, String dataNaixement, String adreca, String telefon, String correu, String contrasenya, String dataInscripcio) {
-        this.sessioID = -1;
-        this.tipus = DEFAULT_VALUE;
+        this.usuariID = -1;
+        this.tipus = 2;
         this.correu = correu;
         this.contrasenya = contrasenya;
         this.nom = nom;
@@ -81,17 +84,15 @@ public class Usuari implements Serializable {
      */
     public HashMap<String, String> usuari_to_map(Usuari usuari) {
         HashMap<String, String> usuariMap = new HashMap<>();
-        usuariMap.put("objectType", "usuari");
-        usuariMap.put("sessioID", String.valueOf(usuari.getSessioID()));
-        usuariMap.put("correu", usuari.getCorreu());
-        usuariMap.put("nom", usuari.getNom());
-        usuariMap.put("cognoms", usuari.getCognoms());
-        usuariMap.put("adreca", usuari.getAdreca());
-        usuariMap.put("contrasenya", usuari.getContrasenya());
-        usuariMap.put("dataNeixament", usuari.getDataNaixement());
-        usuariMap.put("dataInscripcio", usuari.getDataInscripcio());
-        usuariMap.put("telefon", usuari.getTelefon());
-        usuariMap.put("tipusUsuari", usuari.getTipus());
+        usuariMap.put(HM_USR_ID, String.valueOf(usuari.getUsuariID()));
+        usuariMap.put(HM_USR_CORREU, usuari.getCorreu());
+        usuariMap.put(HM_USR_NOM, usuari.getNom());
+        usuariMap.put(HM_USR_COGNOMS, usuari.getCognoms());
+        usuariMap.put(HM_USR_ADRECA, usuari.getAdreca());
+        usuariMap.put(HM_USR_DATAN, usuari.getDataNaixement());
+        usuariMap.put(HM_USR_DATAI, usuari.getDataInscripcio());
+        usuariMap.put(HM_USR_TELEFON, usuari.getTelefon());
+        usuariMap.put(HM_USR_TIPUS, String.valueOf(usuari.getTipus()));
 
         return usuariMap;
     }
@@ -104,16 +105,15 @@ public class Usuari implements Serializable {
      */
     public Usuari map_to_usuari(HashMap<String, String> map) {
         Usuari usuari = new Usuari("", "");
-        usuari.setSessioID(Integer.parseInt(map.get("sessioID")));
-        usuari.setCorreu(map.get("correu"));
-        usuari.setNom(map.get("nom"));
-        usuari.setCognoms(map.get("cognoms"));
-        usuari.setAdreca(map.get("adreca"));
-        usuari.setContrasenya(map.get("contrasenya"));
-        usuari.setDataNaixement(map.get("dataNeixament"));
-        usuari.setDataInscripcio(map.get("dataInscripcio"));
-        usuari.setTelefon(map.get("telefon"));
-        usuari.setTipus(map.get("tipusUsuari"));
+        usuari.setUsuariID(Integer.parseInt(map.get(HM_USR_ID)));
+        usuari.setCorreu(map.get(HM_USR_CORREU));
+        usuari.setNom(map.get(HM_USR_NOM));
+        usuari.setCognoms(map.get(HM_USR_COGNOMS));
+        usuari.setAdreca(map.get(HM_USR_ADRECA));
+        usuari.setDataNaixement(map.get(HM_USR_DATAN));
+        usuari.setDataInscripcio(map.get(HM_USR_DATAI));
+        usuari.setTelefon(map.get(HM_USR_TELEFON));
+        usuari.setTipus(Integer.parseInt(map.get(HM_USR_TIPUS)));
 
         return usuari;
     }
@@ -124,12 +124,12 @@ public class Usuari implements Serializable {
      * @param llistaUsuari Llista d'usuaris que es vol convertir
      * @return mapList Llista d'usuaris convertida a mapa
      */
-    public HashMap<String, String>[] creaLlistaUsuarisMap(Usuari[] llistaUsuari) {
-        HashMap<String, String>[] mapList = new HashMap[llistaUsuari.length];
+    public ArrayList<HashMap<String, String>> creaLlistaUsuarisMap(Usuari[] llistaUsuari) {
+        ArrayList<HashMap<String, String>> mapList = new ArrayList<>();
         int index = 0;
         for (Usuari usr : llistaUsuari) {
             if (usr != null) {
-                mapList[index++] = (usuari_to_map(usr));
+                mapList.add(usuari_to_map(usr));
             }
         }
         return mapList;
@@ -138,14 +138,14 @@ public class Usuari implements Serializable {
     /**
      * Aquest metode llegeix un HashMap i el converteix a llista d'usuaris
      *
-     * @param map HashMap que conté la llista d'usuaris
+     * @param mapList ArrayList que conté la llista d'usuaris
      * @return llistaUsuari Llista d'usuaris extreta del HashMap
      */
-    public Usuari[] crearLlistaUsuaris(HashMap<String, String>[] map) {
-        Usuari[] llistraUsuari = new Usuari[map.length];
+    public Usuari[] crearLlistaUsuaris(ArrayList<HashMap<String, String>> mapList) {
+        Usuari[] llistraUsuari = new Usuari[mapList.size()];
         int index = 0;
-        for (int i = 0; i < map.length; i++) {
-            if (map[i] != null) llistraUsuari[i] = map_to_usuari(map[i]);
+        for (int i = 0; i < mapList.size(); i++) {
+            if (mapList.get(i) != null) llistraUsuari[i] = map_to_usuari(mapList.get(i));
         }
 
         return llistraUsuari;
@@ -296,19 +296,19 @@ public class Usuari implements Serializable {
         this.dataInscripcio = dataInscripcio;
     }
 
-    public int getSessioID() {
-        return sessioID;
+    public int getUsuariID() {
+        return usuariID;
     }
 
-    public void setSessioID(int sessioID) {
-        this.sessioID = sessioID;
+    public void setUsuariID(int usuariID) {
+        this.usuariID = usuariID;
     }
 
-    public String getTipus() {
+    public int getTipus() {
         return tipus;
     }
 
-    public void setTipus(String tipus) {
+    public void setTipus(int tipus) {
         this.tipus = tipus;
     }
 }

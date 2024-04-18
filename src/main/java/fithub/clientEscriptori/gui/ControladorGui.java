@@ -1,9 +1,7 @@
 package fithub.clientEscriptori.gui;
 
-import fithub.clientEscriptori.dades.Constants;
 import fithub.clientEscriptori.dades.objectes.Usuari;
 
-import javax.swing.*;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -35,23 +33,30 @@ public class ControladorGui implements Observer {
 
     }
 
+
+    /**
+     * Actualitza finestres i notifica al controladorPanells
+     *
+     * @param o   Objecte que s'observa si hi ha canvi de dades
+     * @param arg Nom i objecte dada que s'ha modificat
+     */
     @Override
     public void update(Observable o, Object arg) {
         Object[] data = (Object[]) arg;
         String nomDada = (String) data[0];
         Object dada = data[1];
-        if (nomDada.equals(USUARI_ACTIU)) {
-            Usuari usrActiu = (Usuari) dada;
-            String usrTipus = usrActiu.getTipus();
-            int sessioID = Integer.valueOf(usrActiu.getSessioID());
-            if (sessioID != -1) {
-                if (usrTipus.equals(USUARI_ADMIN)) {
+        //Canvi de frame si hi sessio activa
+        if (nomDada.equals(SESSIO_ID) || nomDada.equals(CMD_LOGOUT)) {
+            String sessioID = (String) dada;
+            if (sessioID.contains(",")) {
+                String tipusUsuari = sessioID.split(",")[1];
+                if (tipusUsuari.equals("1")) {
                     canviaPantalla(MAIN_FRAME, MAIN_ADMIN_FORM);
-                } else if (usrTipus.equals(USUARI_CLIENT)) {
-                    canviaPantalla(MAIN_FRAME, USUARI_CLIENT);
+                } else if (tipusUsuari.equals("2")) {
+                    canviaPantalla(MAIN_FRAME, MAIN_ADMIN_FORM);
                 }
             } else {
-                canviaPantalla(CMD_LOGIN, LOGIN_FORM);
+                canviaPantalla(LOGIN_FRAME, LOGIN_FORM);
             }
         }
         controladorPanells.update(arg);
@@ -74,10 +79,6 @@ public class ControladorGui implements Observer {
                 loginFrame.setVisible(true);
                 mainFrame.setVisible(false);
                 break;
-            case "default":
-                loginFrame.setVisible(true);
-                mainFrame.setVisible(true);
-                break;
         }
         switch (panel) {
             case LOGIN_FORM:
@@ -85,8 +86,6 @@ public class ControladorGui implements Observer {
                 break;
             case MAIN_ADMIN_FORM:
                 mainFrame.setContentPane(controladorPanells.mainAdminForm.getPanel1());
-                break;
-            case "default":
                 break;
         }
 
