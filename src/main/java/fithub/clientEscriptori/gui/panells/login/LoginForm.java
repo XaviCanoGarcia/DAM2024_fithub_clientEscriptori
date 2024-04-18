@@ -20,7 +20,7 @@ public class LoginForm {
     NotificadorMissatge notificadorMsg;
     private JPanel panel1;
     private JButton botoAceptar;
-    private JTextField textFieldPass;
+    private JPasswordField textFieldPass;
     private JTextField textFieldCorreu;
     private JLabel titol;
     private JLabel titolLogin;
@@ -32,8 +32,9 @@ public class LoginForm {
         botoAceptar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                notificadorMsg.notificarMsg(new Object[]{(CMD_LOGIN), (textFieldCorreu.getText()), (textFieldPass.getText())});
+                char[] caracters = textFieldPass.getPassword();
+                String passStr = new String(caracters);
+                notificadorMsg.notificarMsg(new Object[]{(CMD_LOGIN), (textFieldCorreu.getText()), (passStr)});
                 /*Usuari usr = new Usuari("Josep", "Lopez", "03/04/1997", "C/Terssol 18", "978056784", "josepLopez@gmail.com", "pass", "05/09/2020");
                 usr.setSessioID(1);
                 usr.setTipus("admin");*/
@@ -68,10 +69,6 @@ public class LoginForm {
 
     public JTextField getTextFieldPass() {
         return textFieldPass;
-    }
-
-    public void setTextFieldPass(JTextField textFieldPass) {
-        this.textFieldPass = textFieldPass;
     }
 
     public void setTextFieldPass(String text) {

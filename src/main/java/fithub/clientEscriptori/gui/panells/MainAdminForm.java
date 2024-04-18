@@ -60,19 +60,16 @@ public class MainAdminForm {
     private JButton esborraInstallacioButton;
 
     private int idUsuari = 0;
-
     private int idActivitat = 0;
-
     private int idInstallacio = 0;
-
-    //private JTextArea textAreaLog;
 
 
     public MainAdminForm() {
         notificadorMsg = new NotificadorMissatge();
         DefaultCaret caret = (DefaultCaret) textAreaLog.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-        //textAreaLog.setEditable(false);
+        textAreaLog.setEditable(false);
+
         //LOGOUT
         logoutbutton.addActionListener(new ActionListener() {
             @Override
@@ -81,7 +78,7 @@ public class MainAdminForm {
                 notificadorMsg.notificarMsg(msg);
             }
         });
-        //ACTUALITZA TAULA
+        //ACTUALITZA TAULES
         actualitzaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
