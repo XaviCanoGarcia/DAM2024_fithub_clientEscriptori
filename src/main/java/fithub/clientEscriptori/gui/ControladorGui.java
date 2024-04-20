@@ -59,6 +59,11 @@ public class ControladorGui implements Observer {
                 canviaPantalla(LOGIN_FRAME, LOGIN_FORM);
             }
         }
+        if (nomDada.equals(INFO_USUARI)) {
+            InfoUsuariFrame infoUsuariFrame = new InfoUsuariFrame();
+            infoUsuariFrame.setContentPane(controladorPanells.getUserInfoForm().getPanel1());
+
+        }
         controladorPanells.update(arg);
     }
 
@@ -76,8 +81,8 @@ public class ControladorGui implements Observer {
                 mainFrame.setVisible(true);
                 break;
             case LOGIN_FRAME:
-                loginFrame.setVisible(true);
                 mainFrame.setVisible(false);
+                loginFrame.setVisible(true);
                 break;
         }
         switch (panel) {

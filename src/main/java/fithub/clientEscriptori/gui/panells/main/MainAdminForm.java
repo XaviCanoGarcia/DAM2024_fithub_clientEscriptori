@@ -1,4 +1,4 @@
-package fithub.clientEscriptori.gui.panells;
+package fithub.clientEscriptori.gui.panells.main;
 
 import fithub.clientEscriptori.app.ControladorAplicacio;
 import fithub.clientEscriptori.dades.objectes.Activitat;
@@ -58,6 +58,7 @@ public class MainAdminForm {
     private JButton novaInstallacioButton;
     private JButton guardaInstallacioButton;
     private JButton esborraInstallacioButton;
+    private JButton infoUsuariButton;
 
     private int idUsuari = 0;
     private int idActivitat = 0;
@@ -90,6 +91,15 @@ public class MainAdminForm {
                 notificadorMsg.notificarMsg(msg3);
             }
         });
+        //INFORMACIO DE L'USUARI
+        infoUsuariButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Object[] msg = new Object[]{(CMD_INFO_USUARI), (""), ("")};
+                notificadorMsg.notificarMsg(msg);
+            }
+        });
+
         //--------------------------------------------------
         //---------------------USUARI-----------------------
         //--------------------------------------------------

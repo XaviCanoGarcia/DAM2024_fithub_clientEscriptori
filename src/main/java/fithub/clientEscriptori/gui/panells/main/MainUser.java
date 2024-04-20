@@ -1,4 +1,4 @@
-package fithub.clientEscriptori.gui.panells;
+package fithub.clientEscriptori.gui.panells.main;
 
 import fithub.clientEscriptori.app.ControladorAplicacio;
 import fithub.clientEscriptori.events.NotificadorMissatge;

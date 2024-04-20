@@ -21,14 +21,15 @@ public class DadesAplicacio extends Observable {
 
     private String sessioID = "";
     private Usuari usuariActiu;
+    private boolean canviInfoUsuariActiu;
     private Usuari usuariSeleccionat;
     private Usuari[] llistaUsuaris;
     private Activitat activitatSeleccionada;
     private Activitat[] llistaActivitats;
     private Installacio installacioSeleccionada;
     private Installacio[] llistaInstallacio;
-    private String errorMsg;
 
+    private String errorMsg;
     private String eventMsg;
 
     /**
@@ -37,6 +38,7 @@ public class DadesAplicacio extends Observable {
     public DadesAplicacio() {
         usuariActiu = new Usuari("", "");
         usuariActiu.setTipus(1);
+        canviInfoUsuariActiu = false;
         usuariSeleccionat = new Usuari("", "");
         activitatSeleccionada = new Activitat("", "", 0);
         installacioSeleccionada = new Installacio("", "", "");
@@ -113,9 +115,7 @@ public class DadesAplicacio extends Observable {
         }
     }
 
-    public Usuari getUsuariActiu() {
-        return usuariActiu;
-    }
+
 
     public void setErrorMsg(String errorMsg) {
         if (this.errorMsg != errorMsg) {
@@ -137,6 +137,12 @@ public class DadesAplicacio extends Observable {
         }
     }
 
+    public void setCanviInfoUsuariActiu(boolean canviInfoUsuariActiu) {
+        if (this.canviInfoUsuariActiu != canviInfoUsuariActiu) {
+            setChanged();
+            notificaCanviDades(INFO_USUARI, this.usuariActiu);
+        }
+    }
 
     public String getSessioID() {
         return sessioID;
@@ -200,6 +206,10 @@ public class DadesAplicacio extends Observable {
 
     public String getErrorMsg() {
         return errorMsg;
+    }
+
+    public Usuari getUsuariActiu() {
+        return usuariActiu;
     }
 
     public Installacio[] getLlistaInstallacio() {

@@ -4,10 +4,11 @@ import fithub.clientEscriptori.dades.objectes.Activitat;
 import fithub.clientEscriptori.dades.objectes.Installacio;
 import fithub.clientEscriptori.dades.objectes.Usuari;
 
-import fithub.clientEscriptori.gui.panells.MainAdminForm;
+import fithub.clientEscriptori.gui.panells.main.MainAdminForm;
 import fithub.clientEscriptori.gui.panells.login.LoginForm;
 
-import fithub.clientEscriptori.gui.panells.MainUser;
+import fithub.clientEscriptori.gui.panells.main.MainUser;
+import fithub.clientEscriptori.gui.panells.main.UserInfoForm;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -28,6 +29,7 @@ public class ControladorPanells {
     LoginForm loginForm;
     MainUser mainUser;
     MainAdminForm mainAdminForm;
+    UserInfoForm userInfoForm;
 
     /**
      * Constructor objecte Controlador de panells.
@@ -35,6 +37,7 @@ public class ControladorPanells {
     public ControladorPanells() {
         loginForm = new LoginForm();
         mainUser = new MainUser();
+        userInfoForm = new UserInfoForm();
         mainAdminForm = new MainAdminForm();
         mainAdminForm.getTextAreaLog().setLineWrap(false);
         mainAdminForm.getTextAreaLog().setWrapStyleWord(false);
@@ -50,6 +53,7 @@ public class ControladorPanells {
         Object[] msj = (Object[]) data;
         String nomDada = (String) msj[0];
         Object dada = msj[1];
+        //Actualitza la consola
         if (nomDada.equals(EVENT) || nomDada.equals(DADA_CONSOLA_LOG)) {
             Instant timestamp = Instant.now();
             timestamp = Instant.parse(timestamp.toString());
@@ -58,9 +62,14 @@ public class ControladorPanells {
             String formattedTimestamp = formatter.format(timestamp);
             mainAdminForm.getTextAreaLog().append(formattedTimestamp + " - **EVENT**    ---- " + (String) dada + "\n");
         }
+        //Actualitza la id de sessio
         if (nomDada.equals(SESSIO_ID)) {
             mainAdminForm.getUsuariActualSessio().setText("sessioId: " + dada);
 
+        }
+        //Actualitza elements gràfics de la finestra informació de l'usuari
+        if (nomDada.equals(INFO_USUARI)) {
+            userInfoForm.setUsuariText((Usuari) dada);
         }
         //--------------------------------------------------
         //---------------------USUARIS----------------------
@@ -129,23 +138,6 @@ public class ControladorPanells {
             mainAdminForm.setIdInstallacio(((Installacio) dada).getId());
             return;
         }
-    }
-
-    /**
-     * Inserta caràcters especials de salt de linia i tabulador cada x caracters.
-     * Aquest mètod es fa servir per tractar les linies de text de la consola.
-     *
-     * @param text         Text on es vol insertar salts de linia
-     * @param numCaracters Numero de caràcters de la linia
-     * @return String amb els caràcter especials intercalats
-     */
-    public String insertaSaltDeLinia(String text, int numCaracters) {
-        StringBuilder resultado = new StringBuilder();
-        for (int i = 0; i < text.length(); i += numCaracters) {
-            int fin = Math.min(i + numCaracters, text.length());
-            resultado.append(text.substring(i, fin)).append("\n\t");
-        }
-        return resultado.toString();
     }
 
     /**
@@ -222,6 +214,10 @@ public class ControladorPanells {
 
     public MainUser getMainUser() {
         return mainUser;
+    }
+
+    public UserInfoForm getUserInfoForm() {
+        return userInfoForm;
     }
 
     public MainAdminForm getMainAdminForm() {

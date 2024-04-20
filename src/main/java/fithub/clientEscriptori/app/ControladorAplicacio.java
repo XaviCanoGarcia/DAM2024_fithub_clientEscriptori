@@ -27,7 +27,7 @@ public class ControladorAplicacio implements MissatgeListener {
         controladorGui = new ControladorGui();
         controladorGui.getControladorPanells().getLoginForm().setListenerMsg(this);
         controladorGui.getControladorPanells().getMainAdminForm().setListenerMsg(this);
-        //controladorGui.getControladorPanells().getMainUser().setListener(this);
+        controladorGui.getControladorPanells().getUserInfoForm().setListenerMsg(this);
 
         controladorDades = new ControladorDades(controladorGui);
 
@@ -50,6 +50,11 @@ public class ControladorAplicacio implements MissatgeListener {
         //Accio Logout
         if (cmd.equals(CMD_LOGOUT)) {
             controladorDades.accioLogout();
+            return;
+        }
+        //Accio canvi d'informació usuari
+        if (cmd.equals(CMD_INFO_USUARI)) {
+            controladorDades.getDades().setCanviInfoUsuariActiu(true);
             return;
         }
         //Seleccio amb el mouse un usuari de la taula

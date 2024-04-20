@@ -26,14 +26,17 @@ public class Constants {
     public static final String CMD_MODIFICA = "update";
     public static final String CMD_ELIMINA = "delete";
     public static final String CMD_MOUSE = "mouse";
+    public static final String CMD_INFO_USUARI = "infoUsuari";
 
     //Nom tipus Objecte dades
     public static final String SESSIO_ID = "sessioID";
     public static final String EVENT = "event";
+    public static final String INFO_USUARI = "canviInfoUsuari";
+    public static final String CONTRASSENYA = "pass";
     public static final String DADA_CONSOLA_LOG = "dadaConsolaLog";
     public static final String USUARI = "usuari";
     public static final String USUARI_LLISTA = "usuariLlista";
-    public static final String USUARI_ACTIU = "usuariActiu";
+    public static final String USUARI_ACTIU = "usuariActual";
     public static final String USUARI_SELECT = "usuariSeleccionat";
     public static final String[] USUARI_COLUMNES = {"Nom", "Cognom", "Data Neixament", "Adreça", "Telèfon", "Correu", "Contrasenya", "Data Inscripció"};
 
