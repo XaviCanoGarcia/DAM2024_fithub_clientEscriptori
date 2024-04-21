@@ -30,6 +30,7 @@ public class ControladorGui implements Observer {
         loginFrame = new LoginFrame();
         loginFrame.add(controladorPanells.loginForm.getPanel1());
         //controladorPanells.getMainUser().setListener(this);
+        mainFrame.setJMenuBar(controladorPanells.getMainAdminForm().getMenuBar());
 
     }
 

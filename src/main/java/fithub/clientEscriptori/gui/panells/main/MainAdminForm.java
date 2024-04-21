@@ -33,7 +33,6 @@ public class MainAdminForm {
     private JButton guardausuaributton;
     private JButton esborrausuaributton;
     private JButton actualitzaButton;
-    private JButton logoutbutton;
     private JLabel usuariActualSessio;
     private JLabel usuariActualNom;
     private JTextField txt_usr_nom;
@@ -58,7 +57,11 @@ public class MainAdminForm {
     private JButton novaInstallacioButton;
     private JButton guardaInstallacioButton;
     private JButton esborraInstallacioButton;
-    private JButton infoUsuariButton;
+
+    private JMenuBar menuBar;
+    private JMenu menu;
+    private JMenuItem menuLogout;
+    private JMenuItem menuInfo;
 
     private int idUsuari = 0;
     private int idActivitat = 0;
@@ -71,11 +74,28 @@ public class MainAdminForm {
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
         textAreaLog.setEditable(false);
 
+        //menu
+        menuBar = new JMenuBar();
+        menu = new JMenu(("Opcions"));
+        menuLogout = new JMenuItem("Logout");
+        menuInfo = new JMenuItem("Informacio d'usuari");
+        menu.add(menuInfo);
+        menu.add(menuLogout);
+        menuBar.add(menu);
+
         //LOGOUT
-        logoutbutton.addActionListener(new ActionListener() {
+        menuLogout.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Object[] msg = new Object[]{(CMD_LOGOUT), (""), ("")};
+                Object[] msg = new Object[]{(CMD_LOGOUT), (String.valueOf(idUsuari)), ("")};
+                notificadorMsg.notificarMsg(msg);
+            }
+        });
+        //INFORMACIO DE L'USUARI
+        menuInfo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Object[] msg = new Object[]{(CMD_INFO_USUARI), (""), ("")};
                 notificadorMsg.notificarMsg(msg);
             }
         });
@@ -91,15 +111,6 @@ public class MainAdminForm {
                 notificadorMsg.notificarMsg(msg3);
             }
         });
-        //INFORMACIO DE L'USUARI
-        infoUsuariButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Object[] msg = new Object[]{(CMD_INFO_USUARI), (""), ("")};
-                notificadorMsg.notificarMsg(msg);
-            }
-        });
-
         //--------------------------------------------------
         //---------------------USUARI-----------------------
         //--------------------------------------------------
@@ -417,5 +428,9 @@ public class MainAdminForm {
 
     public void setIdInstallacio(int idInstallacio) {
         this.idInstallacio = idInstallacio;
+    }
+
+    public JMenuBar getMenuBar() {
+        return menuBar;
     }
 }

@@ -151,14 +151,12 @@ public class ControladorDades {
             Usuari usr = new Usuari("", "");
             Activitat act = new Activitat("", "", 0);
             Installacio ins = new Installacio("", "", "");
-
             //Identifica resposta de login, comprova el tipus d'usuari
             if (nomDada.contains(",")) {
                 if (nomDada.split(",")[1].equals("1") || nomDada.split(",")[1].equals("2")) {
                     resposta[1] = usr.map_to_usuari((HashMap<String, String>) respostaRaw[1]);
                 }
             }
-
             //Crea els objectes de dades a partir dels HashMaps
             switch (nomDada) {
                 case USUARI:
@@ -217,6 +215,8 @@ public class ControladorDades {
             case INSTALLACIO_LLISTA:
                 dades.setLlistaInstallacio((Installacio[]) dada);
                 break;
+            case CMD_LOGOUT:
+                accioLogout();
 
 
         }
