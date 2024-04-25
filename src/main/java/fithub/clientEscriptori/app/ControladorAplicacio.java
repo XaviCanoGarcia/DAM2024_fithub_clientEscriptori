@@ -46,13 +46,6 @@ public class ControladorAplicacio implements MissatgeListener {
         String param = (String) peticio[1];
         Object dada = peticio[2];
         controladorDades.getDades().setEventMsg("Generat per l'usuari: " + peticio[0] + " " + peticio[1]);
-        /*
-        //Accio Logout
-        if (cmd.equals(CMD_LOGOUT)) {
-            controladorDades.accioLogout();
-            return;
-        }
-       */
         //Accio canvi d'informació usuari
         if (cmd.equals(CMD_INFO_USUARI)) {
             controladorDades.getDades().setCanviInfoUsuariActiu(true);
@@ -97,9 +90,9 @@ public class ControladorAplicacio implements MissatgeListener {
         Object[] msg = new Object[]{(CMD_SELECT_ALL), (USUARI), (null)};
         Object[] msg2 = new Object[]{(CMD_SELECT_ALL), (ACTIVITAT), (null)};
         Object[] msg3 = new Object[]{(CMD_SELECT_ALL), (INSTALLACIO), (null)};
-        controladorDades.crearPeticio(msg);
-        controladorDades.crearPeticio(msg2);
-        controladorDades.crearPeticio(msg3);
+        //controladorDades.crearPeticio(msg);
+        //controladorDades.crearPeticio(msg2);
+        //controladorDades.crearPeticio(msg3);
     }
 }
 

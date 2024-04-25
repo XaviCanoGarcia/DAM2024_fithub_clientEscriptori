@@ -2,6 +2,7 @@ package fithub.clientEscriptori.dades;
 
 import fithub.clientEscriptori.app.ParlarAmbServidor;
 import fithub.clientEscriptori.dades.objectes.Activitat;
+import fithub.clientEscriptori.dades.objectes.ClasseDirigida;
 import fithub.clientEscriptori.dades.objectes.Installacio;
 import fithub.clientEscriptori.dades.objectes.Usuari;
 import fithub.clientEscriptori.gui.ControladorGui;
@@ -116,6 +117,10 @@ public class ControladorDades {
             Installacio ins = (Installacio) dada;
             dada = ins.installacio_to_map(ins);
         }
+        if (dada instanceof ClasseDirigida) {
+            ClasseDirigida cd = (ClasseDirigida) dada;
+            dada = cd.classeDirigida_a_hashMap(cd);
+        }
 
         peticioTractada[0] = peticio[0];
         peticioTractada[1] = peticio[1];
@@ -151,6 +156,7 @@ public class ControladorDades {
             Usuari usr = new Usuari("", "");
             Activitat act = new Activitat("", "", 0);
             Installacio ins = new Installacio("", "", "");
+            ClasseDirigida cd = new ClasseDirigida("", "", 1, act, ins);
             //Identifica resposta de login, comprova el tipus d'usuari
             if (nomDada.contains(",")) {
                 if (nomDada.split(",")[1].equals("1") || nomDada.split(",")[1].equals("2")) {
@@ -176,6 +182,12 @@ public class ControladorDades {
                     break;
                 case INSTALLACIO_LLISTA:
                     resposta[1] = ins.crearLlistaInstallacio((ArrayList<HashMap<String, String>>) respostaRaw[1]);
+                    break;
+                case CLASSE_DIRIGIDA:
+                    resposta[1] = cd.map_a_classeDirigida((HashMap<String, String>) respostaRaw[1]);
+                    break;
+                case CLASSE_DIRIGIDA_LLISTA:
+                    resposta[1] = cd.crearLlistaClasseDirigida(((ArrayList<HashMap<String, String>>) respostaRaw[1]));
                     break;
             }
         }
@@ -215,10 +227,15 @@ public class ControladorDades {
             case INSTALLACIO_LLISTA:
                 dades.setLlistaInstallacio((Installacio[]) dada);
                 break;
+            case CLASSE_DIRIGIDA:
+                dades.setClasseDirigidaSeleccionada((ClasseDirigida) dada);
+                break;
+            case CLASSE_DIRIGIDA_LLISTA:
+                dades.setLlistaClasseDirigida((ClasseDirigida[]) dada);
+                break;
             case CMD_LOGOUT:
                 accioLogout();
-
-
+                break;
         }
     }
 

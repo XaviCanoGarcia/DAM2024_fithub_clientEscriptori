@@ -1,6 +1,7 @@
 package fithub.clientEscriptori.dades;
 
 import fithub.clientEscriptori.dades.objectes.Activitat;
+import fithub.clientEscriptori.dades.objectes.ClasseDirigida;
 import fithub.clientEscriptori.dades.objectes.Installacio;
 import fithub.clientEscriptori.dades.objectes.Usuari;
 
@@ -28,6 +29,8 @@ public class DadesAplicacio extends Observable {
     private Activitat[] llistaActivitats;
     private Installacio installacioSeleccionada;
     private Installacio[] llistaInstallacio;
+    private ClasseDirigida classeDirigidaSeleccionada;
+    private ClasseDirigida[] llistaClasseDirigida;
 
     private String errorMsg;
     private String eventMsg;
@@ -65,6 +68,9 @@ public class DadesAplicacio extends Observable {
         }
     }
 
+    /**
+     * Inicialitza el model de dades a valors per defecte
+     */
     void inicialitzaDades() {
         setSessioID("");
         setUsuariActiu(new Usuari("a", "a"));
@@ -72,6 +78,10 @@ public class DadesAplicacio extends Observable {
         setLlistaUsuaris(new Usuari[]{(new Usuari("", "")), (new Usuari("", ""))});
         setActivitatSeleccionada(new Activitat("", "", 0));
         setLlistaActivitats(new Activitat[]{(new Activitat("", "", 0)), new Activitat("", "", 0)});
+        ClasseDirigida cd = new ClasseDirigida("", "", 1, (new Activitat("", "", 0)), (new Installacio("", "", "")));
+        ClasseDirigida cd2 = new ClasseDirigida("", "", 1, (new Activitat("", "", 0)), (new Installacio("", "", "")));
+        setClasseDirigidaSeleccionada(cd);
+        setLlistaClasseDirigida(new ClasseDirigida[]{(cd), (cd2)});
         errorMsg = "";
         eventMsg = "";
     }
@@ -115,8 +125,6 @@ public class DadesAplicacio extends Observable {
         }
     }
 
-
-
     public void setErrorMsg(String errorMsg) {
         if (this.errorMsg != errorMsg) {
             this.errorMsg = errorMsg;
@@ -159,10 +167,6 @@ public class DadesAplicacio extends Observable {
         }
     }
 
-    public Usuari getUsuariSeleccionat() {
-        return usuariSeleccionat;
-    }
-
     public void setUsuariSeleccionat(Usuari usuariSeleccionat) {
         if (this.usuariSeleccionat != usuariSeleccionat) {
             this.usuariSeleccionat = usuariSeleccionat;
@@ -171,10 +175,6 @@ public class DadesAplicacio extends Observable {
             setChanged();
             notificaCanviDades(DADA_CONSOLA_LOG, "Dada modificada: " + USUARI_SELECT);
         }
-    }
-
-    public Activitat getActivitatSeleccionada() {
-        return activitatSeleccionada;
     }
 
     public void setActivitatSeleccionada(Activitat activitatSeleccionada) {
@@ -189,10 +189,6 @@ public class DadesAplicacio extends Observable {
         }
     }
 
-    public Installacio getInstallacioSeleccionada() {
-        return installacioSeleccionada;
-    }
-
     public void setInstallacioSeleccionada(Installacio installacioSeleccionada) {
         if (this.installacioSeleccionada != installacioSeleccionada) {
             if (installacioSeleccionada == null) ;
@@ -202,14 +198,6 @@ public class DadesAplicacio extends Observable {
             setChanged();
             notificaCanviDades(DADA_CONSOLA_LOG, "Dada modificada: " + INSTALLACIO_SELECT);
         }
-    }
-
-    public String getErrorMsg() {
-        return errorMsg;
-    }
-
-    public Usuari getUsuariActiu() {
-        return usuariActiu;
     }
 
     public Installacio[] getLlistaInstallacio() {
@@ -223,6 +211,38 @@ public class DadesAplicacio extends Observable {
             notificaCanviDades(INSTALLACIO_LLISTA, this.llistaInstallacio);
             setChanged();
             notificaCanviDades(DADA_CONSOLA_LOG, "Dada modificada: " + INSTALLACIO_LLISTA);
+        }
+    }
+
+    public ClasseDirigida getClasseDirigidaSeleccionada() {
+        return classeDirigidaSeleccionada;
+    }
+
+    public void setClasseDirigidaSeleccionada(ClasseDirigida classeDirigidaSeleccionada) {
+        if (this.classeDirigidaSeleccionada != classeDirigidaSeleccionada) {
+            this.classeDirigidaSeleccionada = classeDirigidaSeleccionada;
+            setChanged();
+            notificaCanviDades(CLASSE_DIRIGIDA, this.classeDirigidaSeleccionada);
+            setChanged();
+            notificaCanviDades(DADA_CONSOLA_LOG, "Dada modificada: " + CLASSE_DIRIGIDA);
+
+        }
+    }
+
+    public ClasseDirigida[] getLlistaClasseDirigida() {
+        return llistaClasseDirigida;
+    }
+
+    public void setLlistaClasseDirigida(ClasseDirigida[] llistaClasseDirigida) {
+        this.llistaClasseDirigida = llistaClasseDirigida;
+        this.classeDirigidaSeleccionada = classeDirigidaSeleccionada;
+        if (this.llistaClasseDirigida != llistaClasseDirigida) {
+            this.llistaClasseDirigida = llistaClasseDirigida;
+            setChanged();
+            notificaCanviDades(CLASSE_DIRIGIDA_LLISTA, this.llistaClasseDirigida);
+            setChanged();
+            notificaCanviDades(DADA_CONSOLA_LOG, "Dada modificada: " + CLASSE_DIRIGIDA_LLISTA);
+
         }
     }
 }

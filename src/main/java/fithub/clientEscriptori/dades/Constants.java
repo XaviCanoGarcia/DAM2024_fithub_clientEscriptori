@@ -50,6 +50,11 @@ public class Constants {
     public static final String INSTALLACIO_SELECT = "installacioSeleccionada";
     public static final String[] INSTALLACIO_COLUMNES = {"Nom", "Descripció", "Tipus"};
 
+    public static final String CLASSE_DIRIGIDA = "classeDirigida";
+    public static final String CLASSE_DIRIGIDA_LLISTA = "classeDirigidaLlista";
+    public static final String CLASSE_DIRIGIDA_SELECCIONADA = "classeDirigidaSeleccionada";
+    public static final String[] CLASSE_DIRIGIDA_COLUMNES = {"Data", "Hora", "Activitat", "Instal·lació"};
+
     //HashMapsIndex
     public static final String HM_USR_NOM = "nomUsuari";
     public static final String HM_USR_COGNOMS = "cognomsUsuari";
@@ -71,5 +76,12 @@ public class Constants {
     public static final String HM_INS_NOM = "nomInstallacio";
     public static final String HM_INS_DESC = "descripcioInstallacio";
     public static final String HM_INS_TIPUS = "tipusInstallacio";
+
+    public static final String HM_CDI_ID = "IDclasseDirigida";
+    public static final String HM_CDI_DATA = "dataClasseDirigida";
+    public static final String HM_CDI_HORA = "horaInici";
+    public static final String HM_CDI_DURACIO = "duracio";
+    public static final String HM_CDI_OCUPACIO = "ocupacio";
+
 
 }
