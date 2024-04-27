@@ -57,6 +57,17 @@ public class MainAdminForm {
     private JButton novaInstallacioButton;
     private JButton guardaInstallacioButton;
     private JButton esborraInstallacioButton;
+    private JPanel panell_classeDirigida;
+    private JTable tableClasseDirigida;
+    private JComboBox dataComboBox;
+    private JComboBox activitatComboBox;
+    private JComboBox horaComboBox;
+    private JComboBox ubicacioComboBox;
+    private JButton novaReservaButton;
+    private JButton reservaGuardaButton;
+    private JButton reservaEsborraButton;
+    private JTextField txt_rsv_data;
+    private JButton demanaDiaButton;
 
     private JMenuBar menuBar;
     private JMenu menu;
@@ -146,7 +157,7 @@ public class MainAdminForm {
                 if (e.getClickCount() == 1) {
                     Point point = e.getPoint();
                     int row = table_usuaris.rowAtPoint(point);
-                    //int column = table1.columnAtPoint(point);
+
                     if (row != -1) {
                         Object[] msg = new Object[3];
                         msg[0] = CMD_MOUSE;
@@ -194,7 +205,7 @@ public class MainAdminForm {
                 if (e.getClickCount() == 1) {
                     Point point = e.getPoint();
                     int row = table_installacions.rowAtPoint(point);
-                    //int column = table1.columnAtPoint(point);
+
                     if (row != -1) {
                         Object[] msg = new Object[3];
                         msg[0] = CMD_MOUSE;
@@ -242,7 +253,7 @@ public class MainAdminForm {
                 if (e.getClickCount() == 1) {
                     Point point = e.getPoint();
                     int row = table_installacions.rowAtPoint(point);
-                    //int column = table1.columnAtPoint(point);
+
                     if (row != -1) {
                         Object[] msg = new Object[3];
                         msg[0] = CMD_MOUSE;
@@ -251,6 +262,71 @@ public class MainAdminForm {
                         notificadorMsg.notificarMsg(msg);
                     }
                 }
+            }
+        });
+        //--------------------------------------------------
+        //---------------------RESERVES---------------------
+        //--------------------------------------------------
+        //DEMANA CLASSE PROGRAMADA
+        demanaDiaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String data = txt_rsv_data.getText();
+                if (!(data.matches("\\d{8}"))) {
+                    txt_rsv_data.setText("ddmmyyyy");
+                    return;
+                }
+                Object[] msg = new Object[]{(CMD_SELECT), (CLASSE_DIRIGIDA), (data)};
+                notificadorMsg.notificarMsg(msg);
+            }
+        });
+        //NOVA CLASSE PROGRAMADA
+        novaReservaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        //GUARDA CLASSE PROGRAMADA
+        reservaGuardaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        //ESBORRA CLASSE PROGRAMADA
+        reservaEsborraButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        //DATA COMBO
+        dataComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        //HORA COMBO INICI
+        horaComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        //ACTIVITAT COMBO
+        activitatComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        //INSTAL·LACIÓ COMBO
+        ubicacioComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
             }
         });
     }
@@ -432,5 +508,49 @@ public class MainAdminForm {
 
     public JMenuBar getMenuBar() {
         return menuBar;
+    }
+
+    public JComboBox getDataComboBox() {
+        return dataComboBox;
+    }
+
+    public void setDataComboBox(JComboBox dataComboBox) {
+        this.dataComboBox = dataComboBox;
+    }
+
+    public JComboBox getActivitatComboBox() {
+        return activitatComboBox;
+    }
+
+    public void setActivitatComboBox(JComboBox activitatComboBox) {
+        this.activitatComboBox = activitatComboBox;
+    }
+
+    public JComboBox getHoraComboBox() {
+        return horaComboBox;
+    }
+
+    public void setHoraComboBox(JComboBox horaComboBox) {
+        this.horaComboBox = horaComboBox;
+    }
+
+    public JComboBox getUbicacioComboBox() {
+        return ubicacioComboBox;
+    }
+
+    public void setUbicacioComboBox(JComboBox ubicacioComboBox) {
+        this.ubicacioComboBox = ubicacioComboBox;
+    }
+
+    public JTextField getTxt_rsv_data() {
+        return txt_rsv_data;
+    }
+
+    public void setTxt_rsv_data(JTextField txt_rsv_data) {
+        this.txt_rsv_data = txt_rsv_data;
+    }
+
+    public JTable getTableClasseDirigida() {
+        return tableClasseDirigida;
     }
 }

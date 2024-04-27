@@ -1,6 +1,7 @@
 package fithub.clientEscriptori.gui;
 
 import fithub.clientEscriptori.dades.objectes.Activitat;
+import fithub.clientEscriptori.dades.objectes.ClasseDirigida;
 import fithub.clientEscriptori.dades.objectes.Installacio;
 import fithub.clientEscriptori.dades.objectes.Usuari;
 
@@ -138,6 +139,72 @@ public class ControladorPanells {
             mainAdminForm.setIdInstallacio(((Installacio) dada).getId());
             return;
         }
+        //--------------------------------------------------
+        //---------------------RESERVES---------------------
+        //--------------------------------------------------
+        //Actualitza COMBOS
+        if (nomDada.equals(ACTIVITAT_LLISTA)) {
+            mainAdminForm.getActivitatComboBox().removeAllItems();
+            for (Activitat act : (Activitat[]) dada) {
+                mainAdminForm.getActivitatComboBox().addItem(act.getNom());
+            }
+
+        }
+        if (nomDada.equals(INSTALLACIO_LLISTA)) {
+            mainAdminForm.getUbicacioComboBox().removeAllItems();
+            for (Installacio ins : (Installacio[]) dada) {
+                mainAdminForm.getUbicacioComboBox().addItem(ins.getNom());
+            }
+
+        }
+        if (nomDada.equals(CLASSE_DIRIGIDA_LLISTA)) {
+            mainAdminForm.getHoraComboBox().removeAllItems();
+            for (ClasseDirigida cd : (ClasseDirigida[]) dada) {
+                mainAdminForm.getHoraComboBox().addItem(cd.getHoraInici());
+            }
+
+        }
+        //Actualitza elements grafics llistaClasseDirigida
+        if (nomDada.equals(CLASSE_DIRIGIDA_LLISTA)) {
+            String[] columnNamesClasseDirigida = CLASSE_DIRIGIDA_COLUMNES;
+            Object[][] dadesTaulaClasseDirigida = llistaClasseDirigidaTaula((ClasseDirigida[]) dada);
+            DefaultTableModel modelClasseDirigida = new DefaultTableModel(dadesTaulaClasseDirigida, columnNamesClasseDirigida);
+            mainAdminForm.getTableClasseDirigida().setModel(modelClasseDirigida);
+            return;
+        }
+        //Actualitza elements gràfics de la ClasseDirigida seleccionada
+        if (nomDada.equals(CLASSE_DIRIGIDA)) {
+            ClasseDirigida cd = (ClasseDirigida) dada;
+            mainAdminForm.getDataComboBox().setSelectedItem(cd.getData());
+            mainAdminForm.getHoraComboBox().setSelectedItem(cd.getHoraInici());
+            mainAdminForm.getActivitatComboBox().setSelectedItem(cd.getActivitat().getNom());
+            mainAdminForm.getUbicacioComboBox().setSelectedItem(cd.getInstallacio().getNom());
+            return;
+        }
+
+
+    }
+
+    /**
+     * Mètode que tansforma una llista de classeDirigida en un Object[][] per poder omplir la taula
+     *
+     * @param llista Llista d'usuaris
+     * @return taula Array objecte dos dimensions
+     */
+    private Object[][] llistaClasseDirigidaTaula(ClasseDirigida[] llista) {
+        Object[][] taula = new Object[50][8];
+        int i = 0;
+        if (llista == null) return taula;
+        for (ClasseDirigida cd : llista) {
+            if (cd != null) {
+                taula[i][0] = cd.getData();
+                taula[i][1] = cd.getHoraInici();
+                taula[i][2] = cd.getActivitat().getNom();
+                taula[i][3] = cd.getInstallacio().getNom();
+                i++;
+            }
+        }
+        return taula;
     }
 
     /**
