@@ -299,7 +299,8 @@ public class MainAdminForm {
         novaReservaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                Object[] msg = new Object[]{(CMD_NOU), (CLASSE_DIRIGIDA), (getClasseDirigidaText())};
+                notificadorMsg.notificarMsg(msg);
             }
         });
         //GUARDA CLASSE PROGRAMADA
@@ -314,7 +315,10 @@ public class MainAdminForm {
         reservaEsborraButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                ClasseDirigida cd = getClasseDirigidaText();
+                cd.setId(-1);
+                Object[] msg = new Object[]{(CMD_ELIMINA), (CLASSE_DIRIGIDA), (cd)};
+                notificadorMsg.notificarMsg(msg);
             }
         });
         //DATA COMBO
