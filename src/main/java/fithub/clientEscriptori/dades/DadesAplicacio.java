@@ -234,8 +234,6 @@ public class DadesAplicacio extends Observable {
     }
 
     public void setLlistaClasseDirigida(ClasseDirigida[] llistaClasseDirigida) {
-        this.llistaClasseDirigida = llistaClasseDirigida;
-        this.classeDirigidaSeleccionada = classeDirigidaSeleccionada;
         if (this.llistaClasseDirigida != llistaClasseDirigida) {
             this.llistaClasseDirigida = llistaClasseDirigida;
             setChanged();

@@ -2,6 +2,7 @@ package fithub.clientEscriptori.gui.panells.main;
 
 import fithub.clientEscriptori.app.ControladorAplicacio;
 import fithub.clientEscriptori.dades.objectes.Activitat;
+import fithub.clientEscriptori.dades.objectes.ClasseDirigida;
 import fithub.clientEscriptori.dades.objectes.Installacio;
 import fithub.clientEscriptori.dades.objectes.Usuari;
 import fithub.clientEscriptori.events.NotificadorMissatge;
@@ -13,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
 
 import static fithub.clientEscriptori.dades.Constants.*;
 
@@ -77,6 +79,11 @@ public class MainAdminForm {
     private int idUsuari = 0;
     private int idActivitat = 0;
     private int idInstallacio = 0;
+    private int idClasseDirigida = 0;
+    private HashMap<String, Integer> idActivitatComboList;
+    private HashMap<String, Integer> idInstallacioComboList;
+    private int idActivitatCombo = 0;
+    private int idInstallacioCombo = 0;
 
 
     public MainAdminForm() {
@@ -93,6 +100,14 @@ public class MainAdminForm {
         menu.add(menuInfo);
         menu.add(menuLogout);
         menuBar.add(menu);
+
+        //combo hora
+        //String[] horari = {("09:00 - 10:00"), ("10:00 - 11:00"), ("11:00 - 12:00"), ("12:00 - 13:00"), ("13:00 - 14:00"), ("14:00 - 15:00"), ("15:00 - 16:00"), ("16:00 - 17:00"), ("17:00 - 18:00"), ("18:00 - 19:00"), ("19:00 - 20:00"), ("20:00 - 21:00")};
+        String[] horari = {("09:00"), ("10:00"), ("11:00"), ("12:00"), ("13:00"), ("14:00"), ("15:00"), ("16:00"), ("17:00"), ("18:00"), ("19:00"), ("20:00")};
+
+        for (String hora : horari) {
+            getHoraComboBox().addItem(hora);
+        }
 
         //LOGOUT
         menuLogout.addActionListener(new ActionListener() {
@@ -291,7 +306,8 @@ public class MainAdminForm {
         reservaGuardaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                Object[] msg = new Object[]{(CMD_MODIFICA), (CLASSE_DIRIGIDA), (getClasseDirigidaText())};
+                notificadorMsg.notificarMsg(msg);
             }
         });
         //ESBORRA CLASSE PROGRAMADA
@@ -329,6 +345,48 @@ public class MainAdminForm {
 
             }
         });
+        //TAULA CLASSE DIRIGIDA
+        tableClasseDirigida.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                super.mouseClicked(e);
+                if (e.getClickCount() == 1) {
+                    Point point = e.getPoint();
+                    int row = tableClasseDirigida.rowAtPoint(point);
+
+                    if (row != -1) {
+                        Object[] msg = new Object[3];
+                        msg[0] = CMD_MOUSE;
+                        msg[1] = CLASSE_DIRIGIDA_SELECT;
+                        msg[2] = row;
+                        notificadorMsg.notificarMsg(msg);
+                    }
+                }
+            }
+        });
+    }
+
+    /**
+     * Mètode que crea un objecte peticio classe dirigida, l'activitat i la instalL'ació son només les id.
+     *
+     * @return peticioClasseDirigida objecte peticio de classe dirigida.
+     */
+    public ClasseDirigida getClasseDirigidaText() {
+        ClasseDirigida cd = new ClasseDirigida("00000000", "09:00", 1, (new Activitat("", "", 1)), (new Installacio("", "", "")));
+        idActivitatCombo = idActivitatComboList.get(activitatComboBox.getSelectedItem());
+        idInstallacioCombo = idInstallacioComboList.get(ubicacioComboBox.getSelectedItem());
+        cd.getActivitat().setId(idActivitatComboList.get(activitatComboBox.getSelectedItem()));
+        cd.getInstallacio().setId(idInstallacioComboList.get(ubicacioComboBox.getSelectedItem()));
+        cd.setData(txt_rsv_data.getText());
+        cd.setId(idClasseDirigida);
+        cd.setHoraInici((String) horaComboBox.getSelectedItem());
+        cd.setDuracio(1);
+        cd.setOcupacio("0");
+        Object classeDirigidaPeticio = new Object() {
+        };
+
+        return cd;
     }
 
     /**
@@ -445,49 +503,13 @@ public class MainAdminForm {
         return usuariActualTipus;
     }
 
-    public void setUsuariActualTipus(JLabel usuariActualTipus) {
-        this.usuariActualTipus = usuariActualTipus;
-    }
-
     public JLabel getUsuariAcrualCorreu() {
         return usuariAcrualCorreu;
     }
 
-    public void setUsuariAcrualCorreu(JLabel usuariAcrualCorreu) {
-        this.usuariAcrualCorreu = usuariAcrualCorreu;
-    }
-
-
-    public JTextField getTxt_ins_nom() {
-        return txt_ins_nom;
-    }
-
-    public void setTxt_ins_nom(JTextField txt_ins_nom) {
-        this.txt_ins_nom = txt_ins_nom;
-    }
-
-    public JTextField getTxt_ins_tipus() {
-        return txt_ins_tipus;
-    }
-
-    public void setTxt_ins_tipus(JTextField txt_ins_tipus) {
-        this.txt_ins_tipus = txt_ins_tipus;
-    }
-
-    public JTextField getTxt_ins_decripcio() {
-        return txt_ins_descripcio;
-    }
-
-    public void setTxt_ins_decripcio(JTextField txt_ins_decripcio) {
-        this.txt_ins_descripcio = txt_ins_decripcio;
-    }
 
     public JTable getTable_activitats() {
         return table_activitats;
-    }
-
-    public void setTable_activitats(JTable table_activitats) {
-        this.table_activitats = table_activitats;
     }
 
     public JTable getTable_installacions() {
@@ -552,5 +574,29 @@ public class MainAdminForm {
 
     public JTable getTableClasseDirigida() {
         return tableClasseDirigida;
+    }
+
+    public HashMap<String, Integer> getIdActivitatComboList() {
+        return idActivitatComboList;
+    }
+
+    public void setIdActivitatComboList(HashMap<String, Integer> idActivitatComboList) {
+        this.idActivitatComboList = idActivitatComboList;
+    }
+
+    public HashMap<String, Integer> getIdInstallacioComboList() {
+        return idInstallacioComboList;
+    }
+
+    public void setIdInstallacioComboList(HashMap<String, Integer> idInstallacioComboList) {
+        this.idInstallacioComboList = idInstallacioComboList;
+    }
+
+    public int getIdClasseDirigida() {
+        return idClasseDirigida;
+    }
+
+    public void setIdClasseDirigida(int idClasseDirigida) {
+        this.idClasseDirigida = idClasseDirigida;
     }
 }

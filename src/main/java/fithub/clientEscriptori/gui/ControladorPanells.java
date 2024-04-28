@@ -16,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 
 import static fithub.clientEscriptori.dades.Constants.*;
 
@@ -114,7 +115,7 @@ public class ControladorPanells {
             Object[][] dadesTaulaActivitats = llistaActivitatsTaula((Activitat[]) dada);
             DefaultTableModel modelActivitats = new DefaultTableModel(dadesTaulaActivitats, columnNamesActivitats);
             mainAdminForm.getTable_activitats().setModel(modelActivitats);
-            return;
+
         }
         //Actualitza elements grafics activitatSeleccionada
         if (nomDada.equals(ACTIVITAT_SELECT)) {
@@ -131,7 +132,7 @@ public class ControladorPanells {
             Object[][] dadesTaulaInstallacio = llistaInstallacionsTaula((Installacio[]) dada);
             DefaultTableModel modelInstallacio = new DefaultTableModel(dadesTaulaInstallacio, columnNamesInstallacio);
             mainAdminForm.getTable_installacions().setModel(modelInstallacio);
-            return;
+
         }
         //Actualitza elements grafics activitatSeleccionada
         if (nomDada.equals(INSTALLACIO_SELECT)) {
@@ -145,23 +146,22 @@ public class ControladorPanells {
         //Actualitza COMBOS
         if (nomDada.equals(ACTIVITAT_LLISTA)) {
             mainAdminForm.getActivitatComboBox().removeAllItems();
+            HashMap<String, Integer> hs = new HashMap<>();
             for (Activitat act : (Activitat[]) dada) {
                 mainAdminForm.getActivitatComboBox().addItem(act.getNom());
+                hs.put(act.getNom(), act.getId());
             }
+            mainAdminForm.setIdActivitatComboList(hs);
 
         }
         if (nomDada.equals(INSTALLACIO_LLISTA)) {
             mainAdminForm.getUbicacioComboBox().removeAllItems();
+            HashMap<String, Integer> hs = new HashMap<>();
             for (Installacio ins : (Installacio[]) dada) {
                 mainAdminForm.getUbicacioComboBox().addItem(ins.getNom());
+                hs.put(ins.getNom(), ins.getId());
             }
-
-        }
-        if (nomDada.equals(CLASSE_DIRIGIDA_LLISTA)) {
-            mainAdminForm.getHoraComboBox().removeAllItems();
-            for (ClasseDirigida cd : (ClasseDirigida[]) dada) {
-                mainAdminForm.getHoraComboBox().addItem(cd.getHoraInici());
-            }
+            mainAdminForm.setIdInstallacioComboList(hs);
 
         }
         //Actualitza elements grafics llistaClasseDirigida
@@ -179,10 +179,9 @@ public class ControladorPanells {
             mainAdminForm.getHoraComboBox().setSelectedItem(cd.getHoraInici());
             mainAdminForm.getActivitatComboBox().setSelectedItem(cd.getActivitat().getNom());
             mainAdminForm.getUbicacioComboBox().setSelectedItem(cd.getInstallacio().getNom());
+            mainAdminForm.setIdClasseDirigida(cd.getId());
             return;
         }
-
-
     }
 
     /**
