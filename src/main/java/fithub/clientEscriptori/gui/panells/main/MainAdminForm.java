@@ -106,7 +106,7 @@ public class MainAdminForm {
         String[] horari = {("09:00"), ("10:00"), ("11:00"), ("12:00"), ("13:00"), ("14:00"), ("15:00"), ("16:00"), ("17:00"), ("18:00"), ("19:00"), ("20:00")};
 
         for (String hora : horari) {
-            getHoraComboBox().addItem(hora);
+            getHoraComboBox().addItem(hora.replace(":",""));
         }
 
         //LOGOUT
@@ -291,7 +291,7 @@ public class MainAdminForm {
                     txt_rsv_data.setText("ddmmyyyy");
                     return;
                 }
-                Object[] msg = new Object[]{(CMD_SELECT), (CLASSE_DIRIGIDA), (data)};
+                Object[] msg = new Object[]{(CMD_SELECT_ALL), (CLASSE_DIRIGIDA), (data)};
                 notificadorMsg.notificarMsg(msg);
             }
         });
@@ -317,7 +317,7 @@ public class MainAdminForm {
             public void actionPerformed(ActionEvent e) {
                 ClasseDirigida cd = getClasseDirigidaText();
                 cd.setId(-1);
-                Object[] msg = new Object[]{(CMD_ELIMINA), (CLASSE_DIRIGIDA), (cd)};
+                Object[] msg = new Object[]{(CMD_ELIMINA), (CLASSE_DIRIGIDA), (idClasseDirigida)};
                 notificadorMsg.notificarMsg(msg);
             }
         });
@@ -377,7 +377,7 @@ public class MainAdminForm {
      * @return peticioClasseDirigida objecte peticio de classe dirigida.
      */
     public ClasseDirigida getClasseDirigidaText() {
-        ClasseDirigida cd = new ClasseDirigida("00000000", "09:00", 1, (new Activitat("", "", 1)), (new Installacio("", "", "")));
+        ClasseDirigida cd = new ClasseDirigida("00000000", "09:00", "1", (new Activitat("", "", 1)), (new Installacio("", "", "")));
         idActivitatCombo = idActivitatComboList.get(activitatComboBox.getSelectedItem());
         idInstallacioCombo = idInstallacioComboList.get(ubicacioComboBox.getSelectedItem());
         cd.getActivitat().setId(idActivitatComboList.get(activitatComboBox.getSelectedItem()));
@@ -385,7 +385,7 @@ public class MainAdminForm {
         cd.setData(txt_rsv_data.getText());
         cd.setId(idClasseDirigida);
         cd.setHoraInici((String) horaComboBox.getSelectedItem());
-        cd.setDuracio(1);
+        cd.setDuracio("1");
         cd.setOcupacio("0");
         Object classeDirigidaPeticio = new Object() {
         };

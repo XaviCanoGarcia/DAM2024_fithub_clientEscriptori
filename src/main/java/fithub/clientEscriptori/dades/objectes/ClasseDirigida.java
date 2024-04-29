@@ -10,7 +10,7 @@ public class ClasseDirigida {
     private int id;
     private String data;
     private String horaInici;
-    private int duracio;
+    private String duracio;
     private String ocupacio;
     private Activitat activitat;
     private Installacio installacio;
@@ -23,7 +23,7 @@ public class ClasseDirigida {
      * @author Xavi Cano
      * @version 1.0
      */
-    public ClasseDirigida(String data, String horaInici, int duracio, Activitat activitat, Installacio installacio) {
+    public ClasseDirigida(String data, String horaInici, String duracio, Activitat activitat, Installacio installacio) {
         this.id = -1;
         this.data = data;
         this.horaInici = horaInici;
@@ -52,7 +52,7 @@ public class ClasseDirigida {
         classeDirigidaMap.put(HM_CDI_ID, String.valueOf(classeDirigida.getId()));
         classeDirigidaMap.put(HM_CDI_DATA, classeDirigida.getData());
         classeDirigidaMap.put(HM_CDI_HORA, classeDirigida.getHoraInici());
-        classeDirigidaMap.put(HM_CDI_DURACIO, String.valueOf(classeDirigida.getDuracio()));
+        classeDirigidaMap.put(HM_CDI_DURACIO, classeDirigida.getDuracio());
         classeDirigidaMap.put(HM_CDI_OCUPACIO, classeDirigida.getOcupacio());
 
         return classeDirigidaMap;
@@ -67,13 +67,13 @@ public class ClasseDirigida {
     public ClasseDirigida map_a_classeDirigida(HashMap<String, String> map) {
         Activitat act = new Activitat("", "", 0);
         Installacio ins = new Installacio("", "", "");
-        ClasseDirigida classeDirigida = new ClasseDirigida("12052024", "9:00", 1, act, ins);
+        ClasseDirigida classeDirigida = new ClasseDirigida("12052024", "9:00", "1", act, ins);
         classeDirigida.setActivitat(act.map_to_activitat(map));
         classeDirigida.setInstallacio(ins.map_to_installacio(map));
         classeDirigida.setId(Integer.valueOf(map.get(HM_CDI_ID)));
         classeDirigida.setData(map.get(HM_CDI_DATA));
         classeDirigida.setHoraInici(map.get(HM_CDI_HORA));
-        classeDirigida.setDuracio(Integer.valueOf(map.get(HM_CDI_DURACIO)));
+        classeDirigida.setDuracio(map.get(HM_CDI_DURACIO));
         classeDirigida.setOcupacio(map.get(HM_CDI_OCUPACIO));
 
         return classeDirigida;
@@ -138,11 +138,11 @@ public class ClasseDirigida {
         this.horaInici = horaInici;
     }
 
-    public int getDuracio() {
+    public String getDuracio() {
         return duracio;
     }
 
-    public void setDuracio(int duracio) {
+    public void setDuracio(String duracio) {
         this.duracio = duracio;
     }
 

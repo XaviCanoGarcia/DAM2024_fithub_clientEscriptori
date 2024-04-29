@@ -77,7 +77,7 @@ public class Constants {
     public static final String HM_INS_DESC = "descripcioInstallacio";
     public static final String HM_INS_TIPUS = "tipusInstallacio";
 
-    public static final String HM_CDI_ID = "IDclasseDirigida";
+    public static final String HM_CDI_ID = "IDclasse";
     public static final String HM_CDI_DATA = "dataClasseDirigida";
     public static final String HM_CDI_HORA = "horaInici";
     public static final String HM_CDI_DURACIO = "duracio";

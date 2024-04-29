@@ -156,7 +156,7 @@ public class ControladorDades {
             Usuari usr = new Usuari("", "");
             Activitat act = new Activitat("", "", 0);
             Installacio ins = new Installacio("", "", "");
-            ClasseDirigida cd = new ClasseDirigida("", "", 1, act, ins);
+            ClasseDirigida cd = new ClasseDirigida("", "", "1", act, ins);
             //Identifica resposta de login, comprova el tipus d'usuari
             if (nomDada.contains(",")) {
                 if (nomDada.split(",")[1].equals("1") || nomDada.split(",")[1].equals("2")) {

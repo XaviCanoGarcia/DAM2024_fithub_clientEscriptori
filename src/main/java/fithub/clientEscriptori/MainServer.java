@@ -106,9 +106,9 @@ class ThreadClient extends Thread {
         llistaActivitat[0] = activitat;
         llistaActivitat[1] = activitat2;
         llistaActivitat[2] = activitat3;
-        ClasseDirigida cd = new ClasseDirigida("28042024", "09:00", 1, activitat, installacio1);
+        ClasseDirigida cd = new ClasseDirigida("28042024", "09:00", "1", activitat, installacio1);
         cd.setId(1);
-        ClasseDirigida cd2 = new ClasseDirigida("28042024", "10:00", 1, activitat2, installacio3);
+        ClasseDirigida cd2 = new ClasseDirigida("28042024", "10:00", "1", activitat2, installacio3);
         cd2.setId(2);
         ClasseDirigida[] llistaClasseDirigida = new ClasseDirigida[4];
         llistaClasseDirigida[0] = cd;

@@ -78,8 +78,8 @@ public class DadesAplicacio extends Observable {
         setLlistaUsuaris(new Usuari[]{(new Usuari("", "")), (new Usuari("", ""))});
         setActivitatSeleccionada(new Activitat("", "", 0));
         setLlistaActivitats(new Activitat[]{(new Activitat("", "", 0)), new Activitat("", "", 0)});
-        ClasseDirigida cd = new ClasseDirigida("", "", 1, (new Activitat("", "", 0)), (new Installacio("", "", "")));
-        ClasseDirigida cd2 = new ClasseDirigida("", "", 1, (new Activitat("", "", 0)), (new Installacio("", "", "")));
+        ClasseDirigida cd = new ClasseDirigida("", "", "1", (new Activitat("", "", 0)), (new Installacio("", "", "")));
+        ClasseDirigida cd2 = new ClasseDirigida("", "", "1", (new Activitat("", "", 0)), (new Installacio("", "", "")));
         setClasseDirigidaSeleccionada(cd);
         setLlistaClasseDirigida(new ClasseDirigida[]{(cd), (cd2)});
         errorMsg = "";
