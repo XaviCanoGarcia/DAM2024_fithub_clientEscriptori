@@ -1,9 +1,6 @@
 package fithub.clientEscriptori.dades;
 
-import fithub.clientEscriptori.dades.objectes.Activitat;
-import fithub.clientEscriptori.dades.objectes.ClasseDirigida;
-import fithub.clientEscriptori.dades.objectes.Installacio;
-import fithub.clientEscriptori.dades.objectes.Usuari;
+import fithub.clientEscriptori.dades.objectes.*;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -31,6 +28,8 @@ public class DadesAplicacio extends Observable {
     private Installacio[] llistaInstallacio;
     private ClasseDirigida classeDirigidaSeleccionada;
     private ClasseDirigida[] llistaClasseDirigida;
+    private Servei serveiSeleccionat;
+    private Servei[] llistaServei;
 
     private String errorMsg;
     private String eventMsg;
@@ -45,6 +44,7 @@ public class DadesAplicacio extends Observable {
         usuariSeleccionat = new Usuari("", "");
         activitatSeleccionada = new Activitat("", "", 0);
         installacioSeleccionada = new Installacio("", "", "");
+        serveiSeleccionat = new Servei("", "");
     }
 
     /**
@@ -241,6 +241,34 @@ public class DadesAplicacio extends Observable {
             setChanged();
             notificaCanviDades(DADA_CONSOLA_LOG, "Dada modificada: " + CLASSE_DIRIGIDA_LLISTA);
 
+        }
+    }
+
+    public Servei getServeiSeleccionat() {
+        return serveiSeleccionat;
+    }
+
+    public void setServeiSeleccionat(Servei serveiSeleccionat) {
+        if (this.serveiSeleccionat != serveiSeleccionat) {
+            this.serveiSeleccionat = serveiSeleccionat;
+            setChanged();
+            notificaCanviDades(SERVEI, this.serveiSeleccionat);
+            setChanged();
+            notificaCanviDades(DADA_CONSOLA_LOG, "Dada modificada: " + SERVEI);
+        }
+    }
+
+    public Servei[] getLlistaServei() {
+        return llistaServei;
+    }
+
+    public void setLlistaServei(Servei[] llistaServei) {
+        if (this.llistaServei != llistaServei) {
+            this.llistaServei = llistaServei;
+            setChanged();
+            notificaCanviDades(SERVEI_LLISTA, this.llistaServei);
+            setChanged();
+            notificaCanviDades(DADA_CONSOLA_LOG, "Dada modificada: " + SERVEI_LLISTA);
         }
     }
 }

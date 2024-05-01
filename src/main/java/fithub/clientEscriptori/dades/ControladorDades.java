@@ -1,10 +1,7 @@
 package fithub.clientEscriptori.dades;
 
 import fithub.clientEscriptori.app.ParlarAmbServidor;
-import fithub.clientEscriptori.dades.objectes.Activitat;
-import fithub.clientEscriptori.dades.objectes.ClasseDirigida;
-import fithub.clientEscriptori.dades.objectes.Installacio;
-import fithub.clientEscriptori.dades.objectes.Usuari;
+import fithub.clientEscriptori.dades.objectes.*;
 import fithub.clientEscriptori.gui.ControladorGui;
 
 import java.net.ConnectException;
@@ -121,6 +118,10 @@ public class ControladorDades {
             ClasseDirigida cd = (ClasseDirigida) dada;
             dada = cd.classeDirigida_a_hashMap(cd);
         }
+        if (dada instanceof Servei) {
+            Servei srv = (Servei) dada;
+            dada = srv.servei_to_map(srv);
+        }
 
         peticioTractada[0] = peticio[0];
         peticioTractada[1] = peticio[1];
@@ -157,6 +158,7 @@ public class ControladorDades {
             Activitat act = new Activitat("", "", 0);
             Installacio ins = new Installacio("", "", "");
             ClasseDirigida cd = new ClasseDirigida("", "", "1", act, ins);
+            Servei srv = new Servei("", "");
             //Identifica resposta de login, comprova el tipus d'usuari
             if (nomDada.contains(",")) {
                 if (nomDada.split(",")[1].equals("1") || nomDada.split(",")[1].equals("2")) {
@@ -187,7 +189,13 @@ public class ControladorDades {
                     resposta[1] = cd.map_a_classeDirigida((HashMap<String, String>) respostaRaw[1]);
                     break;
                 case CLASSE_DIRIGIDA_LLISTA:
-                    resposta[1] = cd.crearLlistaClasseDirigida(((ArrayList<HashMap<String, String>>) respostaRaw[1]));
+                    resposta[1] = cd.crearLlistaClasseDirigida((ArrayList<HashMap<String, String>>) respostaRaw[1]);
+                    break;
+                case SERVEI:
+                    resposta[1] = srv.map_to_servei((HashMap<String, String>) respostaRaw[1]);
+                    break;
+                case SERVEI_LLISTA:
+                    resposta[1] = srv.crearLlistaServeis((ArrayList<HashMap<String, String>>) respostaRaw[1]);
                     break;
             }
         }
@@ -232,6 +240,12 @@ public class ControladorDades {
                 break;
             case CLASSE_DIRIGIDA_LLISTA:
                 dades.setLlistaClasseDirigida((ClasseDirigida[]) dada);
+                break;
+            case SERVEI:
+                dades.setServeiSeleccionat((Servei) dada);
+                break;
+            case SERVEI_LLISTA:
+                dades.setLlistaServei((Servei[]) dada);
                 break;
             case CMD_LOGOUT:
                 accioLogout();

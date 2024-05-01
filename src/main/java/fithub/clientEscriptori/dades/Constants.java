@@ -55,6 +55,11 @@ public class Constants {
     public static final String CLASSE_DIRIGIDA_SELECT = "classeDirigidaSeleccionada";
     public static final String[] CLASSE_DIRIGIDA_COLUMNES = {"Data", "Hora", "Activitat", "Instal·lació"};
 
+    public static final String SERVEI = "servei";
+    public static final String SERVEI_LLISTA = "serveiLlista";
+    public static final String SERVEI_SELECT = "serveiSelect";
+    public static final String[] SERVEI_COLUMNES = {"Nom", "Descripció", "Preu"};
+
     //HashMapsIndex
     public static final String HM_USR_NOM = "nomUsuari";
     public static final String HM_USR_COGNOMS = "cognomsUsuari";

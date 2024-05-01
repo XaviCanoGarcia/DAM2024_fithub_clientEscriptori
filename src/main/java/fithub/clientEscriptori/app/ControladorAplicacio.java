@@ -89,7 +89,16 @@ public class ControladorAplicacio implements MissatgeListener {
             if (numTaulaSeleccionat < controladorDades.getDades().getLlistaClasseDirigida().length) {
                 if (controladorDades.getDades().getLlistaClasseDirigida()[numTaulaSeleccionat] != null) {
                     controladorDades.getDades().setClasseDirigidaSeleccionada(controladorDades.getDades().getLlistaClasseDirigida()[numTaulaSeleccionat]);
-
+                }
+            }
+            return;
+        }
+        //Seleccio amb el mouse d'un servei de la taula
+        if (cmd.equals(CMD_MOUSE) && peticio[1].equals(SERVEI_SELECT)) {
+            int numTaulaSeleccionat = (int) peticio[2];
+            if (numTaulaSeleccionat < controladorDades.getDades().getLlistaServei().length) {
+                if (controladorDades.getDades().getLlistaServei()[numTaulaSeleccionat] != null) {
+                    controladorDades.getDades().setServeiSeleccionat(controladorDades.getDades().getLlistaServei()[numTaulaSeleccionat]);
                 }
             }
             return;

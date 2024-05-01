@@ -333,7 +333,6 @@ public class MainAdminForm {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                super.mouseClicked(e);
                 if (e.getClickCount() == 1) {
                     Point point = e.getPoint();
                     int row = tableClasseDirigida.rowAtPoint(point);
@@ -363,6 +362,25 @@ public class MainAdminForm {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+            }
+        });
+        //TAULA SERVEI
+        tableServeis.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if (e.getClickCount() == 1) {
+                    Point point = e.getPoint();
+                    int row = tableServeis.rowAtPoint(point);
+
+                    if (row != -1) {
+                        Object[] msg = new Object[3];
+                        msg[0] = CMD_MOUSE;
+                        msg[1] = SERVEI_SELECT;
+                        msg[2] = row;
+                        notificadorMsg.notificarMsg(msg);
+                    }
+                }
             }
         });
     }
