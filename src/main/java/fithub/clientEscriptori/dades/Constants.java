@@ -83,5 +83,10 @@ public class Constants {
     public static final String HM_CDI_DURACIO = "duracio";
     public static final String HM_CDI_OCUPACIO = "ocupacio";
 
+    public static final String HM_SRV_ID = "IDservei";
+    public static final String HM_SRV_NOM = "nomServei";
+    public static final String HM_SRV_DESC = "descripcioServei";
+    public static final String HM_SRV_PREU = "preu";
+
 
 }

@@ -70,6 +70,13 @@ public class MainAdminForm {
     private JButton reservaEsborraButton;
     private JTextField txt_rsv_data;
     private JButton demanaDiaButton;
+    private JPanel panell_serveis;
+    private JTable tableServeis;
+    private JTextField txt_srv_nom;
+    private JTextField txt_srv_desc;
+    private JButton nou_serveibutton;
+    private JButton esborra_serveiButton;
+    private JTextField txt_srv_preu;
 
     private JMenuBar menuBar;
     private JMenu menu;
@@ -321,34 +328,6 @@ public class MainAdminForm {
                 notificadorMsg.notificarMsg(msg);
             }
         });
-        //DATA COMBO
-        dataComboBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-        //HORA COMBO INICI
-        horaComboBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-        //ACTIVITAT COMBO
-        activitatComboBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-        //INSTAL·LACIÓ COMBO
-        ubicacioComboBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
         //TAULA CLASSE DIRIGIDA
         tableClasseDirigida.addMouseListener(new MouseAdapter() {
             @Override
@@ -367,6 +346,23 @@ public class MainAdminForm {
                         notificadorMsg.notificarMsg(msg);
                     }
                 }
+            }
+        });
+        //--------------------------------------------------
+        //---------------------SERVEIS---------------------
+        //--------------------------------------------------
+        //NOU SERVEI
+        nou_serveibutton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        //ESBORRA SERVEI
+        esborra_serveiButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
             }
         });
     }
@@ -602,5 +598,37 @@ public class MainAdminForm {
 
     public void setIdClasseDirigida(int idClasseDirigida) {
         this.idClasseDirigida = idClasseDirigida;
+    }
+
+    public JTable getTableServeis() {
+        return tableServeis;
+    }
+
+    public void setTableServeis(JTable tableServeis) {
+        this.tableServeis = tableServeis;
+    }
+
+    public JTextField getTxt_srv_nom() {
+        return txt_srv_nom;
+    }
+
+    public void setTxt_srv_nom(JTextField txt_srv_nom) {
+        this.txt_srv_nom = txt_srv_nom;
+    }
+
+    public JTextField getTxt_srv_desc() {
+        return txt_srv_desc;
+    }
+
+    public void setTxt_srv_desc(JTextField txt_srv_desc) {
+        this.txt_srv_desc = txt_srv_desc;
+    }
+
+    public JTextField getTxt_srv_preu() {
+        return txt_srv_preu;
+    }
+
+    public void setTxt_srv_preu(JTextField txt_srv_preu) {
+        this.txt_srv_preu = txt_srv_preu;
     }
 }

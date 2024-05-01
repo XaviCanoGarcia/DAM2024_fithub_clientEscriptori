@@ -175,7 +175,6 @@ public class ControladorPanells {
         //Actualitza elements gràfics de la ClasseDirigida seleccionada
         if (nomDada.equals(CLASSE_DIRIGIDA)) {
             ClasseDirigida cd = (ClasseDirigida) dada;
-            mainAdminForm.getDataComboBox().setSelectedItem(cd.getData());
             mainAdminForm.getHoraComboBox().setSelectedItem(cd.getHoraInici());
             mainAdminForm.getActivitatComboBox().setSelectedItem(cd.getActivitat().getNom());
             mainAdminForm.getUbicacioComboBox().setSelectedItem(cd.getInstallacio().getNom());
