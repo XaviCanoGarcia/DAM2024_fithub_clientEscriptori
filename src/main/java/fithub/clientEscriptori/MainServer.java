@@ -5,10 +5,7 @@
  */
 package fithub.clientEscriptori;
 
-import fithub.clientEscriptori.dades.objectes.Activitat;
-import fithub.clientEscriptori.dades.objectes.ClasseDirigida;
-import fithub.clientEscriptori.dades.objectes.Installacio;
-import fithub.clientEscriptori.dades.objectes.Usuari;
+import fithub.clientEscriptori.dades.objectes.*;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -113,6 +110,17 @@ class ThreadClient extends Thread {
         ClasseDirigida[] llistaClasseDirigida = new ClasseDirigida[4];
         llistaClasseDirigida[0] = cd;
         llistaClasseDirigida[1] = cd2;
+        Servei srv = new Servei("Monitor", "15€");
+        srv.setDescripcio("Monitor per a les classes de gimnas");
+        Servei srv2 = new Servei("Dietista", "25€");
+        srv2.setDescripcio("Dietista personal");
+        Servei srv3 = new Servei("Entrenador", "20€");
+        srv3.setDescripcio("Entrenador personal");
+        Servei[] llistaServeis = new Servei[4];
+        llistaServeis[0] = srv;
+        llistaServeis[1] = srv2;
+        llistaServeis[2] = srv3;
+
 
         if (msg[1].equals(USUARI)) {
             switch ((String) msg[0]) {
@@ -194,8 +202,24 @@ class ThreadClient extends Thread {
                     break;
             }
         }
+        if (msg[1].equals(SERVEI)) {
+            switch ((String) msg[0]) {
+                case CMD_NOU:
+                    llistaServeis[3] = srv.map_to_servei((HashMap<String, String>) msg[2]);
+                    rsp[0] = SERVEI_LLISTA;
+                    rsp[1] = srv.creaLlistaserveisMap(llistaServeis);
+                    break;
+                case CMD_ELIMINA:
+                    break;
+                case CMD_SELECT_ALL:
+                    rsp[0] = SERVEI_LLISTA;
+                    rsp[1] = srv.creaLlistaserveisMap(llistaServeis);
+                    break;
+            }
+            return rsp;
+        }
         //Login
-        if (msg[0].equals(CMD_LOGIN) && msg[1].equals("admin@fithub.es") && msg[2].equals("Adminpass37")) {
+        if (msg[0].equals(CMD_LOGIN) && msg[1].equals("admin@fithub.es") && msg[2].equals("Adminpass38")) {
             rsp[0] = "2024,1";
             rsp[1] = usr.usuari_to_map(usuariAdmin);
         } else if (msg[0].equals(CMD_LOGIN) && msg[1].equals("client") && msg[2].equals("pass")) {

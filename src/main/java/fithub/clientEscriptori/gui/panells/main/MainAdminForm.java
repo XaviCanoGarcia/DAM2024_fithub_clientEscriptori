@@ -1,10 +1,7 @@
 package fithub.clientEscriptori.gui.panells.main;
 
 import fithub.clientEscriptori.app.ControladorAplicacio;
-import fithub.clientEscriptori.dades.objectes.Activitat;
-import fithub.clientEscriptori.dades.objectes.ClasseDirigida;
-import fithub.clientEscriptori.dades.objectes.Installacio;
-import fithub.clientEscriptori.dades.objectes.Usuari;
+import fithub.clientEscriptori.dades.objectes.*;
 import fithub.clientEscriptori.events.NotificadorMissatge;
 
 import javax.swing.*;
@@ -91,6 +88,7 @@ public class MainAdminForm {
     private HashMap<String, Integer> idInstallacioComboList;
     private int idActivitatCombo = 0;
     private int idInstallacioCombo = 0;
+    private int idServei = 0;
 
 
     public MainAdminForm() {
@@ -139,9 +137,12 @@ public class MainAdminForm {
                 Object[] msg = new Object[]{(CMD_SELECT_ALL), (USUARI), (null)};
                 Object[] msg2 = new Object[]{(CMD_SELECT_ALL), (ACTIVITAT), (null)};
                 Object[] msg3 = new Object[]{(CMD_SELECT_ALL), (INSTALLACIO), (null)};
+                Object[] msg4 = new Object[]{(CMD_SELECT_ALL), (SERVEI), (null)};
                 notificadorMsg.notificarMsg(msg);
                 notificadorMsg.notificarMsg(msg2);
                 notificadorMsg.notificarMsg(msg3);
+                notificadorMsg.notificarMsg(msg4);
+
             }
         });
         //--------------------------------------------------
@@ -354,14 +355,20 @@ public class MainAdminForm {
         nou_serveibutton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                Servei srv = getServeiText();
+                srv.setId(-1);
+                Object[] msg = new Object[]{(CMD_NOU), (SERVEI), (srv)};
+                notificadorMsg.notificarMsg(msg);
             }
         });
         //ESBORRA SERVEI
         esborra_serveiButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                Servei srv = getServeiText();
+                srv.setId(-1);
+                Object[] msg = new Object[]{(CMD_NOU), (SERVEI), (srv.getNom())};
+                notificadorMsg.notificarMsg(msg);
             }
         });
         //TAULA SERVEI
@@ -468,6 +475,20 @@ public class MainAdminForm {
         installacio.setDescripcio(txt_ins_descripcio.getText());
         installacio.setTipus(txt_ins_tipus.getText());
         return installacio;
+    }
+
+    /**
+     * Mètode que crea un objecte reserves amb les dades de les caixes de text del servei seleccionat
+     *
+     * @return Objecte servei generat.
+     */
+    public Servei getServeiText() {
+        Servei srv = new Servei("", "");
+        srv.setId(idServei);
+        srv.setNom(txt_srv_nom.getText());
+        srv.setDescripcio(txt_srv_desc.getText());
+        srv.setPreu(txt_srv_preu.getText());
+        return srv;
     }
 
     /**
@@ -648,5 +669,13 @@ public class MainAdminForm {
 
     public void setTxt_srv_preu(JTextField txt_srv_preu) {
         this.txt_srv_preu = txt_srv_preu;
+    }
+
+    public int getIdServei() {
+        return idServei;
+    }
+
+    public void setIdServei(int idServei) {
+        this.idServei = idServei;
     }
 }

@@ -1,9 +1,6 @@
 package fithub.clientEscriptori.gui;
 
-import fithub.clientEscriptori.dades.objectes.Activitat;
-import fithub.clientEscriptori.dades.objectes.ClasseDirigida;
-import fithub.clientEscriptori.dades.objectes.Installacio;
-import fithub.clientEscriptori.dades.objectes.Usuari;
+import fithub.clientEscriptori.dades.objectes.*;
 
 import fithub.clientEscriptori.gui.panells.main.MainAdminForm;
 import fithub.clientEscriptori.gui.panells.login.LoginForm;
@@ -162,7 +159,6 @@ public class ControladorPanells {
                 hs.put(ins.getNom(), ins.getId());
             }
             mainAdminForm.setIdInstallacioComboList(hs);
-
         }
         //Actualitza elements grafics llistaClasseDirigida
         if (nomDada.equals(CLASSE_DIRIGIDA_LLISTA)) {
@@ -181,6 +177,27 @@ public class ControladorPanells {
             mainAdminForm.setIdClasseDirigida(cd.getId());
             return;
         }
+        //--------------------------------------------------
+        //---------------------SERVEIS----------------------
+        //--------------------------------------------------
+        //Actualitza elements grafics llistaServeis
+        if (nomDada.equals(SERVEI_LLISTA)) {
+            String[] columnNamesServei = SERVEI_COLUMNES;
+            Object[][] dadesTaulaServei = llistaServeisTaula((Servei[]) dada);
+            DefaultTableModel modelServei = new DefaultTableModel(dadesTaulaServei, columnNamesServei);
+            mainAdminForm.getTableServeis().setModel(modelServei);
+
+        }
+        //Actualitza elements grafics serveiSeleccionat
+        if (nomDada.equals(SERVEI_SELECT)) {
+            mainAdminForm.getTxt_srv_nom().setText(((Servei) dada).getNom());
+            mainAdminForm.getTxt_srv_desc().setText(((Servei) dada).getDescripcio());
+            mainAdminForm.getTxt_srv_preu().setText(((Servei) dada).getPreu());
+            mainAdminForm.setIdServei(((Servei) dada).getId());
+            return;
+        }
+
+
     }
 
     /**
@@ -267,6 +284,27 @@ public class ControladorPanells {
                 taula[i][0] = installacio.getNom();
                 taula[i][1] = installacio.getDescripcio();
                 taula[i][2] = installacio.getTipus();
+                i++;
+            }
+        }
+        return taula;
+    }
+
+    /**
+     * Mètode que tansforma una llista de serveis en un Object[][] per poder omplir la taula
+     *
+     * @param llista Llista de serveis
+     * @return taula Array objecte dos dimensions
+     */
+    private Object[][] llistaServeisTaula(Servei[] llista) {
+        Object[][] taula = new Object[50][3];
+        int i = 0;
+        if (llista == null) return taula;
+        for (Servei servei : llista) {
+            if (servei != null) {
+                taula[i][0] = servei.getNom();
+                taula[i][1] = servei.getDescripcio();
+                taula[i][2] = servei.getPreu();
                 i++;
             }
         }
