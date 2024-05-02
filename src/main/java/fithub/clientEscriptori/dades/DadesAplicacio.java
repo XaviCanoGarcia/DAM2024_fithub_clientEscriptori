@@ -252,7 +252,7 @@ public class DadesAplicacio extends Observable {
         if (this.serveiSeleccionat != serveiSeleccionat) {
             this.serveiSeleccionat = serveiSeleccionat;
             setChanged();
-            notificaCanviDades(SERVEI, this.serveiSeleccionat);
+            notificaCanviDades(SERVEI_SELECT, this.serveiSeleccionat);
             setChanged();
             notificaCanviDades(DADA_CONSOLA_LOG, "Dada modificada: " + SERVEI);
         }

@@ -93,6 +93,7 @@ public class Usuari implements Serializable {
         usuariMap.put(HM_USR_DATAI, usuari.getDataInscripcio());
         usuariMap.put(HM_USR_TELEFON, usuari.getTelefon());
         usuariMap.put(HM_USR_TIPUS, String.valueOf(usuari.getTipus()));
+        usuariMap.put(HM_USR_CONTRASENYA, usuari.getContrasenya());
 
         return usuariMap;
     }
@@ -114,6 +115,7 @@ public class Usuari implements Serializable {
         usuari.setDataInscripcio(map.get(HM_USR_DATAI));
         usuari.setTelefon(map.get(HM_USR_TELEFON));
         usuari.setTipus(Integer.parseInt(map.get(HM_USR_TIPUS)));
+        usuari.setContrasenya(map.get(HM_USR_CONTRASENYA));
 
         return usuari;
     }

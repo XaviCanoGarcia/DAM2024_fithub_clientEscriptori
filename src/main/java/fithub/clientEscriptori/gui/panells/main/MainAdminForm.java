@@ -367,7 +367,7 @@ public class MainAdminForm {
             public void actionPerformed(ActionEvent e) {
                 Servei srv = getServeiText();
                 srv.setId(-1);
-                Object[] msg = new Object[]{(CMD_NOU), (SERVEI), (srv.getNom())};
+                Object[] msg = new Object[]{(CMD_ELIMINA), (SERVEI), (srv.getNom())};
                 notificadorMsg.notificarMsg(msg);
             }
         });

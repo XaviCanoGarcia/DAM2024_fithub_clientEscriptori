@@ -70,6 +70,8 @@ public class Constants {
     public static final String HM_USR_TELEFON = "telefon";
     public static final String HM_USR_TIPUS = "tipusUsuari";
     public static final String HM_USR_ID = "IDusuari";
+    public static final String HM_USR_CONTRASENYA = "passUsuari";
+
 
     public static final String HM_ACT_ID = "IDactivitat";
     public static final String HM_ACT_NOM = "nomActivitat";
