@@ -5,6 +5,7 @@ import fithub.clientEscriptori.dades.objectes.Usuari;
 import fithub.clientEscriptori.events.NotificadorMissatge;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -27,10 +28,14 @@ public class UserInfoForm {
     private JTextField canviContrassenyaText1;
     private JTextField canviContrassenyaText2;
     private JButton canviContrassenyaAcceptaButton;
+    private JPasswordField passwordField1;
+    private JPasswordField passwordField2;
+    private JLabel errorText;
 
 
     public UserInfoForm() {
         notificadorMsg = new NotificadorMissatge();
+        errorText.setVisible(false);
         //BOTO INFO USUARI
         usuariActiuAcceptaButton.addActionListener(new ActionListener() {
             @Override
@@ -46,8 +51,17 @@ public class UserInfoForm {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String pass = "";
-                if (canviContrassenyaText1.getText().equals(canviContrassenyaText2.getText())) {
-                    pass = canviContrassenyaText1.getText();
+                String t1 = String.valueOf(passwordField1.getPassword());
+                String t2 = String.valueOf(passwordField2.getPassword());
+                if (t1.equals(t2)) {
+                    pass = passwordField1.getText();
+                    errorText.setForeground(Color.DARK_GRAY);
+                    errorText.setText("Contrassenya repetida correctament");
+                    errorText.setVisible(true);
+                } else {
+                    errorText.setForeground(Color.RED);
+                    errorText.setText("Contrassenya repetida incorretament");
+                    errorText.setVisible(true);
                 }
                 Object[] msg = new Object[]{(CMD_MODIFICA), (CONTRASSENYA), (pass)};
                 notificadorMsg.notificarMsg(msg);
