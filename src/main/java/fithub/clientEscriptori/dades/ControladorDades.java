@@ -20,6 +20,7 @@ import static fithub.clientEscriptori.dades.Constants.*;
 public class ControladorDades {
 
     DadesAplicacio dades;
+    boolean peticioLogout = false;
 
     public ControladorDades(ControladorGui controladorGui) {
         dades = new DadesAplicacio();
@@ -94,6 +95,7 @@ public class ControladorDades {
                 return null;
             }
         }
+        if(peticio[0].equals(CMD_LOGOUT)) peticioLogout=true;
         //Assigna sessioID a la peticio
         if (dades.getSessioID().equals("")) {
             peticioTractada[3] = null;
@@ -151,6 +153,12 @@ public class ControladorDades {
         }
 
         //Resposta Correcte
+        if(peticioLogout&&respostaRaw[0].equals("true")){
+            peticioLogout=false;
+            accioLogout();
+        }else{
+            peticioLogout=false;
+        }
         if (!respostaRaw[0].equals("") && respostaRaw[1] != null) {
             String nomDada = (String) respostaRaw[0];
             Object dada = respostaRaw[1];

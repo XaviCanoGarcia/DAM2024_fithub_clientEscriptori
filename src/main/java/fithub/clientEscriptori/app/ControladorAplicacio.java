@@ -105,6 +105,7 @@ public class ControladorAplicacio implements MissatgeListener {
         }
         //Petició al servidor
         controladorDades.crearPeticio(peticio);
+        if(peticio[0].equals("logout"))return;
         //Actualizacio de dades automatica
         Object[] msg = new Object[]{(CMD_SELECT_ALL), (USUARI), (null)};
         Object[] msg2 = new Object[]{(CMD_SELECT_ALL), (ACTIVITAT), (null)};
@@ -113,6 +114,7 @@ public class ControladorAplicacio implements MissatgeListener {
         controladorDades.crearPeticio(msg);
         controladorDades.crearPeticio(msg2);
         controladorDades.crearPeticio(msg3);
+        controladorDades.crearPeticio(msg4);
     }
 }
 

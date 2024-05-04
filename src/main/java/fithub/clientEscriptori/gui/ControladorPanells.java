@@ -87,6 +87,7 @@ public class ControladorPanells {
             mainAdminForm.getUsuariAcrualCorreu().setText(usuari.getCorreu());
             loginForm.getTextFieldNom().setText("");
             loginForm.getTextFieldPass().setText("");
+            mainAdminForm.setIdUsuari(((Usuari) dada).getUsuariID());
             return;
         }
         //Actualitza elements grafics llistaUsuaris
