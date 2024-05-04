@@ -11,6 +11,8 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
+import static fithub.clientEscriptori.dades.Constants.CMD_LOGIN;
+
 /**
  * Clase que defineix formulari login.
  *
@@ -48,7 +50,7 @@ public class LoginForm {
                 //char[] caracters = textFieldPass.getPassword();
                 //String passStr = new String(caracters);
                 //notificadorMsg.notificarMsg(new Object[]{(CMD_LOGIN), (textFieldCorreu.getText()), (passStr)});
-                notificadorMsg.notificarMsg(new Object[]{("login"), ("admin@fithub.es"), ("Adminpass38")});
+                notificadorMsg.notificarMsg(new Object[]{("login"), ("admin@fithub.es"), ("Adminpass40")});
             }
         });
     }

@@ -62,8 +62,11 @@ public class UserInfoForm {
                     errorText.setForeground(Color.RED);
                     errorText.setText("Contrassenya repetida incorretament");
                     errorText.setVisible(true);
+                    return;
                 }
-                Object[] msg = new Object[]{(CMD_MODIFICA), (CONTRASSENYA), (pass)};
+                Usuari usr = new Usuari(usuariActiuCorreu.getText(), t1);
+                usr.setUsuariID(Integer.parseInt(usuariActiuId.getText()));
+                Object[] msg = new Object[]{(CMD_MODIFICA), (CONTRASSENYA), (usr)};
                 notificadorMsg.notificarMsg(msg);
             }
         });
