@@ -20,7 +20,7 @@ public class ParlarAmbServidor {
 
     //10.2.36.102  Isard server
     //127.0.0.1     Local
-    static String ip = "10.2.36.102";
+    static String ip = "127.0.0.1";
     static int port = 8080;
 
     String respostaHS = "";

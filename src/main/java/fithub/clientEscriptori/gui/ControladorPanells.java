@@ -175,6 +175,7 @@ public class ControladorPanells {
             mainAdminForm.getActivitatComboBox().setSelectedItem(cd.getActivitat().getNom());
             mainAdminForm.getUbicacioComboBox().setSelectedItem(cd.getInstallacio().getNom());
             mainAdminForm.setIdClasseDirigida(cd.getId());
+            mainAdminForm.getTxt_rsv_duracio().setText(cd.getDuracio());
             return;
         }
         //--------------------------------------------------
@@ -214,8 +215,11 @@ public class ControladorPanells {
             if (cd != null) {
                 taula[i][0] = cd.getData();
                 taula[i][1] = cd.getHoraInici();
-                taula[i][2] = cd.getActivitat().getNom();
-                taula[i][3] = cd.getInstallacio().getNom();
+                taula[i][2] = cd.getDuracio();
+                taula[i][3] = cd.getActivitat().getNom();
+                taula[i][4] = cd.getInstallacio().getNom();
+                taula[i][5] = cd.getOcupacio() + "/" + cd.getActivitat().getAforament();
+
                 i++;
             }
         }

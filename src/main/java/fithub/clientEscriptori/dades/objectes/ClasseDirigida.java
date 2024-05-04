@@ -51,7 +51,7 @@ public class ClasseDirigida {
         classeDirigidaMap.putAll(installacioMap);
         classeDirigidaMap.put(HM_CDI_ID, String.valueOf(classeDirigida.getId()));
         classeDirigidaMap.put(HM_CDI_DATA, classeDirigida.getData());
-        classeDirigidaMap.put(HM_CDI_HORA, classeDirigida.getHoraInici());
+        classeDirigidaMap.put(HM_CDI_HORA, classeDirigida.getHoraInici().replace(":", ""));
         classeDirigidaMap.put(HM_CDI_DURACIO, classeDirigida.getDuracio());
         classeDirigidaMap.put(HM_CDI_OCUPACIO, classeDirigida.getOcupacio());
 
@@ -131,11 +131,14 @@ public class ClasseDirigida {
     }
 
     public String getHoraInici() {
-        return horaInici;
+        String horaRaw = horaInici;
+        String horaFormat = "";
+        if (!horaRaw.equals("")) horaFormat = horaRaw.substring(0, 2) + ":" + horaRaw.substring(2);
+        return horaFormat;
     }
 
     public void setHoraInici(String horaInici) {
-        this.horaInici = horaInici;
+        this.horaInici = horaInici.replace(":", "");
     }
 
     public String getDuracio() {

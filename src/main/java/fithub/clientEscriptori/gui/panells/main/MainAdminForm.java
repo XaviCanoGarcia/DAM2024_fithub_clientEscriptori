@@ -74,6 +74,7 @@ public class MainAdminForm {
     private JButton nou_serveibutton;
     private JButton esborra_serveiButton;
     private JTextField txt_srv_preu;
+    private JTextField txt_rsv_duracio;
 
     private JMenuBar menuBar;
     private JMenu menu;
@@ -107,11 +108,10 @@ public class MainAdminForm {
         menuBar.add(menu);
 
         //combo hora
-        //String[] horari = {("09:00 - 10:00"), ("10:00 - 11:00"), ("11:00 - 12:00"), ("12:00 - 13:00"), ("13:00 - 14:00"), ("14:00 - 15:00"), ("15:00 - 16:00"), ("16:00 - 17:00"), ("17:00 - 18:00"), ("18:00 - 19:00"), ("19:00 - 20:00"), ("20:00 - 21:00")};
         String[] horari = {("09:00"), ("10:00"), ("11:00"), ("12:00"), ("13:00"), ("14:00"), ("15:00"), ("16:00"), ("17:00"), ("18:00"), ("19:00"), ("20:00")};
 
         for (String hora : horari) {
-            getHoraComboBox().addItem(hora.replace(":",""));
+            getHoraComboBox().addItem(hora);
         }
 
         //LOGOUT
@@ -406,7 +406,7 @@ public class MainAdminForm {
         cd.setData(txt_rsv_data.getText());
         cd.setId(idClasseDirigida);
         cd.setHoraInici((String) horaComboBox.getSelectedItem());
-        cd.setDuracio("1");
+        cd.setDuracio(txt_rsv_duracio.getText());
         cd.setOcupacio("0");
         Object classeDirigidaPeticio = new Object() {
         };
@@ -677,5 +677,13 @@ public class MainAdminForm {
 
     public void setIdServei(int idServei) {
         this.idServei = idServei;
+    }
+
+    public JTextField getTxt_rsv_duracio() {
+        return txt_rsv_duracio;
+    }
+
+    public void setTxt_rsv_duracio(JTextField txt_rsv_duracio) {
+        this.txt_rsv_duracio = txt_rsv_duracio;
     }
 }

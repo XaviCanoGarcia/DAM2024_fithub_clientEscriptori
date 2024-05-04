@@ -103,10 +103,12 @@ class ThreadClient extends Thread {
         llistaActivitat[0] = activitat;
         llistaActivitat[1] = activitat2;
         llistaActivitat[2] = activitat3;
-        ClasseDirigida cd = new ClasseDirigida("28042024", "09:00", "1", activitat, installacio1);
+        ClasseDirigida cd = new ClasseDirigida("28042024", "0900", "1", activitat, installacio1);
         cd.setId(1);
-        ClasseDirigida cd2 = new ClasseDirigida("28042024", "10:00", "1", activitat2, installacio3);
+        cd.setOcupacio("1");
+        ClasseDirigida cd2 = new ClasseDirigida("28042024", "1000", "2", activitat2, installacio3);
         cd2.setId(2);
+        cd2.setOcupacio("2");
         ClasseDirigida[] llistaClasseDirigida = new ClasseDirigida[4];
         llistaClasseDirigida[0] = cd;
         llistaClasseDirigida[1] = cd2;
@@ -196,7 +198,7 @@ class ThreadClient extends Thread {
         }
         if (msg[1].equals(CLASSE_DIRIGIDA)) {
             switch (((String) msg[0])) {
-                case CMD_SELECT:
+                case CMD_SELECT_ALL:
                     rsp[0] = CLASSE_DIRIGIDA_LLISTA;
                     rsp[1] = cd.creaLlistaClasseDirigidaMap(llistaClasseDirigida);
                     break;

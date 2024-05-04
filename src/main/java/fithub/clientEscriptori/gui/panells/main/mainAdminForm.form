@@ -566,7 +566,9 @@
                         <maximum-size width="200" height="-1"/>
                       </grid>
                     </constraints>
-                    <properties/>
+                    <properties>
+                      <editable value="false"/>
+                    </properties>
                   </component>
                   <component id="64cc1" class="javax.swing.JLabel">
                     <constraints>
@@ -763,19 +765,35 @@
                       <text value="Demana dia"/>
                     </properties>
                   </component>
-                  <component id="6f8b5" class="javax.swing.JComboBox" binding="horaComboBox">
-                    <constraints>
-                      <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties/>
-                  </component>
                   <component id="6386b" class="javax.swing.JLabel">
                     <constraints>
-                      <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
                       <text value="Hora: "/>
                     </properties>
+                  </component>
+                  <component id="6f8b5" class="javax.swing.JComboBox" binding="horaComboBox">
+                    <constraints>
+                      <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties/>
+                  </component>
+                  <component id="d91dd" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Duració: "/>
+                    </properties>
+                  </component>
+                  <component id="c9555" class="javax.swing.JTextField" binding="txt_rsv_duracio">
+                    <constraints>
+                      <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties/>
                   </component>
                 </children>
               </grid>

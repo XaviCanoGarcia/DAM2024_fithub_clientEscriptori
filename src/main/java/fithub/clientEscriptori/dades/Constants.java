@@ -53,7 +53,7 @@ public class Constants {
     public static final String CLASSE_DIRIGIDA = "classeDirigida";
     public static final String CLASSE_DIRIGIDA_LLISTA = "classeDirigidaLlista";
     public static final String CLASSE_DIRIGIDA_SELECT = "classeDirigidaSeleccionada";
-    public static final String[] CLASSE_DIRIGIDA_COLUMNES = {"Data", "Hora", "Activitat", "Instal·lació"};
+    public static final String[] CLASSE_DIRIGIDA_COLUMNES = {"Data", "Hora inici", "Duració", "Activitat", "Instal·lació", "Ocupació"};
 
     public static final String SERVEI = "servei";
     public static final String SERVEI_LLISTA = "serveiLlista";
