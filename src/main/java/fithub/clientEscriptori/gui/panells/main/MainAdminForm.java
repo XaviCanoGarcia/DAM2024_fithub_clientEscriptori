@@ -4,13 +4,17 @@ import fithub.clientEscriptori.app.ControladorAplicacio;
 import fithub.clientEscriptori.dades.objectes.*;
 import fithub.clientEscriptori.events.NotificadorMissatge;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.plaf.ColorUIResource;
 import javax.swing.text.DefaultCaret;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 
 import static fithub.clientEscriptori.dades.Constants.*;
@@ -75,6 +79,7 @@ public class MainAdminForm {
     private JButton esborra_serveiButton;
     private JTextField txt_srv_preu;
     private JTextField txt_rsv_duracio;
+    private JLabel fithub_logo;
 
     private JMenuBar menuBar;
     private JMenu menu;
@@ -99,6 +104,7 @@ public class MainAdminForm {
         textAreaLog.setEditable(false);
         actualitzaButton.setEnabled(false);
         actualitzaButton.setVisible(false);
+
         //menu
         menuBar = new JMenuBar();
         menu = new JMenu(("Opcions"));
@@ -107,6 +113,17 @@ public class MainAdminForm {
         menu.add(menuInfo);
         menu.add(menuLogout);
         menuBar.add(menu);
+        //FITHUB LOGO
+        try {
+            File file = new File("src/main/resources/fithub logo.png");
+            Image img = ImageIO.read(file);
+            Image scaledImg = img.getScaledInstance(237, 75, Image.SCALE_SMOOTH);
+            ImageIcon icon = new ImageIcon(scaledImg);
+            fithub_logo.setIcon(icon);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
 
         //combo hora
         String[] horari = {("09:00"), ("10:00"), ("11:00"), ("12:00"), ("13:00"), ("14:00"), ("15:00"), ("16:00"), ("17:00"), ("18:00"), ("19:00"), ("20:00")};

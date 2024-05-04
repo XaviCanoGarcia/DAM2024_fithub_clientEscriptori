@@ -3,11 +3,13 @@ package fithub.clientEscriptori.gui.panells.login;
 import fithub.clientEscriptori.app.ControladorAplicacio;
 import fithub.clientEscriptori.events.NotificadorMissatge;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import static fithub.clientEscriptori.dades.Constants.CMD_LOGIN;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Clase que defineix formulari login.
@@ -22,13 +24,24 @@ public class LoginForm {
     private JButton botoAceptar;
     private JPasswordField textFieldPass;
     private JTextField textFieldCorreu;
-    private JLabel titol;
+    private JLabel fithub_logo;
     private JLabel titolLogin;
     private JLabel titolNom;
     private JLabel titolPass;
 
     public LoginForm() {
         notificadorMsg = new NotificadorMissatge();
+
+        //FITHUB LOGO
+        try {
+            File file = new File("src/main/resources/fithub logo.png");
+            Image img = ImageIO.read(file);
+            Image scaledImg = img.getScaledInstance(207, 65, Image.SCALE_SMOOTH);
+            ImageIcon icon = new ImageIcon(scaledImg);
+            fithub_logo.setIcon(icon);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         botoAceptar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
