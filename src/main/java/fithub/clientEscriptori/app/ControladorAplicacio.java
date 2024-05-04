@@ -109,9 +109,10 @@ public class ControladorAplicacio implements MissatgeListener {
         Object[] msg = new Object[]{(CMD_SELECT_ALL), (USUARI), (null)};
         Object[] msg2 = new Object[]{(CMD_SELECT_ALL), (ACTIVITAT), (null)};
         Object[] msg3 = new Object[]{(CMD_SELECT_ALL), (INSTALLACIO), (null)};
-        //controladorDades.crearPeticio(msg);
-        //controladorDades.crearPeticio(msg2);
-        //controladorDades.crearPeticio(msg3);
+        Object[] msg4 = new Object[]{(CMD_SELECT_ALL), (SERVEI), (null)};
+        controladorDades.crearPeticio(msg);
+        controladorDades.crearPeticio(msg2);
+        controladorDades.crearPeticio(msg3);
     }
 }
 

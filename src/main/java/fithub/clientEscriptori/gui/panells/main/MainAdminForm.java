@@ -97,7 +97,8 @@ public class MainAdminForm {
         DefaultCaret caret = (DefaultCaret) textAreaLog.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
         textAreaLog.setEditable(false);
-
+        actualitzaButton.setEnabled(false);
+        actualitzaButton.setVisible(false);
         //menu
         menuBar = new JMenuBar();
         menu = new JMenu(("Opcions"));
