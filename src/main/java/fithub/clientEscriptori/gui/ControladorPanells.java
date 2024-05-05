@@ -30,6 +30,7 @@ public class ControladorPanells {
     MainAdminForm mainAdminForm;
     UserInfoForm userInfoForm;
 
+
     /**
      * Constructor objecte Controlador de panells.
      */
@@ -88,6 +89,7 @@ public class ControladorPanells {
             loginForm.getTextFieldNom().setText("");
             loginForm.getTextFieldPass().setText("");
             mainAdminForm.setIdUsuari(((Usuari) dada).getUsuariID());
+            mainUser.setIdUsuari(((Usuari) dada).getUsuariID());
             return;
         }
         //Actualitza elements grafics llistaUsuaris

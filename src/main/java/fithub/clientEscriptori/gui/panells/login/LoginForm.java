@@ -47,10 +47,10 @@ public class LoginForm {
         botoAceptar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //char[] caracters = textFieldPass.getPassword();
-                //String passStr = new String(caracters);
-                //notificadorMsg.notificarMsg(new Object[]{(CMD_LOGIN), (textFieldCorreu.getText()), (passStr)});
-                notificadorMsg.notificarMsg(new Object[]{("login"), ("admin@fithub.es"), ("Adminpass40")});
+                char[] caracters = textFieldPass.getPassword();
+                String passStr = new String(caracters);
+                notificadorMsg.notificarMsg(new Object[]{(CMD_LOGIN), (textFieldCorreu.getText()), (passStr)});
+                //notificadorMsg.notificarMsg(new Object[]{("login"), ("admin@fithub.es"), ("Adminpass40")});
             }
         });
     }

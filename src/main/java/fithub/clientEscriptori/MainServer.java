@@ -221,11 +221,11 @@ class ThreadClient extends Thread {
             return rsp;
         }
         //Login
-        if (msg[0].equals(CMD_LOGIN) && msg[1].equals("admin@fithub.es") && msg[2].equals("Adminpass38")) {
+        if (msg[0].equals(CMD_LOGIN) && msg[1].equals("admin@fithub.es") && msg[2].equals("Adminpass40")) {
             rsp[0] = "2024,1";
             rsp[1] = usr.usuari_to_map(usuariAdmin);
-        } else if (msg[0].equals(CMD_LOGIN) && msg[1].equals("client") && msg[2].equals("pass")) {
-            rsp[0] = USUARI_ACTIU;
+        } else if (msg[0].equals(CMD_LOGIN) && msg[1].equals("client@fithub.es") && msg[2].equals("Clientpass40")) {
+            rsp[0] = "2024,2";
             usr.setTipus(1);
             rsp[1] = usr.usuari_to_map(usuari1);
         } else if (msg[0].equals(CMD_LOGOUT)) {

@@ -12,6 +12,7 @@ public class Constants {
     //Nom Panells
     public static final String LOGIN_FORM = "loginForm";
     public static final String MAIN_ADMIN_FORM = "mainAdminForm";
+    public static final String MAIN_CLIENT_FORM = "mainUser";
 
     //Tipus usuari
     public static final String USUARI_ADMIN = "1";

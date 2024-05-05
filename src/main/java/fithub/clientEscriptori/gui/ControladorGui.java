@@ -54,7 +54,7 @@ public class ControladorGui implements Observer {
                 if (tipusUsuari.equals("1")) {
                     canviaPantalla(MAIN_FRAME, MAIN_ADMIN_FORM);
                 } else if (tipusUsuari.equals("2")) {
-                    canviaPantalla(MAIN_FRAME, MAIN_ADMIN_FORM);
+                    canviaPantalla(MAIN_FRAME, MAIN_CLIENT_FORM);
                 }
             } else {
                 canviaPantalla(LOGIN_FRAME, LOGIN_FORM);
@@ -93,6 +93,8 @@ public class ControladorGui implements Observer {
             case MAIN_ADMIN_FORM:
                 mainFrame.setContentPane(controladorPanells.mainAdminForm.getPanel1());
                 break;
+            case MAIN_CLIENT_FORM:
+                mainFrame.setContentPane(controladorPanells.mainUser.getPanel1());
         }
 
     }
