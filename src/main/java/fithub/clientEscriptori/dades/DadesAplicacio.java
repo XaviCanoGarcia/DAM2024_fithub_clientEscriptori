@@ -73,7 +73,9 @@ public class DadesAplicacio extends Observable {
      */
     void inicialitzaDades() {
         setSessioID("");
-        setUsuariActiu(new Usuari("a", "a"));
+        Usuari usr = new Usuari("a", "a");
+        usr.setTipus(0);
+        setUsuariActiu(usr);
         setUsuariSeleccionat(new Usuari("", ""));
         setLlistaUsuaris(new Usuari[]{(new Usuari("", "")), (new Usuari("", ""))});
         setActivitatSeleccionada(new Activitat("", "", 0));
