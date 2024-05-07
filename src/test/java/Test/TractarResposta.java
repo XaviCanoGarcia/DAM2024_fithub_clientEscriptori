@@ -1,9 +1,7 @@
 package Test;
 
 import fithub.clientEscriptori.dades.ControladorDades;
-import fithub.clientEscriptori.dades.objectes.Activitat;
-import fithub.clientEscriptori.dades.objectes.Installacio;
-import fithub.clientEscriptori.dades.objectes.Usuari;
+import fithub.clientEscriptori.dades.objectes.*;
 import fithub.clientEscriptori.gui.ControladorGui;
 import org.junit.jupiter.api.Test;
 
@@ -51,6 +49,7 @@ public class TractarResposta {
         assert status;
     }
 
+    //Resposta en format hashmap, conversio a objectes de dades
     @Test
     public void map_a_usuari() {
         Usuari usuariAdmin = new Usuari("Xavi", "Cano Garcia", "03/04/1997", "C/Llorach 18", "978056784", "xcano@gmail.com", "pass", "05/09/2020");
@@ -90,6 +89,34 @@ public class TractarResposta {
     }
 
     @Test
+    public void map_a_servei() {
+        Servei servei = new Servei("servei1", "15€");
+        HashMap<String, String> serveiMap = servei.servei_to_map(servei);
+        Object[] resposta = {("servei"), (serveiMap)};
+        ControladorDades controladorDades = new ControladorDades(new ControladorGui());
+        Object[] rsp = controladorDades.tractarResposta(resposta);
+        boolean status = true;
+        if (!(rsp[1] instanceof Servei)) status = false;
+        assert status;
+    }
+
+    @Test
+    public void map_a_classeDirigida() {
+        Installacio installacio1 = new Installacio("Pista tennis", "Pista de tennis descoberta", "exterior");
+        Activitat activitat = new Activitat("tennis", "tennisdesc", 2);
+        activitat.setId(1);
+        activitat.setTipusActivitat(1);
+        ClasseDirigida cd = new ClasseDirigida("03042020", "0900", "1", activitat, installacio1);
+        HashMap<String, String> classeDirigidaMap = cd.classeDirigida_a_hashMap(cd);
+        Object[] resposta = {("classeDirigida"), (classeDirigidaMap)};
+        ControladorDades controladorDades = new ControladorDades(new ControladorGui());
+        Object[] rsp = controladorDades.tractarResposta(resposta);
+        boolean status = true;
+        if (!(rsp[1] instanceof ClasseDirigida)) status = false;
+        assert status;
+    }
+
+    @Test
     public void arraymap_a_llistainstallacio() {
         Installacio[] llistaInstallacio = new Installacio[4];
         Installacio installacio1 = new Installacio("Pista tennis", "Pista de tennis descoberta", "exterior");
@@ -122,6 +149,55 @@ public class TractarResposta {
         Object[] rsp = controladorDades.tractarResposta(resposta);
         boolean status = true;
         if (!(rsp[1] instanceof Activitat[])) status = false;
+        assert status;
+    }
+
+    @Test
+    public void arraymap_a_llistaservei() {
+        Servei srv = new Servei("Monitor", "15€");
+        srv.setDescripcio("Monitor per a les classes de gimnas");
+        Servei srv2 = new Servei("Dietista", "25€");
+        srv2.setDescripcio("Dietista personal");
+        Servei srv3 = new Servei("Entrenador", "20€");
+        srv3.setDescripcio("Entrenador personal");
+        Servei[] llistaServeis = new Servei[4];
+        llistaServeis[0] = srv;
+        llistaServeis[1] = srv2;
+        llistaServeis[2] = srv3;
+
+        Object[] resposta = {(SERVEI_LLISTA), srv.creaLlistaserveisMap(llistaServeis)};
+        ControladorDades controladorDades = new ControladorDades(new ControladorGui());
+        Object[] rsp = controladorDades.tractarResposta(resposta);
+        boolean status = true;
+        if (!(rsp[1] instanceof Servei[])) status = false;
+        assert status;
+    }
+
+    @Test
+    public void arraymap_a_llistaclasseDirigida() {
+        Installacio installacio3 = new Installacio("Pista basquet", "Pista basquet", "interior");
+        installacio3.setId(3);
+        Installacio installacio1 = new Installacio("Pista tennis", "Pista de tennis descoberta", "exterior");
+        installacio1.setId(1);
+        Activitat activitat = new Activitat("tennis", "tennisdesc", 2);
+        activitat.setId(1);
+        Activitat activitat2 = new Activitat("basquet", "bascdesc", 10);
+        activitat2.setId(2);
+        ClasseDirigida cd = new ClasseDirigida("28042024", "0900", "1", activitat, installacio1);
+        cd.setId(1);
+        cd.setOcupacio("1");
+        ClasseDirigida cd2 = new ClasseDirigida("28042024", "1000", "2", activitat2, installacio3);
+        cd2.setId(2);
+        cd2.setOcupacio("2");
+        ClasseDirigida[] llistaClasseDirigida = new ClasseDirigida[4];
+        llistaClasseDirigida[0] = cd;
+        llistaClasseDirigida[1] = cd2;
+
+        Object[] resposta = {(CLASSE_DIRIGIDA_LLISTA), (cd.creaLlistaClasseDirigidaMap(llistaClasseDirigida))};
+        ControladorDades controladorDades = new ControladorDades(new ControladorGui());
+        Object[] rsp = controladorDades.tractarResposta(resposta);
+        boolean status = true;
+        if (!(rsp[1] instanceof ClasseDirigida[])) status = false;
         assert status;
     }
 

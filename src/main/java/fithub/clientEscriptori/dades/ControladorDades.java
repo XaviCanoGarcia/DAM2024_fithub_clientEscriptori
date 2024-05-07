@@ -152,12 +152,14 @@ public class ControladorDades {
             return null;
         }
 
-        //Resposta Correcte
-        if(peticioLogout&&respostaRaw[0].equals("true")){
-            peticioLogout=false;
+        //Respostes Correctes
+
+        //logout
+        if (peticioLogout && respostaRaw[0].equals("true")) {
+            peticioLogout = false;
             accioLogout();
-        }else{
-            peticioLogout=false;
+        } else {
+            peticioLogout = false;
         }
         if (!respostaRaw[0].equals("") && respostaRaw[1] != null) {
             String nomDada = (String) respostaRaw[0];

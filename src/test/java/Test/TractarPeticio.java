@@ -1,9 +1,7 @@
 package Test;
 
 import fithub.clientEscriptori.dades.ControladorDades;
-import fithub.clientEscriptori.dades.objectes.Activitat;
-import fithub.clientEscriptori.dades.objectes.Installacio;
-import fithub.clientEscriptori.dades.objectes.Usuari;
+import fithub.clientEscriptori.dades.objectes.*;
 import fithub.clientEscriptori.gui.ControladorGui;
 import org.junit.jupiter.api.Test;
 
@@ -115,6 +113,7 @@ public class TractarPeticio {
         usuariMap.put(HM_USR_DATAI, usuariAdmin.getDataInscripcio());
         usuariMap.put(HM_USR_TELEFON, usuariAdmin.getTelefon());
         usuariMap.put(HM_USR_TIPUS, String.valueOf(usuariAdmin.getTipus()));
+        usuariMap.put(HM_USR_CONTRASENYA, "pass");
         Object[] peticio = {("insert"), ("usuari"), (usuariAdmin)};
         ControladorDades controladorDades = new ControladorDades(new ControladorGui());
         controladorDades.getDades().setSessioID("");
@@ -182,6 +181,76 @@ public class TractarPeticio {
         boolean status = installacioMap.size() == hs.size();
         if (status) {
             for (Map.Entry<String, String> entry : installacioMap.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+                if (!hs.containsKey(key) || !hs.get(key).equals(value)) {
+                    status = false;
+                    break;
+                }
+            }
+        }
+        assert status;
+    }
+
+    @Test
+    public void servei_a_hashmap() {
+        Servei srv1 = new Servei("nom", "15@");
+        srv1.setDescripcio("desc");
+        srv1.setId(10);
+        HashMap<String, String> serveiMap = new HashMap<>();
+        serveiMap.put(HM_SRV_ID, String.valueOf(srv1.getId()));
+        serveiMap.put(HM_SRV_NOM, srv1.getNom());
+        serveiMap.put(HM_SRV_DESC, srv1.getDescripcio());
+        serveiMap.put(HM_SRV_PREU, srv1.getPreu());
+        Object[] peticio = {("insert"), ("servei"), (srv1)};
+        ControladorDades controladorDades = new ControladorDades(new ControladorGui());
+        controladorDades.getDades().setSessioID("");
+        Object[] rsp = controladorDades.tractarPeticio(peticio);
+        HashMap<String, String> hs = (HashMap<String, String>) rsp[2];
+        boolean status = serveiMap.size() == hs.size();
+        if (status) {
+            for (Map.Entry<String, String> entry : serveiMap.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+                if (!hs.containsKey(key) || !hs.get(key).equals(value)) {
+                    status = false;
+                    break;
+                }
+            }
+        }
+        assert status;
+    }
+
+    @Test
+    public void classeDirigida_a_hashmap() {
+        Installacio installacio1 = new Installacio("Pista tennis", "Pista de tennis descoberta", "exterior");
+        installacio1.setId(1);
+        installacio1.setTipus("1");
+        Activitat activitat1 = new Activitat("act1", "act1desc", 0);
+        activitat1.setId(2);
+        activitat1.setTipusActivitat(1);
+        ClasseDirigida cd = new ClasseDirigida("01012020", "0900", "1", activitat1, installacio1);
+        HashMap<String, String> classeDirigidaMap = new HashMap<>();
+        HashMap<String, String> actMap = activitat1.activitat_to_map(activitat1);
+        HashMap<String, String> insMap = installacio1.installacio_to_map(installacio1);
+
+        classeDirigidaMap.put(HM_CDI_DATA, cd.getData());
+        classeDirigidaMap.put(HM_CDI_ID, String.valueOf(cd.getId()));
+        classeDirigidaMap.put(HM_CDI_HORA, "0900");
+        classeDirigidaMap.put(HM_CDI_DURACIO, cd.getDuracio());
+        classeDirigidaMap.put(HM_CDI_OCUPACIO, cd.getOcupacio());
+        classeDirigidaMap.putAll(actMap);
+        classeDirigidaMap.putAll(insMap);
+
+
+        Object[] peticio = {("insert"), ("classeDirigida"), (cd)};
+        ControladorDades controladorDades = new ControladorDades(new ControladorGui());
+        controladorDades.getDades().setSessioID("");
+        Object[] rsp = controladorDades.tractarPeticio(peticio);
+        HashMap<String, String> hs = (HashMap<String, String>) rsp[2];
+        boolean status = classeDirigidaMap.size() == hs.size();
+        if (status) {
+            for (Map.Entry<String, String> entry : classeDirigidaMap.entrySet()) {
                 String key = entry.getKey();
                 String value = entry.getValue();
                 if (!hs.containsKey(key) || !hs.get(key).equals(value)) {
