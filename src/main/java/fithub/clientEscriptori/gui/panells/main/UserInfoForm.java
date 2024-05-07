@@ -11,6 +11,12 @@ import java.awt.event.ActionListener;
 
 import static fithub.clientEscriptori.dades.Constants.*;
 
+/**
+ * Clase que defineix formulari informacio d'usuari actual.
+ *
+ * @author Xavi Cano Garcia
+ * @version 1.0
+ */
 public class UserInfoForm {
     NotificadorMissatge notificadorMsg;
     private JTabbedPane tabbedPane1;

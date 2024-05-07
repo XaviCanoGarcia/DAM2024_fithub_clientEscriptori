@@ -5,6 +5,12 @@ import java.util.HashMap;
 
 import static fithub.clientEscriptori.dades.Constants.*;
 
+/**
+ * Classe que representa una classe dirigida en l'aplicació FitHub.
+ *
+ * @author Xavi Cano
+ * @version 1.1
+ */
 public class ClasseDirigida {
 
     private int id;

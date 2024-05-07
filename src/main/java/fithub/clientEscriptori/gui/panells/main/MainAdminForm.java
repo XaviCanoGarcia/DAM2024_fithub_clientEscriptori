@@ -19,6 +19,12 @@ import java.util.HashMap;
 
 import static fithub.clientEscriptori.dades.Constants.*;
 
+/**
+ * Clase que defineix formulari main administrador.
+ *
+ * @author Xavi Cano Garcia
+ * @version 1.0
+ */
 public class MainAdminForm {
     NotificadorMissatge notificadorMsg;
     private JPanel panel1;
