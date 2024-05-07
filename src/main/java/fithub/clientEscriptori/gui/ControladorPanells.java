@@ -1,19 +1,19 @@
 package fithub.clientEscriptori.gui;
 
-import fithub.clientEscriptori.dades.objectes.Activitat;
-import fithub.clientEscriptori.dades.objectes.Installacio;
-import fithub.clientEscriptori.dades.objectes.Usuari;
+import fithub.clientEscriptori.dades.objectes.*;
 
-import fithub.clientEscriptori.gui.panells.MainAdminForm;
+import fithub.clientEscriptori.gui.panells.main.MainAdminForm;
 import fithub.clientEscriptori.gui.panells.login.LoginForm;
 
-import fithub.clientEscriptori.gui.panells.MainUser;
+import fithub.clientEscriptori.gui.panells.main.MainUser;
+import fithub.clientEscriptori.gui.panells.main.UserInfoForm;
 
 import javax.swing.table.DefaultTableModel;
 
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 
 import static fithub.clientEscriptori.dades.Constants.*;
 
@@ -28,6 +28,8 @@ public class ControladorPanells {
     LoginForm loginForm;
     MainUser mainUser;
     MainAdminForm mainAdminForm;
+    UserInfoForm userInfoForm;
+
 
     /**
      * Constructor objecte Controlador de panells.
@@ -35,6 +37,7 @@ public class ControladorPanells {
     public ControladorPanells() {
         loginForm = new LoginForm();
         mainUser = new MainUser();
+        userInfoForm = new UserInfoForm();
         mainAdminForm = new MainAdminForm();
         mainAdminForm.getTextAreaLog().setLineWrap(false);
         mainAdminForm.getTextAreaLog().setWrapStyleWord(false);
@@ -50,6 +53,7 @@ public class ControladorPanells {
         Object[] msj = (Object[]) data;
         String nomDada = (String) msj[0];
         Object dada = msj[1];
+        //Actualitza la consola
         if (nomDada.equals(EVENT) || nomDada.equals(DADA_CONSOLA_LOG)) {
             Instant timestamp = Instant.now();
             timestamp = Instant.parse(timestamp.toString());
@@ -58,9 +62,14 @@ public class ControladorPanells {
             String formattedTimestamp = formatter.format(timestamp);
             mainAdminForm.getTextAreaLog().append(formattedTimestamp + " - **EVENT**    ---- " + (String) dada + "\n");
         }
+        //Actualitza la id de sessio
         if (nomDada.equals(SESSIO_ID)) {
             mainAdminForm.getUsuariActualSessio().setText("sessioId: " + dada);
 
+        }
+        //Actualitza elements gràfics de la finestra informació de l'usuari
+        if (nomDada.equals(INFO_USUARI)) {
+            userInfoForm.setUsuariText((Usuari) dada);
         }
         //--------------------------------------------------
         //---------------------USUARIS----------------------
@@ -79,6 +88,8 @@ public class ControladorPanells {
             mainAdminForm.getUsuariAcrualCorreu().setText(usuari.getCorreu());
             loginForm.getTextFieldNom().setText("");
             loginForm.getTextFieldPass().setText("");
+            mainAdminForm.setIdUsuari(((Usuari) dada).getUsuariID());
+            mainUser.setIdUsuari(((Usuari) dada).getUsuariID());
             return;
         }
         //Actualitza elements grafics llistaUsuaris
@@ -104,7 +115,7 @@ public class ControladorPanells {
             Object[][] dadesTaulaActivitats = llistaActivitatsTaula((Activitat[]) dada);
             DefaultTableModel modelActivitats = new DefaultTableModel(dadesTaulaActivitats, columnNamesActivitats);
             mainAdminForm.getTable_activitats().setModel(modelActivitats);
-            return;
+
         }
         //Actualitza elements grafics activitatSeleccionada
         if (nomDada.equals(ACTIVITAT_SELECT)) {
@@ -121,7 +132,7 @@ public class ControladorPanells {
             Object[][] dadesTaulaInstallacio = llistaInstallacionsTaula((Installacio[]) dada);
             DefaultTableModel modelInstallacio = new DefaultTableModel(dadesTaulaInstallacio, columnNamesInstallacio);
             mainAdminForm.getTable_installacions().setModel(modelInstallacio);
-            return;
+
         }
         //Actualitza elements grafics activitatSeleccionada
         if (nomDada.equals(INSTALLACIO_SELECT)) {
@@ -129,23 +140,93 @@ public class ControladorPanells {
             mainAdminForm.setIdInstallacio(((Installacio) dada).getId());
             return;
         }
+        //--------------------------------------------------
+        //---------------------RESERVES---------------------
+        //--------------------------------------------------
+        //Actualitza COMBOS
+        if (nomDada.equals(ACTIVITAT_LLISTA)) {
+            mainAdminForm.getActivitatComboBox().removeAllItems();
+            HashMap<String, Integer> hs = new HashMap<>();
+            for (Activitat act : (Activitat[]) dada) {
+                mainAdminForm.getActivitatComboBox().addItem(act.getNom());
+                hs.put(act.getNom(), act.getId());
+            }
+            mainAdminForm.setIdActivitatComboList(hs);
+
+        }
+        if (nomDada.equals(INSTALLACIO_LLISTA)) {
+            mainAdminForm.getUbicacioComboBox().removeAllItems();
+            HashMap<String, Integer> hs = new HashMap<>();
+            for (Installacio ins : (Installacio[]) dada) {
+                mainAdminForm.getUbicacioComboBox().addItem(ins.getNom());
+                hs.put(ins.getNom(), ins.getId());
+            }
+            mainAdminForm.setIdInstallacioComboList(hs);
+        }
+        //Actualitza elements grafics llistaClasseDirigida
+        if (nomDada.equals(CLASSE_DIRIGIDA_LLISTA)) {
+            String[] columnNamesClasseDirigida = CLASSE_DIRIGIDA_COLUMNES;
+            Object[][] dadesTaulaClasseDirigida = llistaClasseDirigidaTaula((ClasseDirigida[]) dada);
+            DefaultTableModel modelClasseDirigida = new DefaultTableModel(dadesTaulaClasseDirigida, columnNamesClasseDirigida);
+            mainAdminForm.getTableClasseDirigida().setModel(modelClasseDirigida);
+            return;
+        }
+        //Actualitza elements gràfics de la ClasseDirigida seleccionada
+        if (nomDada.equals(CLASSE_DIRIGIDA)) {
+            ClasseDirigida cd = (ClasseDirigida) dada;
+            mainAdminForm.getHoraComboBox().setSelectedItem(cd.getHoraInici());
+            mainAdminForm.getActivitatComboBox().setSelectedItem(cd.getActivitat().getNom());
+            mainAdminForm.getUbicacioComboBox().setSelectedItem(cd.getInstallacio().getNom());
+            mainAdminForm.setIdClasseDirigida(cd.getId());
+            mainAdminForm.getTxt_rsv_duracio().setText(cd.getDuracio());
+            return;
+        }
+        //--------------------------------------------------
+        //---------------------SERVEIS----------------------
+        //--------------------------------------------------
+        //Actualitza elements grafics llistaServeis
+        if (nomDada.equals(SERVEI_LLISTA)) {
+            String[] columnNamesServei = SERVEI_COLUMNES;
+            Object[][] dadesTaulaServei = llistaServeisTaula((Servei[]) dada);
+            DefaultTableModel modelServei = new DefaultTableModel(dadesTaulaServei, columnNamesServei);
+            mainAdminForm.getTableServeis().setModel(modelServei);
+
+        }
+        //Actualitza elements grafics serveiSeleccionat
+        if (nomDada.equals(SERVEI_SELECT)) {
+            mainAdminForm.getTxt_srv_nom().setText(((Servei) dada).getNom());
+            mainAdminForm.getTxt_srv_desc().setText(((Servei) dada).getDescripcio());
+            mainAdminForm.getTxt_srv_preu().setText(((Servei) dada).getPreu());
+            mainAdminForm.setIdServei(((Servei) dada).getId());
+            return;
+        }
+
+
     }
 
     /**
-     * Inserta caràcters especials de salt de linia i tabulador cada x caracters.
-     * Aquest mètod es fa servir per tractar les linies de text de la consola.
+     * Mètode que tansforma una llista de classeDirigida en un Object[][] per poder omplir la taula
      *
-     * @param text         Text on es vol insertar salts de linia
-     * @param numCaracters Numero de caràcters de la linia
-     * @return String amb els caràcter especials intercalats
+     * @param llista Llista d'usuaris
+     * @return taula Array objecte dos dimensions
      */
-    public String insertaSaltDeLinia(String text, int numCaracters) {
-        StringBuilder resultado = new StringBuilder();
-        for (int i = 0; i < text.length(); i += numCaracters) {
-            int fin = Math.min(i + numCaracters, text.length());
-            resultado.append(text.substring(i, fin)).append("\n\t");
+    private Object[][] llistaClasseDirigidaTaula(ClasseDirigida[] llista) {
+        Object[][] taula = new Object[50][8];
+        int i = 0;
+        if (llista == null) return taula;
+        for (ClasseDirigida cd : llista) {
+            if (cd != null) {
+                taula[i][0] = cd.getData();
+                taula[i][1] = cd.getHoraInici();
+                taula[i][2] = cd.getDuracio();
+                taula[i][3] = cd.getActivitat().getNom();
+                taula[i][4] = cd.getInstallacio().getNom();
+                taula[i][5] = cd.getOcupacio() + "/" + cd.getActivitat().getAforament();
+
+                i++;
+            }
         }
-        return resultado.toString();
+        return taula;
     }
 
     /**
@@ -216,12 +297,37 @@ public class ControladorPanells {
         return taula;
     }
 
+    /**
+     * Mètode que tansforma una llista de serveis en un Object[][] per poder omplir la taula
+     *
+     * @param llista Llista de serveis
+     * @return taula Array objecte dos dimensions
+     */
+    private Object[][] llistaServeisTaula(Servei[] llista) {
+        Object[][] taula = new Object[50][3];
+        int i = 0;
+        if (llista == null) return taula;
+        for (Servei servei : llista) {
+            if (servei != null) {
+                taula[i][0] = servei.getNom();
+                taula[i][1] = servei.getDescripcio();
+                taula[i][2] = servei.getPreu();
+                i++;
+            }
+        }
+        return taula;
+    }
+
     public LoginForm getLoginForm() {
         return loginForm;
     }
 
     public MainUser getMainUser() {
         return mainUser;
+    }
+
+    public UserInfoForm getUserInfoForm() {
+        return userInfoForm;
     }
 
     public MainAdminForm getMainAdminForm() {

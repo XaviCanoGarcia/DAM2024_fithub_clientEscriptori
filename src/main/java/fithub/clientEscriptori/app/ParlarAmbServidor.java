@@ -18,9 +18,9 @@ import java.util.logging.Logger;
  */
 public class ParlarAmbServidor {
 
-    //192.168.0.47  Isard server
+    //10.2.36.102  Isard server
     //127.0.0.1     Local
-    static String ip = "192.168.0.47";
+    static String ip = "10.2.36.102";
     static int port = 8080;
 
     String respostaHS = "";

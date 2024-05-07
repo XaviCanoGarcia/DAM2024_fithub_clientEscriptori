@@ -1,6 +1,5 @@
 package fithub.clientEscriptori.app;
 
-import fithub.clientEscriptori.dades.Constants;
 import fithub.clientEscriptori.dades.ControladorDades;
 import fithub.clientEscriptori.events.MissatgeEvent;
 import fithub.clientEscriptori.events.MissatgeListener;
@@ -27,7 +26,7 @@ public class ControladorAplicacio implements MissatgeListener {
         controladorGui = new ControladorGui();
         controladorGui.getControladorPanells().getLoginForm().setListenerMsg(this);
         controladorGui.getControladorPanells().getMainAdminForm().setListenerMsg(this);
-        //controladorGui.getControladorPanells().getMainUser().setListener(this);
+        controladorGui.getControladorPanells().getUserInfoForm().setListenerMsg(this);
 
         controladorDades = new ControladorDades(controladorGui);
 
@@ -46,10 +45,9 @@ public class ControladorAplicacio implements MissatgeListener {
         String param = (String) peticio[1];
         Object dada = peticio[2];
         controladorDades.getDades().setEventMsg("Generat per l'usuari: " + peticio[0] + " " + peticio[1]);
-
-        //Accio Logout
-        if (cmd.equals(CMD_LOGOUT)) {
-            controladorDades.accioLogout();
+        //Accio canvi d'informació usuari
+        if (cmd.equals(CMD_INFO_USUARI)) {
+            controladorDades.getDades().setCanviInfoUsuariActiu(true);
             return;
         }
         //Seleccio amb el mouse un usuari de la taula
@@ -85,8 +83,38 @@ public class ControladorAplicacio implements MissatgeListener {
             }
             return;
         }
+        //Seleccio amb el mouse d'una classe dirigida de la taula
+        if (cmd.equals(CMD_MOUSE) && peticio[1].equals(CLASSE_DIRIGIDA_SELECT)) {
+            int numTaulaSeleccionat = (int) peticio[2];
+            if (numTaulaSeleccionat < controladorDades.getDades().getLlistaClasseDirigida().length) {
+                if (controladorDades.getDades().getLlistaClasseDirigida()[numTaulaSeleccionat] != null) {
+                    controladorDades.getDades().setClasseDirigidaSeleccionada(controladorDades.getDades().getLlistaClasseDirigida()[numTaulaSeleccionat]);
+                }
+            }
+            return;
+        }
+        //Seleccio amb el mouse d'un servei de la taula
+        if (cmd.equals(CMD_MOUSE) && peticio[1].equals(SERVEI_SELECT)) {
+            int numTaulaSeleccionat = (int) peticio[2];
+            if (numTaulaSeleccionat < controladorDades.getDades().getLlistaServei().length) {
+                if (controladorDades.getDades().getLlistaServei()[numTaulaSeleccionat] != null) {
+                    controladorDades.getDades().setServeiSeleccionat(controladorDades.getDades().getLlistaServei()[numTaulaSeleccionat]);
+                }
+            }
+            return;
+        }
         //Petició al servidor
         controladorDades.crearPeticio(peticio);
+        if(peticio[0].equals("logout"))return;
+        //Actualizacio de dades automatica
+        Object[] msg = new Object[]{(CMD_SELECT_ALL), (USUARI), (null)};
+        Object[] msg2 = new Object[]{(CMD_SELECT_ALL), (ACTIVITAT), (null)};
+        Object[] msg3 = new Object[]{(CMD_SELECT_ALL), (INSTALLACIO), (null)};
+        Object[] msg4 = new Object[]{(CMD_SELECT_ALL), (SERVEI), (null)};
+        controladorDades.crearPeticio(msg);
+        controladorDades.crearPeticio(msg2);
+        controladorDades.crearPeticio(msg3);
+        controladorDades.crearPeticio(msg4);
     }
 }
 

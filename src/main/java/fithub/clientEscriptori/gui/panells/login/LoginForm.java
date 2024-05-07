@@ -3,9 +3,13 @@ package fithub.clientEscriptori.gui.panells.login;
 import fithub.clientEscriptori.app.ControladorAplicacio;
 import fithub.clientEscriptori.events.NotificadorMissatge;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
 import static fithub.clientEscriptori.dades.Constants.CMD_LOGIN;
 
@@ -22,23 +26,31 @@ public class LoginForm {
     private JButton botoAceptar;
     private JPasswordField textFieldPass;
     private JTextField textFieldCorreu;
-    private JLabel titol;
+    private JLabel fithub_logo;
     private JLabel titolLogin;
     private JLabel titolNom;
     private JLabel titolPass;
 
     public LoginForm() {
         notificadorMsg = new NotificadorMissatge();
+
+        //FITHUB LOGO
+        try {
+            File file = new File("src/main/resources/fithub logo.png");
+            Image img = ImageIO.read(file);
+            Image scaledImg = img.getScaledInstance(207, 65, Image.SCALE_SMOOTH);
+            ImageIcon icon = new ImageIcon(scaledImg);
+            fithub_logo.setIcon(icon);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         botoAceptar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 char[] caracters = textFieldPass.getPassword();
                 String passStr = new String(caracters);
                 notificadorMsg.notificarMsg(new Object[]{(CMD_LOGIN), (textFieldCorreu.getText()), (passStr)});
-                /*Usuari usr = new Usuari("Josep", "Lopez", "03/04/1997", "C/Terssol 18", "978056784", "josepLopez@gmail.com", "pass", "05/09/2020");
-                usr.setSessioID(1);
-                usr.setTipus("admin");*/
-                //notificadorMsg.notificarMsg(new Object[]{("login"), ("admin@fithub.es"), ("Adminpass37")});
+                //notificadorMsg.notificarMsg(new Object[]{("login"), ("admin@fithub.es"), ("Adminpass40")});
             }
         });
     }

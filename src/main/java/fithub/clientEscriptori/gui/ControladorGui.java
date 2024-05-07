@@ -30,6 +30,7 @@ public class ControladorGui implements Observer {
         loginFrame = new LoginFrame();
         loginFrame.add(controladorPanells.loginForm.getPanel1());
         //controladorPanells.getMainUser().setListener(this);
+        mainFrame.setJMenuBar(controladorPanells.getMainAdminForm().getMenuBar());
 
     }
 
@@ -49,15 +50,23 @@ public class ControladorGui implements Observer {
         if (nomDada.equals(SESSIO_ID) || nomDada.equals(CMD_LOGOUT)) {
             String sessioID = (String) dada;
             if (sessioID.contains(",")) {
-                String tipusUsuari = sessioID.split(",")[1];
-                if (tipusUsuari.equals("1")) {
-                    canviaPantalla(MAIN_FRAME, MAIN_ADMIN_FORM);
-                } else if (tipusUsuari.equals("2")) {
-                    canviaPantalla(MAIN_FRAME, MAIN_ADMIN_FORM);
-                }
+
             } else {
                 canviaPantalla(LOGIN_FRAME, LOGIN_FORM);
             }
+        }
+        if (nomDada.equals(USUARI_ACTIU)) {
+            Usuari usr = (Usuari) dada;
+            if ((usr.getUsuariID() == -1)) return;
+            if (((Usuari) dada).getTipus() == 1) {
+                canviaPantalla(MAIN_FRAME, MAIN_ADMIN_FORM);
+            } else if (((Usuari) dada).getTipus() == 2) {
+                canviaPantalla(MAIN_FRAME, MAIN_CLIENT_FORM);
+            }
+        }
+        if (nomDada.equals(INFO_USUARI)) {
+            InfoUsuariFrame infoUsuariFrame = new InfoUsuariFrame();
+            infoUsuariFrame.setContentPane(controladorPanells.getUserInfoForm().getPanel1());
         }
         controladorPanells.update(arg);
     }
@@ -76,8 +85,8 @@ public class ControladorGui implements Observer {
                 mainFrame.setVisible(true);
                 break;
             case LOGIN_FRAME:
-                loginFrame.setVisible(true);
                 mainFrame.setVisible(false);
+                loginFrame.setVisible(true);
                 break;
         }
         switch (panel) {
@@ -87,6 +96,8 @@ public class ControladorGui implements Observer {
             case MAIN_ADMIN_FORM:
                 mainFrame.setContentPane(controladorPanells.mainAdminForm.getPanel1());
                 break;
+            case MAIN_CLIENT_FORM:
+                mainFrame.setContentPane(controladorPanells.mainUser.getPanel1());
         }
 
     }

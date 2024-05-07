@@ -1,8 +1,6 @@
 package fithub.clientEscriptori.dades;
 
-import fithub.clientEscriptori.dades.objectes.Activitat;
-import fithub.clientEscriptori.dades.objectes.Installacio;
-import fithub.clientEscriptori.dades.objectes.Usuari;
+import fithub.clientEscriptori.dades.objectes.*;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -21,14 +19,19 @@ public class DadesAplicacio extends Observable {
 
     private String sessioID = "";
     private Usuari usuariActiu;
+    private boolean canviInfoUsuariActiu;
     private Usuari usuariSeleccionat;
     private Usuari[] llistaUsuaris;
     private Activitat activitatSeleccionada;
     private Activitat[] llistaActivitats;
     private Installacio installacioSeleccionada;
     private Installacio[] llistaInstallacio;
-    private String errorMsg;
+    private ClasseDirigida classeDirigidaSeleccionada;
+    private ClasseDirigida[] llistaClasseDirigida;
+    private Servei serveiSeleccionat;
+    private Servei[] llistaServei;
 
+    private String errorMsg;
     private String eventMsg;
 
     /**
@@ -37,9 +40,11 @@ public class DadesAplicacio extends Observable {
     public DadesAplicacio() {
         usuariActiu = new Usuari("", "");
         usuariActiu.setTipus(1);
+        canviInfoUsuariActiu = false;
         usuariSeleccionat = new Usuari("", "");
         activitatSeleccionada = new Activitat("", "", 0);
         installacioSeleccionada = new Installacio("", "", "");
+        serveiSeleccionat = new Servei("", "");
     }
 
     /**
@@ -63,13 +68,22 @@ public class DadesAplicacio extends Observable {
         }
     }
 
+    /**
+     * Inicialitza el model de dades a valors per defecte
+     */
     void inicialitzaDades() {
         setSessioID("");
-        setUsuariActiu(new Usuari("a", "a"));
+        Usuari usr = new Usuari("a", "a");
+        usr.setTipus(0);
+        setUsuariActiu(usr);
         setUsuariSeleccionat(new Usuari("", ""));
         setLlistaUsuaris(new Usuari[]{(new Usuari("", "")), (new Usuari("", ""))});
         setActivitatSeleccionada(new Activitat("", "", 0));
         setLlistaActivitats(new Activitat[]{(new Activitat("", "", 0)), new Activitat("", "", 0)});
+        ClasseDirigida cd = new ClasseDirigida("", "", "1", (new Activitat("", "", 0)), (new Installacio("", "", "")));
+        ClasseDirigida cd2 = new ClasseDirigida("", "", "1", (new Activitat("", "", 0)), (new Installacio("", "", "")));
+        setClasseDirigidaSeleccionada(cd);
+        setLlistaClasseDirigida(new ClasseDirigida[]{(cd), (cd2)});
         errorMsg = "";
         eventMsg = "";
     }
@@ -113,10 +127,6 @@ public class DadesAplicacio extends Observable {
         }
     }
 
-    public Usuari getUsuariActiu() {
-        return usuariActiu;
-    }
-
     public void setErrorMsg(String errorMsg) {
         if (this.errorMsg != errorMsg) {
             this.errorMsg = errorMsg;
@@ -137,6 +147,12 @@ public class DadesAplicacio extends Observable {
         }
     }
 
+    public void setCanviInfoUsuariActiu(boolean canviInfoUsuariActiu) {
+        if (this.canviInfoUsuariActiu != canviInfoUsuariActiu) {
+            setChanged();
+            notificaCanviDades(INFO_USUARI, this.usuariActiu);
+        }
+    }
 
     public String getSessioID() {
         return sessioID;
@@ -153,10 +169,6 @@ public class DadesAplicacio extends Observable {
         }
     }
 
-    public Usuari getUsuariSeleccionat() {
-        return usuariSeleccionat;
-    }
-
     public void setUsuariSeleccionat(Usuari usuariSeleccionat) {
         if (this.usuariSeleccionat != usuariSeleccionat) {
             this.usuariSeleccionat = usuariSeleccionat;
@@ -165,10 +177,6 @@ public class DadesAplicacio extends Observable {
             setChanged();
             notificaCanviDades(DADA_CONSOLA_LOG, "Dada modificada: " + USUARI_SELECT);
         }
-    }
-
-    public Activitat getActivitatSeleccionada() {
-        return activitatSeleccionada;
     }
 
     public void setActivitatSeleccionada(Activitat activitatSeleccionada) {
@@ -183,10 +191,6 @@ public class DadesAplicacio extends Observable {
         }
     }
 
-    public Installacio getInstallacioSeleccionada() {
-        return installacioSeleccionada;
-    }
-
     public void setInstallacioSeleccionada(Installacio installacioSeleccionada) {
         if (this.installacioSeleccionada != installacioSeleccionada) {
             if (installacioSeleccionada == null) ;
@@ -196,10 +200,6 @@ public class DadesAplicacio extends Observable {
             setChanged();
             notificaCanviDades(DADA_CONSOLA_LOG, "Dada modificada: " + INSTALLACIO_SELECT);
         }
-    }
-
-    public String getErrorMsg() {
-        return errorMsg;
     }
 
     public Installacio[] getLlistaInstallacio() {
@@ -213,6 +213,64 @@ public class DadesAplicacio extends Observable {
             notificaCanviDades(INSTALLACIO_LLISTA, this.llistaInstallacio);
             setChanged();
             notificaCanviDades(DADA_CONSOLA_LOG, "Dada modificada: " + INSTALLACIO_LLISTA);
+        }
+    }
+
+    public ClasseDirigida getClasseDirigidaSeleccionada() {
+        return classeDirigidaSeleccionada;
+    }
+
+    public void setClasseDirigidaSeleccionada(ClasseDirigida classeDirigidaSeleccionada) {
+        if (this.classeDirigidaSeleccionada != classeDirigidaSeleccionada) {
+            this.classeDirigidaSeleccionada = classeDirigidaSeleccionada;
+            setChanged();
+            notificaCanviDades(CLASSE_DIRIGIDA, this.classeDirigidaSeleccionada);
+            setChanged();
+            notificaCanviDades(DADA_CONSOLA_LOG, "Dada modificada: " + CLASSE_DIRIGIDA);
+
+        }
+    }
+
+    public ClasseDirigida[] getLlistaClasseDirigida() {
+        return llistaClasseDirigida;
+    }
+
+    public void setLlistaClasseDirigida(ClasseDirigida[] llistaClasseDirigida) {
+        if (this.llistaClasseDirigida != llistaClasseDirigida) {
+            this.llistaClasseDirigida = llistaClasseDirigida;
+            setChanged();
+            notificaCanviDades(CLASSE_DIRIGIDA_LLISTA, this.llistaClasseDirigida);
+            setChanged();
+            notificaCanviDades(DADA_CONSOLA_LOG, "Dada modificada: " + CLASSE_DIRIGIDA_LLISTA);
+
+        }
+    }
+
+    public Servei getServeiSeleccionat() {
+        return serveiSeleccionat;
+    }
+
+    public void setServeiSeleccionat(Servei serveiSeleccionat) {
+        if (this.serveiSeleccionat != serveiSeleccionat) {
+            this.serveiSeleccionat = serveiSeleccionat;
+            setChanged();
+            notificaCanviDades(SERVEI_SELECT, this.serveiSeleccionat);
+            setChanged();
+            notificaCanviDades(DADA_CONSOLA_LOG, "Dada modificada: " + SERVEI);
+        }
+    }
+
+    public Servei[] getLlistaServei() {
+        return llistaServei;
+    }
+
+    public void setLlistaServei(Servei[] llistaServei) {
+        if (this.llistaServei != llistaServei) {
+            this.llistaServei = llistaServei;
+            setChanged();
+            notificaCanviDades(SERVEI_LLISTA, this.llistaServei);
+            setChanged();
+            notificaCanviDades(DADA_CONSOLA_LOG, "Dada modificada: " + SERVEI_LLISTA);
         }
     }
 }

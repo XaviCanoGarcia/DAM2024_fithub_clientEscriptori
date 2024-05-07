@@ -1,9 +1,7 @@
 package fithub.clientEscriptori.dades;
 
 import fithub.clientEscriptori.app.ParlarAmbServidor;
-import fithub.clientEscriptori.dades.objectes.Activitat;
-import fithub.clientEscriptori.dades.objectes.Installacio;
-import fithub.clientEscriptori.dades.objectes.Usuari;
+import fithub.clientEscriptori.dades.objectes.*;
 import fithub.clientEscriptori.gui.ControladorGui;
 
 import java.net.ConnectException;
@@ -22,6 +20,7 @@ import static fithub.clientEscriptori.dades.Constants.*;
 public class ControladorDades {
 
     DadesAplicacio dades;
+    boolean peticioLogout = false;
 
     public ControladorDades(ControladorGui controladorGui) {
         dades = new DadesAplicacio();
@@ -96,6 +95,7 @@ public class ControladorDades {
                 return null;
             }
         }
+        if(peticio[0].equals(CMD_LOGOUT)) peticioLogout=true;
         //Assigna sessioID a la peticio
         if (dades.getSessioID().equals("")) {
             peticioTractada[3] = null;
@@ -115,6 +115,14 @@ public class ControladorDades {
         if (dada instanceof Installacio) {
             Installacio ins = (Installacio) dada;
             dada = ins.installacio_to_map(ins);
+        }
+        if (dada instanceof ClasseDirigida) {
+            ClasseDirigida cd = (ClasseDirigida) dada;
+            dada = cd.classeDirigida_a_hashMap(cd);
+        }
+        if (dada instanceof Servei) {
+            Servei srv = (Servei) dada;
+            dada = srv.servei_to_map(srv);
         }
 
         peticioTractada[0] = peticio[0];
@@ -144,21 +152,29 @@ public class ControladorDades {
             return null;
         }
 
-        //Resposta Correcte
+        //Respostes Correctes
+
+        //logout
+        if (peticioLogout && respostaRaw[0].equals("true")) {
+            peticioLogout = false;
+            accioLogout();
+        } else {
+            peticioLogout = false;
+        }
         if (!respostaRaw[0].equals("") && respostaRaw[1] != null) {
             String nomDada = (String) respostaRaw[0];
             Object dada = respostaRaw[1];
             Usuari usr = new Usuari("", "");
             Activitat act = new Activitat("", "", 0);
             Installacio ins = new Installacio("", "", "");
-
+            ClasseDirigida cd = new ClasseDirigida("", "", "1", act, ins);
+            Servei srv = new Servei("", "");
             //Identifica resposta de login, comprova el tipus d'usuari
             if (nomDada.contains(",")) {
                 if (nomDada.split(",")[1].equals("1") || nomDada.split(",")[1].equals("2")) {
                     resposta[1] = usr.map_to_usuari((HashMap<String, String>) respostaRaw[1]);
                 }
             }
-
             //Crea els objectes de dades a partir dels HashMaps
             switch (nomDada) {
                 case USUARI:
@@ -178,6 +194,18 @@ public class ControladorDades {
                     break;
                 case INSTALLACIO_LLISTA:
                     resposta[1] = ins.crearLlistaInstallacio((ArrayList<HashMap<String, String>>) respostaRaw[1]);
+                    break;
+                case CLASSE_DIRIGIDA:
+                    resposta[1] = cd.map_a_classeDirigida((HashMap<String, String>) respostaRaw[1]);
+                    break;
+                case CLASSE_DIRIGIDA_LLISTA:
+                    resposta[1] = cd.crearLlistaClasseDirigida((ArrayList<HashMap<String, String>>) respostaRaw[1]);
+                    break;
+                case SERVEI:
+                    resposta[1] = srv.map_to_servei((HashMap<String, String>) respostaRaw[1]);
+                    break;
+                case SERVEI_LLISTA:
+                    resposta[1] = srv.crearLlistaServeis((ArrayList<HashMap<String, String>>) respostaRaw[1]);
                     break;
             }
         }
@@ -217,8 +245,21 @@ public class ControladorDades {
             case INSTALLACIO_LLISTA:
                 dades.setLlistaInstallacio((Installacio[]) dada);
                 break;
-
-
+            case CLASSE_DIRIGIDA:
+                dades.setClasseDirigidaSeleccionada((ClasseDirigida) dada);
+                break;
+            case CLASSE_DIRIGIDA_LLISTA:
+                dades.setLlistaClasseDirigida((ClasseDirigida[]) dada);
+                break;
+            case SERVEI:
+                dades.setServeiSeleccionat((Servei) dada);
+                break;
+            case SERVEI_LLISTA:
+                dades.setLlistaServei((Servei[]) dada);
+                break;
+            case CMD_LOGOUT:
+                accioLogout();
+                break;
         }
     }
 

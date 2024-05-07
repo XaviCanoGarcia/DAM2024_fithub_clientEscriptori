@@ -5,9 +5,7 @@
  */
 package fithub.clientEscriptori;
 
-import fithub.clientEscriptori.dades.objectes.Activitat;
-import fithub.clientEscriptori.dades.objectes.Installacio;
-import fithub.clientEscriptori.dades.objectes.Usuari;
+import fithub.clientEscriptori.dades.objectes.*;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -84,19 +82,48 @@ class ThreadClient extends Thread {
         llistaUsuari[2] = usuari3;
         Activitat[] llistaActivitat = new Activitat[4];
         Activitat activitat = new Activitat("tennis", "tennisdesc", 2);
+        activitat.setId(1);
         Activitat activitat2 = new Activitat("basquet", "bascdesc", 10);
+        activitat2.setId(2);
         Activitat activitat3 = new Activitat("futbol", "futsdesc", 22);
+        activitat3.setId(3);
         activitat.setTipusActivitat(1);
         activitat3.setTipusActivitat(1);
         activitat2.setTipusActivitat(1);
         Installacio[] llistaInstallacio = new Installacio[4];
         Installacio installacio1 = new Installacio("Pista tennis", "Pista de tennis descoberta", "exterior");
+        installacio1.setId(1);
         Installacio installacio2 = new Installacio("Piscina", "Piscina coberta", "interior");
+        installacio2.setId(2);
+        Installacio installacio3 = new Installacio("Pista basquet", "Pista basquet", "interior");
+        installacio3.setId(3);
         llistaInstallacio[0] = installacio1;
         llistaInstallacio[1] = installacio2;
+        llistaInstallacio[2] = installacio3;
         llistaActivitat[0] = activitat;
         llistaActivitat[1] = activitat2;
         llistaActivitat[2] = activitat3;
+        ClasseDirigida cd = new ClasseDirigida("28042024", "0900", "1", activitat, installacio1);
+        cd.setId(1);
+        cd.setOcupacio("1");
+        ClasseDirigida cd2 = new ClasseDirigida("28042024", "1000", "2", activitat2, installacio3);
+        cd2.setId(2);
+        cd2.setOcupacio("2");
+        ClasseDirigida[] llistaClasseDirigida = new ClasseDirigida[4];
+        llistaClasseDirigida[0] = cd;
+        llistaClasseDirigida[1] = cd2;
+        Servei srv = new Servei("Monitor", "15€");
+        srv.setDescripcio("Monitor per a les classes de gimnas");
+        Servei srv2 = new Servei("Dietista", "25€");
+        srv2.setDescripcio("Dietista personal");
+        Servei srv3 = new Servei("Entrenador", "20€");
+        srv3.setDescripcio("Entrenador personal");
+        Servei[] llistaServeis = new Servei[4];
+        llistaServeis[0] = srv;
+        llistaServeis[1] = srv2;
+        llistaServeis[2] = srv3;
+
+
         if (msg[1].equals(USUARI)) {
             switch ((String) msg[0]) {
                 case CMD_NOU:
@@ -169,12 +196,36 @@ class ThreadClient extends Thread {
             }
             return rsp;
         }
+        if (msg[1].equals(CLASSE_DIRIGIDA)) {
+            switch (((String) msg[0])) {
+                case CMD_SELECT_ALL:
+                    rsp[0] = CLASSE_DIRIGIDA_LLISTA;
+                    rsp[1] = cd.creaLlistaClasseDirigidaMap(llistaClasseDirigida);
+                    break;
+            }
+        }
+        if (msg[1].equals(SERVEI)) {
+            switch ((String) msg[0]) {
+                case CMD_NOU:
+                    llistaServeis[3] = srv.map_to_servei((HashMap<String, String>) msg[2]);
+                    rsp[0] = SERVEI_LLISTA;
+                    rsp[1] = srv.creaLlistaserveisMap(llistaServeis);
+                    break;
+                case CMD_ELIMINA:
+                    break;
+                case CMD_SELECT_ALL:
+                    rsp[0] = SERVEI_LLISTA;
+                    rsp[1] = srv.creaLlistaserveisMap(llistaServeis);
+                    break;
+            }
+            return rsp;
+        }
         //Login
-        if (msg[0].equals(CMD_LOGIN) && msg[1].equals("admin@fithub.es") && msg[2].equals("Adminpass37")) {
+        if (msg[0].equals(CMD_LOGIN) && msg[1].equals("admin@fithub.es") && msg[2].equals("Adminpass40")) {
             rsp[0] = "2024,1";
             rsp[1] = usr.usuari_to_map(usuariAdmin);
-        } else if (msg[0].equals(CMD_LOGIN) && msg[1].equals("client") && msg[2].equals("pass")) {
-            rsp[0] = USUARI_ACTIU;
+        } else if (msg[0].equals(CMD_LOGIN) && msg[1].equals("client@fithub.es") && msg[2].equals("Clientpass40")) {
+            rsp[0] = "2024,2";
             usr.setTipus(1);
             rsp[1] = usr.usuari_to_map(usuari1);
         } else if (msg[0].equals(CMD_LOGOUT)) {
